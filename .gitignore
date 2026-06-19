@@ -1,0 +1,13 @@
+# Archivos no relacionados al sitio
+BANANA*.pdf
+Schedule_Proposal.pdf
+yahoo_guidelines*.pdf
+index-yahoo.html
+site ref*.JPG
+fondo-original-hires.jpg
+
+# Assets que el sitio no usa
+assets/fonts.JPG
+assets/inspiracion.JPG
+assets/logo.jpg
+assets/logo.png
