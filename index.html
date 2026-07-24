@@ -33,6 +33,7 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
+        body.no-scroll { overflow: hidden; }
 
         /* ---------- NAV ---------- */
         .nav {
@@ -216,104 +217,28 @@
             margin: 72px 0 26px;
         }
 
-        /* ---------- NOSOTROS (red block) ---------- */
-        #nosotros {
-            background: var(--red);
-            color: var(--paper);
-        }
-        #nosotros .lede { color: rgba(243, 231, 221, 0.9); }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
-            max-width: 440px;
-        }
-        .member-photo {
-            aspect-ratio: 3 / 4;
-            background: rgba(0,0,0,0.2);
-            margin-bottom: 16px;
-            overflow: hidden;
-            border-radius: 16px;
-            border: 1px solid rgba(243, 231, 221, 0.25);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.22);
-        }
-        .member-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            filter: grayscale(1) contrast(1.05);
-            transition: filter 0.4s ease, transform 0.5s ease;
-        }
-        .member:hover .member-photo img {
-            filter: grayscale(0);
-            transform: scale(1.04);
-        }
-        .member h3 {
-            font-family: 'Archivo', sans-serif;
-            font-weight: 700;
-            font-size: 19px;
-            text-transform: uppercase;
-            letter-spacing: -0.01em;
-            margin-bottom: 4px;
-        }
-        .member .role {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            opacity: 0.7;
-        }
-        .member-links {
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
-        }
-        .member-links a {
-            display: inline-flex;
-            width: 32px;
-            height: 32px;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(243, 231, 221, 0.35);
-            border-radius: 50%;
-            transition: all 0.2s ease;
-        }
-        .member-links a:hover {
-            background: var(--paper);
-            border-color: var(--paper);
-        }
-        .member-links svg {
-            width: 16px;
-            height: 16px;
-            fill: var(--paper);
-            transition: fill 0.2s ease;
-        }
-        .member-links a:hover svg { fill: var(--red); }
-
-        /* ---------- ARTISTAS (dark deck) ---------- */
+        /* ---------- CARD GRID (artists + team) ---------- */
         #artistas { background: var(--ink); }
-        .roster-grid {
+        .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 1px;
             background: var(--line);
             border: 1px solid var(--line);
         }
-        .artist {
+        .card {
+            position: relative;
             background: var(--ink);
-            overflow: hidden;
-            transition: background 0.3s ease;
         }
-        .artist:hover { background: #160b09; }
-        .artist-photo {
+        .card-photo {
             position: relative;
             aspect-ratio: 4 / 5;
-            background: #1d100e;
             overflow: hidden;
+            background: #1d100e;
+            cursor: pointer;
+            outline: none;
         }
-        .artist-photo img {
+        .card-photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -321,13 +246,25 @@
             filter: grayscale(1) contrast(1.05);
             transition: transform 0.6s ease, filter 0.4s ease;
         }
-        .artist:hover .artist-photo img {
-            transform: scale(1.05);
-            filter: grayscale(0);
+        .card-photo:hover img,
+        .card-photo:focus-visible img { transform: scale(1.05); filter: grayscale(0); }
+        .card-photo.is-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: repeating-linear-gradient(135deg, #160b09, #160b09 12px, #1d100e 12px, #1d100e 24px);
         }
-        .artist-photo .num {
+        .card-photo.is-empty .initials {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 800;
+            font-size: 46px;
+            color: rgba(243, 231, 221, 0.28);
+            letter-spacing: 0.02em;
+        }
+        .card-photo .num {
             position: absolute;
             top: 12px; left: 14px;
+            z-index: 3;
             font-family: 'Archivo', sans-serif;
             font-weight: 800;
             font-size: 30px;
@@ -335,64 +272,241 @@
             color: var(--paper);
             mix-blend-mode: difference;
         }
-        .artist-body { padding: 22px 22px 26px; }
-        .artist-body h3 {
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 18px;
+            background: linear-gradient(to top, rgba(12,6,5,0.94) 0%, rgba(12,6,5,0.5) 42%, rgba(12,6,5,0) 100%);
+            pointer-events: none;
+        }
+        .card-overlay h3 {
             font-family: 'Archivo', sans-serif;
             font-weight: 800;
-            font-size: 27px;
+            font-size: 23px;
             line-height: 1.0;
             letter-spacing: -0.02em;
             text-transform: uppercase;
-            margin-bottom: 10px;
         }
-        .artist-body .genre {
+        .card-overlay .genre {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+            font-size: 10.5px;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--red);
-            margin-bottom: 14px;
+            color: var(--accent);
+            margin-top: 8px;
         }
-        .artist-body .artist-desc {
-            font-size: 14px;
+        /* hover / focus reveal */
+        .card-reveal {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.45s ease, opacity 0.3s ease, margin-top 0.45s ease;
+        }
+        .card-photo:hover .card-reveal,
+        .card-photo:focus-within .card-reveal,
+        .card-photo:focus-visible .card-reveal { max-height: 160px; opacity: 1; margin-top: 12px; }
+        .card-tagline {
+            font-size: 12.5px;
             color: var(--text-muted);
-            line-height: 1.55;
-            margin-bottom: 20px;
+            line-height: 1.5;
         }
-        .artist-links {
+        .card-links {
             display: flex;
-            gap: 14px;
+            gap: 9px;
+            margin-top: 12px;
+            pointer-events: auto;
         }
-        .artist-links a {
+        .card-links a {
             display: inline-flex;
-            width: 34px;
-            height: 34px;
+            width: 30px; height: 30px;
             align-items: center;
             justify-content: center;
-            border: 1px solid var(--line);
+            border: 1px solid rgba(243, 231, 221, 0.32);
+            border-radius: 50%;
             transition: all 0.2s ease;
         }
-        .artist-links a:hover {
-            border-color: var(--red);
-            background: rgba(195, 56, 42, 0.12);
+        .card-links a:hover { background: var(--accent); border-color: var(--accent); }
+        .card-links svg { width: 15px; height: 15px; fill: var(--paper); transition: fill 0.2s ease; }
+        .card-links a:hover svg { fill: var(--ink); }
+        .card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--paper);
         }
-        .artist-links svg {
-            width: 17px;
-            height: 17px;
-            fill: var(--text-muted);
-            transition: fill 0.2s ease;
-        }
-        .artist-links a:hover svg { fill: var(--red); }
+        .card-cta .arrow { transition: transform 0.25s ease; }
+        .card-photo:hover .card-cta .arrow { transform: translateX(4px); }
 
-        /* placeholder artist slots */
-        .artist.is-soon { opacity: 0.55; }
-        .artist.is-soon .artist-photo {
-            background: repeating-linear-gradient(135deg, #160b09, #160b09 12px, #1d100e 12px, #1d100e 24px);
+        /* ---------- NOSOTROS (red block) ---------- */
+        #nosotros {
+            background: var(--red);
+            color: var(--paper);
         }
-        .artist.is-soon .artist-body h3 {
-            font-weight: 600;
+        #nosotros .lede { color: rgba(243, 231, 221, 0.9); }
+        #nosotros .card-grid { border-color: rgba(12,6,5,0.28); background: rgba(12,6,5,0.28); }
+
+        /* ---------- MODAL ---------- */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+        }
+        .modal.is-open { display: block; }
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(8,4,3,0.82);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.is-open .modal-backdrop { opacity: 1; }
+        .modal-panel {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            pointer-events: none;
+        }
+        .modal-card {
+            position: relative;
+            pointer-events: auto;
+            width: min(1040px, 100%);
+            max-height: 88vh;
+            background: var(--bg-soft);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 42%) minmax(0, 58%);
+            transform: translateY(18px) scale(0.985);
+            opacity: 0;
+            transition: transform 0.35s cubic-bezier(0.2,0.7,0.2,1), opacity 0.3s ease;
+            box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+        }
+        .modal.is-open .modal-card { transform: none; opacity: 1; }
+        .modal-media {
+            position: relative;
+            background: #120a08;
+            min-height: 340px;
+        }
+        .modal-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .modal-media.is-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: repeating-linear-gradient(135deg, #160b09, #160b09 14px, #1d100e 14px, #1d100e 28px);
+        }
+        .modal-media.is-empty .initials {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 800;
+            font-size: 72px;
+            color: rgba(243, 231, 221, 0.25);
+        }
+        .modal-media .num {
+            position: absolute;
+            top: 18px; left: 20px;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 800;
+            font-size: 40px;
+            line-height: 1;
+            color: var(--paper);
+            mix-blend-mode: difference;
+        }
+        .modal-content {
+            padding: 46px 46px 50px;
+            overflow-y: auto;
+        }
+        .modal-content .kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+        .modal-content h2 {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 800;
+            font-size: clamp(32px, 4.5vw, 52px);
+            line-height: 0.96;
+            letter-spacing: -0.025em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .modal-content .role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
             color: var(--text-muted);
+            margin-bottom: 26px;
         }
+        .modal-content .bio p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.72;
+            margin-bottom: 15px;
+        }
+        .modal-content .bio p:first-child { color: var(--text); }
+        .modal-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        .modal-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 18px 11px 14px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .modal-links a:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+        .modal-links svg { width: 16px; height: 16px; fill: currentColor; }
+        .modal-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            z-index: 6;
+            width: 40px; height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(243, 231, 221, 0.35);
+            border-radius: 50%;
+            background: rgba(12,6,5,0.55);
+            color: var(--paper);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .modal-close:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+        .modal-close svg { width: 18px; height: 18px; fill: currentColor; }
 
         /* ---------- CONTACTO (red bookend) ---------- */
         #contacto {
@@ -428,6 +542,27 @@
             text-transform: uppercase;
             letter-spacing: 0.02em;
         }
+        .contact-extra {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 28px;
+            margin-top: 40px;
+        }
+        .contact-extra a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 0.03em;
+            color: var(--paper);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 2px;
+            transition: border-color 0.2s ease;
+        }
+        .contact-extra a:hover { border-color: var(--paper); }
+        .contact-extra svg { width: 17px; height: 17px; fill: var(--paper); }
 
         /* ---------- FOOTER ---------- */
         footer {
@@ -443,6 +578,12 @@
             color: var(--text-muted);
         }
 
+        @media (max-width: 760px) {
+            .modal-panel { padding: 0; }
+            .modal-card { grid-template-columns: 1fr; max-height: 100vh; height: 100%; border-radius: 0; border: none; }
+            .modal-media { min-height: 0; aspect-ratio: 16 / 11; }
+            .modal-content { padding: 32px 24px 40px; }
+        }
         @media (max-width: 640px) {
             .nav { padding: 16px 20px; flex-wrap: wrap; gap: 12px 0; }
             .nav-links { gap: 18px; }
@@ -486,130 +627,7 @@
         <div class="section-inner">
             <div class="section-head"><span class="idx">01</span><span class="bar"></span><span>El plantel</span></div>
             <h2 class="section-title">Artistas</h2>
-            <div class="roster-grid">
-
-                <article class="artist">
-                    <div class="artist-photo"><img src="assets/jjjulian.jpg" alt="JJJULIAN"><span class="num">01</span></div>
-                    <div class="artist-body">
-                        <h3>JJJULIAN</h3>
-                        <p class="genre">Género</p>
-                        <p class="artist-desc">La voz más sensual de todo el conurbano.</p>
-                        <div class="artist-links">
-                            <a href="#" target="_blank" rel="noopener" aria-label="Spotify de JJJULIAN" title="Spotify">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.42a.62.62 0 0 1-.86.21c-2.35-1.44-5.31-1.76-8.79-.96a.62.62 0 1 1-.28-1.21c3.81-.87 7.08-.5 9.72 1.11.3.18.39.57.21.85zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.57 11.24 1.33.37.22.48.7.25 1.07zm.11-2.84C14.8 8.94 9.3 8.75 6.18 9.7a.93.93 0 1 1-.54-1.78c3.58-1.09 9.66-.88 13.47 1.39a.93.93 0 1 1-.96 1.6z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Instagram de JJJULIAN" title="Instagram">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.15 0-3.52.01-4.76.07-.95.04-1.47.2-1.81.34-.46.18-.78.39-1.12.73-.34.34-.55.66-.73 1.12-.13.34-.3.86-.34 1.81-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.95.2 1.47.34 1.81.18.46.39.78.73 1.12.34.34.66.55 1.12.73.34.13.86.3 1.81.34 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.95-.04 1.47-.2 1.81-.34.46-.18.78-.39 1.12-.73.34-.34.55-.66.73-1.12.13-.34.3-.86.34-1.81.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.95-.2-1.47-.34-1.81a3.02 3.02 0 0 0-.73-1.12 3.02 3.02 0 0 0-1.12-.73c-.34-.13-.86-.3-1.81-.34-1.24-.06-1.61-.07-4.76-.07zm0 2.76a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Más de JJJULIAN" title="Link">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a3.5 3.5 0 0 0 5.27.38l2.4-2.4a3.5 3.5 0 1 0-4.95-4.95l-1.37 1.37a.9.9 0 0 0 1.27 1.27l1.37-1.37a1.7 1.7 0 0 1 2.41 2.41l-2.4 2.4a1.7 1.7 0 0 1-2.56-.18.9.9 0 1 0-1.4 1.13zm2.8-2.8a3.5 3.5 0 0 0-5.27-.38l-2.4 2.4a3.5 3.5 0 1 0 4.95 4.95l1.37-1.37a.9.9 0 0 0-1.27-1.27l-1.37 1.37a1.7 1.7 0 0 1-2.41-2.41l2.4-2.4a1.7 1.7 0 0 1 2.56.18.9.9 0 1 0 1.4-1.13z"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="artist">
-                    <div class="artist-photo"><img src="assets/cocolero.jpg" alt="COCOLERO"><span class="num">02</span></div>
-                    <div class="artist-body">
-                        <h3>COCOLERO</h3>
-                        <p class="genre">Género</p>
-                        <p class="artist-desc">El hombre real y definitivo del campo porteño.</p>
-                        <div class="artist-links">
-                            <a href="#" target="_blank" rel="noopener" aria-label="Spotify de COCOLERO" title="Spotify">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.42a.62.62 0 0 1-.86.21c-2.35-1.44-5.31-1.76-8.79-.96a.62.62 0 1 1-.28-1.21c3.81-.87 7.08-.5 9.72 1.11.3.18.39.57.21.85zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.57 11.24 1.33.37.22.48.7.25 1.07zm.11-2.84C14.8 8.94 9.3 8.75 6.18 9.7a.93.93 0 1 1-.54-1.78c3.58-1.09 9.66-.88 13.47 1.39a.93.93 0 1 1-.96 1.6z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Instagram de COCOLERO" title="Instagram">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.15 0-3.52.01-4.76.07-.95.04-1.47.2-1.81.34-.46.18-.78.39-1.12.73-.34.34-.55.66-.73 1.12-.13.34-.3.86-.34 1.81-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.95.2 1.47.34 1.81.18.46.39.78.73 1.12.34.34.66.55 1.12.73.34.13.86.3 1.81.34 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.95-.04 1.47-.2 1.81-.34.46-.18.78-.39 1.12-.73.34-.34.55-.66.73-1.12.13-.34.3-.86.34-1.81.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.95-.2-1.47-.34-1.81a3.02 3.02 0 0 0-.73-1.12 3.02 3.02 0 0 0-1.12-.73c-.34-.13-.86-.3-1.81-.34-1.24-.06-1.61-.07-4.76-.07zm0 2.76a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Más de COCOLERO" title="Link">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a3.5 3.5 0 0 0 5.27.38l2.4-2.4a3.5 3.5 0 1 0-4.95-4.95l-1.37 1.37a.9.9 0 0 0 1.27 1.27l1.37-1.37a1.7 1.7 0 0 1 2.41 2.41l-2.4 2.4a1.7 1.7 0 0 1-2.56-.18.9.9 0 1 0-1.4 1.13zm2.8-2.8a3.5 3.5 0 0 0-5.27-.38l-2.4 2.4a3.5 3.5 0 1 0 4.95 4.95l1.37-1.37a.9.9 0 0 0-1.27-1.27l-1.37 1.37a1.7 1.7 0 0 1-2.41-2.41l2.4-2.4a1.7 1.7 0 0 1 2.56.18.9.9 0 1 0 1.4-1.13z"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="artist">
-                    <div class="artist-photo"><img src="assets/daefuq.jpg" alt="DAEFUQ"><span class="num">03</span></div>
-                    <div class="artist-body">
-                        <h3>DAEFUQ</h3>
-                        <p class="genre">Género</p>
-                        <p class="artist-desc">La búsqueda del elemento que nos mueve.</p>
-                        <div class="artist-links">
-                            <a href="#" target="_blank" rel="noopener" aria-label="Spotify de DAEFUQ" title="Spotify">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.42a.62.62 0 0 1-.86.21c-2.35-1.44-5.31-1.76-8.79-.96a.62.62 0 1 1-.28-1.21c3.81-.87 7.08-.5 9.72 1.11.3.18.39.57.21.85zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.57 11.24 1.33.37.22.48.7.25 1.07zm.11-2.84C14.8 8.94 9.3 8.75 6.18 9.7a.93.93 0 1 1-.54-1.78c3.58-1.09 9.66-.88 13.47 1.39a.93.93 0 1 1-.96 1.6z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Instagram de DAEFUQ" title="Instagram">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.15 0-3.52.01-4.76.07-.95.04-1.47.2-1.81.34-.46.18-.78.39-1.12.73-.34.34-.55.66-.73 1.12-.13.34-.3.86-.34 1.81-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.95.2 1.47.34 1.81.18.46.39.78.73 1.12.34.34.66.55 1.12.73.34.13.86.3 1.81.34 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.95-.04 1.47-.2 1.81-.34.46-.18.78-.39 1.12-.73.34-.34.55-.66.73-1.12.13-.34.3-.86.34-1.81.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.95-.2-1.47-.34-1.81a3.02 3.02 0 0 0-.73-1.12 3.02 3.02 0 0 0-1.12-.73c-.34-.13-.86-.3-1.81-.34-1.24-.06-1.61-.07-4.76-.07zm0 2.76a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Más de DAEFUQ" title="Link">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a3.5 3.5 0 0 0 5.27.38l2.4-2.4a3.5 3.5 0 1 0-4.95-4.95l-1.37 1.37a.9.9 0 0 0 1.27 1.27l1.37-1.37a1.7 1.7 0 0 1 2.41 2.41l-2.4 2.4a1.7 1.7 0 0 1-2.56-.18.9.9 0 1 0-1.4 1.13zm2.8-2.8a3.5 3.5 0 0 0-5.27-.38l-2.4 2.4a3.5 3.5 0 1 0 4.95 4.95l1.37-1.37a.9.9 0 0 0-1.27-1.27l-1.37 1.37a1.7 1.7 0 0 1-2.41-2.41l2.4-2.4a1.7 1.7 0 0 1 2.56.18.9.9 0 1 0 1.4-1.13z"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="artist">
-                    <div class="artist-photo"><img src="assets/ii-marley-tribute.jpg" alt="I&amp;I Marley Tribute"><span class="num">04</span></div>
-                    <div class="artist-body">
-                        <h3>I&amp;I Marley Tribute</h3>
-                        <p class="genre">Género</p>
-                        <p class="artist-desc">La máxima fidelidad y respeto a la música del más grande del estilo.</p>
-                        <div class="artist-links">
-                            <a href="#" target="_blank" rel="noopener" aria-label="Spotify de I&amp;I Marley Tribute" title="Spotify">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.42a.62.62 0 0 1-.86.21c-2.35-1.44-5.31-1.76-8.79-.96a.62.62 0 1 1-.28-1.21c3.81-.87 7.08-.5 9.72 1.11.3.18.39.57.21.85zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.57 11.24 1.33.37.22.48.7.25 1.07zm.11-2.84C14.8 8.94 9.3 8.75 6.18 9.7a.93.93 0 1 1-.54-1.78c3.58-1.09 9.66-.88 13.47 1.39a.93.93 0 1 1-.96 1.6z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Instagram de I&amp;I Marley Tribute" title="Instagram">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.15 0-3.52.01-4.76.07-.95.04-1.47.2-1.81.34-.46.18-.78.39-1.12.73-.34.34-.55.66-.73 1.12-.13.34-.3.86-.34 1.81-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.95.2 1.47.34 1.81.18.46.39.78.73 1.12.34.34.66.55 1.12.73.34.13.86.3 1.81.34 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.95-.04 1.47-.2 1.81-.34.46-.18.78-.39 1.12-.73.34-.34.55-.66.73-1.12.13-.34.3-.86.34-1.81.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.95-.2-1.47-.34-1.81a3.02 3.02 0 0 0-.73-1.12 3.02 3.02 0 0 0-1.12-.73c-.34-.13-.86-.3-1.81-.34-1.24-.06-1.61-.07-4.76-.07zm0 2.76a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Más de I&amp;I Marley Tribute" title="Link">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a3.5 3.5 0 0 0 5.27.38l2.4-2.4a3.5 3.5 0 1 0-4.95-4.95l-1.37 1.37a.9.9 0 0 0 1.27 1.27l1.37-1.37a1.7 1.7 0 0 1 2.41 2.41l-2.4 2.4a1.7 1.7 0 0 1-2.56-.18.9.9 0 1 0-1.4 1.13zm2.8-2.8a3.5 3.5 0 0 0-5.27-.38l-2.4 2.4a3.5 3.5 0 1 0 4.95 4.95l1.37-1.37a.9.9 0 0 0-1.27-1.27l-1.37 1.37a1.7 1.7 0 0 1-2.41-2.41l2.4-2.4a1.7 1.7 0 0 1 2.56.18.9.9 0 1 0 1.4-1.13z"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="artist">
-                    <div class="artist-photo"><img src="assets/chicos-crema.jpg" alt="Chicos Crema"><span class="num">05</span></div>
-                    <div class="artist-body">
-                        <h3>Chicos Crema</h3>
-                        <p class="genre">Género</p>
-                        <p class="artist-desc">Los que ponen la música que deberías escuchar.</p>
-                        <div class="artist-links">
-                            <a href="#" target="_blank" rel="noopener" aria-label="Spotify de Chicos Crema" title="Spotify">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.42a.62.62 0 0 1-.86.21c-2.35-1.44-5.31-1.76-8.79-.96a.62.62 0 1 1-.28-1.21c3.81-.87 7.08-.5 9.72 1.11.3.18.39.57.21.85zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.57 11.24 1.33.37.22.48.7.25 1.07zm.11-2.84C14.8 8.94 9.3 8.75 6.18 9.7a.93.93 0 1 1-.54-1.78c3.58-1.09 9.66-.88 13.47 1.39a.93.93 0 1 1-.96 1.6z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Instagram de Chicos Crema" title="Instagram">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.15 0-3.52.01-4.76.07-.95.04-1.47.2-1.81.34-.46.18-.78.39-1.12.73-.34.34-.55.66-.73 1.12-.13.34-.3.86-.34 1.81-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.95.2 1.47.34 1.81.18.46.39.78.73 1.12.34.34.66.55 1.12.73.34.13.86.3 1.81.34 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.95-.04 1.47-.2 1.81-.34.46-.18.78-.39 1.12-.73.34-.34.55-.66.73-1.12.13-.34.3-.86.34-1.81.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.95-.2-1.47-.34-1.81a3.02 3.02 0 0 0-.73-1.12 3.02 3.02 0 0 0-1.12-.73c-.34-.13-.86-.3-1.81-.34-1.24-.06-1.61-.07-4.76-.07zm0 2.76a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Más de Chicos Crema" title="Link">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a3.5 3.5 0 0 0 5.27.38l2.4-2.4a3.5 3.5 0 1 0-4.95-4.95l-1.37 1.37a.9.9 0 0 0 1.27 1.27l1.37-1.37a1.7 1.7 0 0 1 2.41 2.41l-2.4 2.4a1.7 1.7 0 0 1-2.56-.18.9.9 0 1 0-1.4 1.13zm2.8-2.8a3.5 3.5 0 0 0-5.27-.38l-2.4 2.4a3.5 3.5 0 1 0 4.95 4.95l1.37-1.37a.9.9 0 0 0-1.27-1.27l-1.37 1.37a1.7 1.7 0 0 1-2.41-2.41l2.4-2.4a1.7 1.7 0 0 1 2.56.18.9.9 0 1 0 1.4-1.13z"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="artist">
-                    <div class="artist-photo"><img src="assets/lady.png" alt="LadyBoys"><span class="num">06</span></div>
-                    <div class="artist-body">
-                        <h3>LadyBoys</h3>
-                        <p class="genre">Género</p>
-                        <p class="artist-desc">La banda de los reales.</p>
-                        <div class="artist-links">
-                            <a href="#" target="_blank" rel="noopener" aria-label="Spotify de LadyBoys" title="Spotify">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.42a.62.62 0 0 1-.86.21c-2.35-1.44-5.31-1.76-8.79-.96a.62.62 0 1 1-.28-1.21c3.81-.87 7.08-.5 9.72 1.11.3.18.39.57.21.85zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.57 11.24 1.33.37.22.48.7.25 1.07zm.11-2.84C14.8 8.94 9.3 8.75 6.18 9.7a.93.93 0 1 1-.54-1.78c3.58-1.09 9.66-.88 13.47 1.39a.93.93 0 1 1-.96 1.6z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Instagram de LadyBoys" title="Instagram">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.15 0-3.52.01-4.76.07-.95.04-1.47.2-1.81.34-.46.18-.78.39-1.12.73-.34.34-.55.66-.73 1.12-.13.34-.3.86-.34 1.81-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.95.2 1.47.34 1.81.18.46.39.78.73 1.12.34.34.66.55 1.12.73.34.13.86.3 1.81.34 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.95-.04 1.47-.2 1.81-.34.46-.18.78-.39 1.12-.73.34-.34.55-.66.73-1.12.13-.34.3-.86.34-1.81.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.95-.2-1.47-.34-1.81a3.02 3.02 0 0 0-.73-1.12 3.02 3.02 0 0 0-1.12-.73c-.34-.13-.86-.3-1.81-.34-1.24-.06-1.61-.07-4.76-.07zm0 2.76a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" aria-label="Más de LadyBoys" title="Link">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a3.5 3.5 0 0 0 5.27.38l2.4-2.4a3.5 3.5 0 1 0-4.95-4.95l-1.37 1.37a.9.9 0 0 0 1.27 1.27l1.37-1.37a1.7 1.7 0 0 1 2.41 2.41l-2.4 2.4a1.7 1.7 0 0 1-2.56-.18.9.9 0 1 0-1.4 1.13zm2.8-2.8a3.5 3.5 0 0 0-5.27-.38l-2.4 2.4a3.5 3.5 0 1 0 4.95 4.95l1.37-1.37a.9.9 0 0 0-1.27-1.27l-1.37 1.37a1.7 1.7 0 0 1-2.41-2.41l2.4-2.4a1.7 1.7 0 0 1 2.56.18.9.9 0 1 0 1.4-1.13z"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-
-            </div>
+            <div class="card-grid" id="roster-grid"></div>
         </div>
     </section>
 
@@ -620,34 +638,7 @@
             <p class="lede">Reina Prisma es una productora integral de música: acompañamos a nuestros artistas en todo el proceso — composición, producción, grabación, mezcla y lanzamiento.</p>
             <p class="lede">Trabajamos desde nuestro estudio con una identidad propia, cálida y analógica, cuidando cada detalle del sonido y de la obra.</p>
             <div class="sub-label">El equipo</div>
-            <div class="team-grid">
-                <div class="member">
-                    <div class="member-photo"><img src="assets/ivan-lanzo.jpg" alt="Iván Lanzo"></div>
-                    <h3>Iván Lanzo</h3>
-                    <p class="role">Socio · Productor · Músico</p>
-                    <div class="member-links">
-                        <a href="#" target="_blank" rel="noopener" aria-label="Instagram de Iván Lanzo" title="Instagram">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.15 0-3.52.01-4.76.07-.95.04-1.47.2-1.81.34-.46.18-.78.39-1.12.73-.34.34-.55.66-.73 1.12-.13.34-.3.86-.34 1.81-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.95.2 1.47.34 1.81.18.46.39.78.73 1.12.34.34.66.55 1.12.73.34.13.86.3 1.81.34 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.95-.04 1.47-.2 1.81-.34.46-.18.78-.39 1.12-.73.34-.34.55-.66.73-1.12.13-.34.3-.86.34-1.81.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.95-.2-1.47-.34-1.81a3.02 3.02 0 0 0-.73-1.12 3.02 3.02 0 0 0-1.12-.73c-.34-.13-.86-.3-1.81-.34-1.24-.06-1.61-.07-4.76-.07zm0 2.76a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn de Iván Lanzo" title="LinkedIn">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68zm1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="member">
-                    <div class="member-photo"><img src="assets/gonzalo-palomeque.png" alt="Gonzalo Palomeque"></div>
-                    <h3>Gonzalo Palomeque</h3>
-                    <p class="role">Socio · Productor · Músico</p>
-                    <div class="member-links">
-                        <a href="#" target="_blank" rel="noopener" aria-label="Instagram de Gonzalo Palomeque" title="Instagram">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.15 0-3.52.01-4.76.07-.95.04-1.47.2-1.81.34-.46.18-.78.39-1.12.73-.34.34-.55.66-.73 1.12-.13.34-.3.86-.34 1.81-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.95.2 1.47.34 1.81.18.46.39.78.73 1.12.34.34.66.55 1.12.73.34.13.86.3 1.81.34 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.95-.04 1.47-.2 1.81-.34.46-.18.78-.39 1.12-.73.34-.34.55-.66.73-1.12.13-.34.3-.86.34-1.81.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.95-.2-1.47-.34-1.81a3.02 3.02 0 0 0-.73-1.12 3.02 3.02 0 0 0-1.12-.73c-.34-.13-.86-.3-1.81-.34-1.24-.06-1.61-.07-4.76-.07zm0 2.76a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn de Gonzalo Palomeque" title="LinkedIn">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68zm1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <div class="card-grid" id="team-grid"></div>
         </div>
     </section>
 
@@ -656,12 +647,30 @@
             <div class="section-head"><span class="idx">03</span><span class="bar"></span><span>Hablemos</span></div>
             <h2 class="section-title">Contacto</h2>
             <p class="lede">¿Tenés un proyecto o querés sumarte al roster? Escribinos por WhatsApp.</p>
-            <a class="wa" href="https://wa.me/5491100000000" target="_blank" rel="noopener">
+            <a class="wa" href="https://wa.me/5491126517698" target="_blank" rel="noopener">
                 <svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.54-3.7 8.24-8.25 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24zm-2.84 4.43c-.13 0-.35.05-.53.25-.18.2-.7.69-.7 1.67 0 .99.72 1.94.82 2.07.1.13 1.4 2.14 3.4 3 .47.21.84.33 1.13.42.47.15.9.13 1.24.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.12-.94-.05-.08-.18-.13-.38-.23-.2-.1-1.17-.58-1.35-.64-.18-.07-.32-.1-.45.1-.13.2-.51.64-.63.77-.12.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.53-.99-1.18-1.11-1.38-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.34.07-.13.03-.25-.02-.35-.05-.1-.44-1.08-.62-1.48-.16-.39-.32-.33-.44-.34l-.38-.01z"/>
                 </svg>
-                <span>+54 9 11 0000-0000</span>
+                <span>+54 9 11 2651-7698</span>
             </a>
+            <div class="contact-extra">
+                <a href="https://wa.me/5491130243285" target="_blank" rel="noopener" title="WhatsApp alternativo">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.54-3.7 8.24-8.25 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24z"/></svg>
+                    +54 9 11 3024-3285
+                </a>
+                <a href="mailto:reinaprismaestudio@gmail.com">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    reinaprismaestudio@gmail.com
+                </a>
+                <a href="https://open.spotify.com/playlist/6BV6DlalFUzXOTPQQYncts" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.42a.62.62 0 0 1-.86.21c-2.35-1.44-5.31-1.76-8.79-.96a.62.62 0 1 1-.28-1.21c3.81-.87 7.08-.5 9.72 1.11.3.18.39.57.21.85zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.57 11.24 1.33.37.22.48.7.25 1.07zm.11-2.84C14.8 8.94 9.3 8.75 6.18 9.7a.93.93 0 1 1-.54-1.78c3.58-1.09 9.66-.88 13.47 1.39a.93.93 0 1 1-.96 1.6z"/></svg>
+                    Playlist Reina Prisma
+                </a>
+                <a href="https://www.youtube.com/@reinaprisma" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+                    Canal de YouTube
+                </a>
+            </div>
         </div>
     </section>
 
@@ -670,7 +679,275 @@
         <span>© 2026 — Productora integral de música</span>
     </footer>
 
+    <!-- ===== MODAL ===== -->
+    <div class="modal" id="modal" aria-hidden="true">
+        <div class="modal-backdrop" data-close></div>
+        <div class="modal-panel">
+            <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+                <button class="modal-close" type="button" aria-label="Cerrar" data-close>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.7a1 1 0 0 0-1.4 0L12 10.6 7.1 5.7a1 1 0 1 0-1.4 1.4L10.6 12l-4.9 4.9a1 1 0 1 0 1.4 1.4L12 13.4l4.9 4.9a1 1 0 0 0 1.4-1.4L13.4 12l4.9-4.9a1 1 0 0 0 0-1.4z"/></svg>
+                </button>
+                <div class="modal-media" id="modal-media"></div>
+                <div class="modal-content">
+                    <div class="kicker" id="modal-kicker"></div>
+                    <h2 id="modal-name"></h2>
+                    <div class="role" id="modal-role"></div>
+                    <div class="bio" id="modal-bio"></div>
+                    <div class="modal-links" id="modal-links"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        /* ============ DATA ============ */
+        var ICONS = {
+            spotify: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.42a.62.62 0 0 1-.86.21c-2.35-1.44-5.31-1.76-8.79-.96a.62.62 0 1 1-.28-1.21c3.81-.87 7.08-.5 9.72 1.11.3.18.39.57.21.85zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.57 11.24 1.33.37.22.48.7.25 1.07zm.11-2.84C14.8 8.94 9.3 8.75 6.18 9.7a.93.93 0 1 1-.54-1.78c3.58-1.09 9.66-.88 13.47 1.39a.93.93 0 1 1-.96 1.6z"/></svg>',
+            instagram: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.15 0-3.52.01-4.76.07-.95.04-1.47.2-1.81.34-.46.18-.78.39-1.12.73-.34.34-.55.66-.73 1.12-.13.34-.3.86-.34 1.81-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.95.2 1.47.34 1.81.18.46.39.78.73 1.12.34.34.66.55 1.12.73.34.13.86.3 1.81.34 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.95-.04 1.47-.2 1.81-.34.46-.18.78-.39 1.12-.73.34-.34.55-.66.73-1.12.13-.34.3-.86.34-1.81.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.95-.2-1.47-.34-1.81a3.02 3.02 0 0 0-.73-1.12 3.02 3.02 0 0 0-1.12-.73c-.34-.13-.86-.3-1.81-.34-1.24-.06-1.61-.07-4.76-.07zm0 2.76a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>',
+            youtube: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>',
+            web: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a3.5 3.5 0 0 0 5.27.38l2.4-2.4a3.5 3.5 0 1 0-4.95-4.95l-1.37 1.37a.9.9 0 0 0 1.27 1.27l1.37-1.37a1.7 1.7 0 0 1 2.41 2.41l-2.4 2.4a1.7 1.7 0 0 1-2.56-.18.9.9 0 1 0-1.4 1.13zm2.8-2.8a3.5 3.5 0 0 0-5.27-.38l-2.4 2.4a3.5 3.5 0 1 0 4.95 4.95l1.37-1.37a.9.9 0 0 0-1.27-1.27l-1.37 1.37a1.7 1.7 0 0 1-2.41-2.41l2.4-2.4a1.7 1.7 0 0 1 2.56.18.9.9 0 1 0 1.4-1.13z"/></svg>'
+        };
+        var LINK_LABEL = { spotify: 'Spotify', instagram: 'Instagram', youtube: 'YouTube', web: 'Sitio' };
+
+        var ARTISTS = [
+            {
+                id: 'jjjulian', name: 'JJJULIAN', genre: 'R&B · Neo-Soul', photo: 'assets/jjjulian.jpg',
+                tagline: 'La voz más sensual de todo el conurbano.',
+                bio: ['JJJULIÁN es un cantante y compositor de San Miguel, Buenos Aires, que disfruta sumergirse en el sonido del R&B y del neo-soul, haciéndolos parte de su sonido actual.',
+                      'Desde 2021 empezó a lanzar canciones como solista, y siempre acompañó su música con videos que refuerzan la estética que él propone.'],
+                links: { spotify: 'https://open.spotify.com/intl-es/artist/1QQyeUqjjqvo9CNTIkzTAE', youtube: 'https://www.youtube.com/@__jjjulian__', instagram: 'https://www.instagram.com/__jjjulian__' }
+            },
+            {
+                id: 'cocolero', name: 'COCOLERO', genre: 'Rock · Pop · Folk · Punk', photo: 'assets/cocolero.jpg',
+                tagline: 'Un sonido camaleónico.',
+                bio: ['Cocolero es el proyecto musical de Matías Oyhamburu. Nace de una certeza: una canción no tiene por qué habitar un único lugar.',
+                      'Cada composición encuentra el sonido que necesita. A veces respira desde el rock y el pop; otras, acelera con la urgencia del punk o se despoja hasta quedar sostenida apenas por la intimidad del folk. No hay un género que gobierne al proyecto: lo que permanece es la canción.',
+                      'Ese movimiento constante da forma a un sonido camaleónico, una identidad que cambia de color sin dejar de ser la misma. Las melodías buscan permanecer en la memoria; las letras nacen de la observación del presente y de la necesidad de imaginar futuros posibles, abordando con sensibilidad el vínculo con el territorio, la incertidumbre, el deseo y las transformaciones de una época.',
+                      'Cada lanzamiento es una nueva mutación. Un nuevo paisaje. Una nueva manera de mirar el mundo sin perder la voz propia.'],
+                links: { spotify: 'https://open.spotify.com/intl-es/artist/2g61pWJbmY6GoliS4UiVy9', youtube: 'https://www.youtube.com/@cocolerococolero', instagram: 'https://www.instagram.com/cocolero__' }
+            },
+            {
+                id: 'daefuq', name: 'DAEFUQ', genre: 'Fusión R&B · Jazz · Funk', photo: 'assets/daefuq.jpg',
+                tagline: 'Fusión R&B, groove y jazz experimental.',
+                bio: ['Daefuq es un proyecto de fusión R&B. Con composiciones originales, improvisación y mucho groove, construyen un sonido enérgico, sofisticado y profundamente bailable.',
+                      'Cada concierto es una experiencia viva, donde la libertad del jazz experimental dialoga con la fuerza del funk y el calor de los ritmos latinoamericanos.'],
+                links: { spotify: 'https://open.spotify.com/intl-es/artist/2g61pWJbmY6GoliS4UiVy9', youtube: 'https://www.youtube.com/@daefuq', instagram: 'https://www.instagram.com/daefuq_' }
+            },
+            {
+                id: 'ayanday', name: 'Ayanday', genre: 'Reggae · Tributo a Bob Marley', photo: 'assets/ayanday.png',
+                tagline: 'El legado de Bob Marley con alma latinoamericana.',
+                bio: ['Ayanday rinde homenaje al legado de Bob Marley, llevando su música hacia nuevos paisajes sonoros. Sin perder la esencia del reggae ni la fuerza de su mensaje, incorporan ritmos latinoamericanos que expanden cada canción con nuevos colores, texturas y energía.',
+                      'El resultado es un espectáculo vibrante, donde el espíritu de Marley se encuentra con la identidad musical de Latinoamérica, invitando al público a cantar, bailar y celebrar la música como un lenguaje universal.'],
+                links: { instagram: 'https://www.instagram.com/ayanay.tributo' }
+            },
+            {
+                id: 'chicoscrema', name: 'Chicos Crema', genre: 'DJ Set · Groove · Disco · House', photo: 'assets/chicos-crema.jpg',
+                tagline: 'Cultura del groove: soul, disco, funk y house.',
+                bio: ['Chicos Crema es un dúo de DJs, productores y coleccionistas musicales dedicado a celebrar la cultura del groove. Inspirados por el soul, el disco, el funk y el house, desarrollan sesiones que combinan investigación musical, criterio artístico y una lectura precisa de la pista.',
+                      'Su sonido equilibra clásicos, joyas ocultas y producciones contemporáneas, construyendo una experiencia donde el ritmo, la elegancia y la energía conviven de forma natural.',
+                      'Más que un DJ set, Chicos Crema propone un recorrido sonoro que invita a bailar, descubrir música y conectar con la esencia de los géneros que marcaron la historia de la música de baile.'],
+                links: { spotify: 'https://open.spotify.com/intl-es/artist/2g61pWJbmY6GoliS4UiVy9', youtube: 'https://www.youtube.com/@chicoscrema', instagram: 'https://www.instagram.com/chicoscrema' }
+            },
+            {
+                id: 'ju', name: 'JU', genre: 'R&B', photo: 'assets/ju.jpg',
+                tagline: 'Canta como si revelara un secreto al oído.',
+                bio: ['JU es una cantante de R&B de voz íntima, susurrada y profundamente envolvente.',
+                      'Canta como si revelara un secreto al oído: entre melodías suaves, silencios que respiran y una sensibilidad capaz de volver enorme lo más pequeño.'],
+                links: {}
+            },
+            {
+                id: 'lanzo', name: 'Lanzo', genre: 'Autor · Productor', photo: 'assets/ivan-lanzo.jpg',
+                tagline: 'La música como destino.',
+                bio: ['La música como destino. El buen gusto como forma de viajar.',
+                      'Lanzo es el proyecto artístico de Iván Lanzo: un universo donde la música, el diseño y los objetos dialogan para construir una experiencia que trasciende la escucha. Cada lanzamiento nace de una búsqueda artesanal, con canciones concebidas con el mismo cuidado con el que se diseña un objeto destinado a permanecer.',
+                      'La música no aparece como un producto de consumo inmediato, sino como un espacio para detenerse, disfrutar, observar y volver a escuchar. No como un ejercicio de nostalgia, sino como una manera de devolverle profundidad a la experiencia.',
+                      'Su primer álbum, Landing Flight, inaugura ese universo a través de Lanzo’s Flight: una aerolínea imaginaria donde cada obra representa un nuevo destino y cada edición física funciona como el recuerdo tangible de un viaje y una sensibilidad profundamente melómana.',
+                      'No persigue el lujo como símbolo de estatus, sino la sofisticación que nace del criterio: la belleza de las cosas bien hechas, la selección cuidadosa antes que el exceso, la emoción antes que el ruido. Porque el verdadero privilegio no es viajar más lejos, es aprender a viajar mejor.',
+                      'Bienvenidos a bordo.'],
+                links: { spotify: 'https://open.spotify.com/intl-es/artist/2hEbHEKUghuVjyYtaQjxul', youtube: 'https://www.youtube.com/@lanzoivan', instagram: 'https://www.instagram.com/lanzoivan' }
+            },
+            {
+                id: 'ladyboys', name: 'LadyBoys', genre: 'Jazz Fusión · Funk · Rock', photo: 'assets/lady.png',
+                tagline: 'Métricas torcidas para gente retorcida.',
+                bio: ['Ecosistema de métricas torcidas para gente retorcida: siete cuartos, cinco cuartos, siete octavos y algún sospechoso once novenos.',
+                      'Entre el jazz fusión, el funk, el rock y algunos géneros todavía no identificados, la banda crea ritmos que tropiezan, se estiran y vuelven a caer parados, como una criatura con demasiadas piernas.',
+                      'Porque si la vida ya es bastante regular, la música no tiene por qué serlo.'],
+                links: {}
+            }
+        ];
+
+        var TEAM = [
+            {
+                id: 'p-lanzo', name: 'Iván Lanzo', role: 'Socio · Músico · Productor · Mezcla & Mastering', photo: 'assets/ivan-lanzo.jpg',
+                tagline: 'La música como destino.',
+                bio: ['La música como destino. El buen gusto como forma de viajar.',
+                      'Lanzo es el proyecto artístico de Iván Lanzo: un universo donde la música, el diseño y los objetos dialogan para construir una experiencia que trasciende la escucha. Cada lanzamiento nace de una búsqueda artesanal, con canciones concebidas con el mismo cuidado con el que se diseña un objeto destinado a permanecer.',
+                      'Entiende la música como parte de una cultura más amplia, donde el sonido convive con la imagen, los objetos, los espacios y los rituales cotidianos. No persigue el lujo como símbolo de estatus, sino la sofisticación que nace del criterio.',
+                      'Su primer álbum, Landing Flight, inaugura ese universo a través de Lanzo’s Flight: una aerolínea imaginaria donde cada obra representa un nuevo destino. Porque el verdadero privilegio no es viajar más lejos, es aprender a viajar mejor. Bienvenidos a bordo.'],
+                links: { spotify: 'https://open.spotify.com/intl-es/artist/2hEbHEKUghuVjyYtaQjxul', youtube: 'https://www.youtube.com/@lanzoivan', instagram: 'https://www.instagram.com/lanzoivan' }
+            },
+            {
+                id: 'p-gonzalo', name: 'Gonzalo Palomeque', role: 'Socio · Músico · Productor · Editor', photo: 'assets/gonzalo-palomeque.png',
+                tagline: 'Más de 25 años de trayectoria.',
+                bio: ['Con más de 25 años de trayectoria, Gonzalo Palomeque ha desarrollado una sólida carrera como guitarrista, productor musical, compositor, arreglador, grabador, editor y mezclador. Su experiencia abarca todas las etapas de la producción musical, combinando una mirada artística con un profundo conocimiento técnico.',
+                      'Durante los últimos 7 años trabajó de manera independiente creando música original para animación, documentales, campañas publicitarias y diversos contenidos audiovisuales, además de producir pistas de alta calidad para artistas, espectáculos y proyectos profesionales.',
+                      'Su versatilidad le permite desenvolverse con naturalidad en una amplia variedad de géneros, adaptando cada producción a la identidad y las necesidades de cada artista o proyecto. Su enfoque se basa en lograr producciones con personalidad, sensibilidad y un alto estándar de calidad sonora.'],
+                links: { instagram: 'https://www.instagram.com/gonpalomeque' }
+            },
+            {
+                id: 'p-felipe', name: 'Felipe González', role: 'Diseñador Gráfico · Dirección de Arte', photo: 'assets/felipe.jpg',
+                tagline: 'El collage como lenguaje.',
+                bio: ['Felipe González es diseñador gráfico y director de arte especializado en la creación de portadas de discos. Su trabajo se distingue por el uso del collage como lenguaje principal, reinterpretando la estética visual de las décadas de 1960 y 1970 a través de fotografías de archivo, ilustraciones, texturas impresas y composiciones cuidadosamente construidas.',
+                      'Cada proyecto parte de una búsqueda conceptual que traduce el universo sonoro del artista en una imagen con personalidad, narrativa y permanencia. Inspirado por la cultura del vinilo, desarrolla piezas que recuperan el valor de las portadas como obras visuales capaces de trascender el tiempo.',
+                      'Además del arte de tapa, diseña sistemas gráficos completos para lanzamientos musicales —etiquetas de vinilo, fundas, booklets y material promocional— manteniendo una identidad visual sólida en cada soporte. Su enfoque combina sensibilidad artística, investigación histórica y una mirada contemporánea.'],
+                links: { instagram: 'https://www.instagram.com/felipe.gonzaelez' }
+            },
+            {
+                id: 'p-lukitas', name: 'Lukitas Viotti', role: 'Asistente de Producción · Drum Doctor', photo: 'assets/lukitas.jpg',
+                tagline: 'Asistente de producción y drum doctor.',
+                bio: ['Lukitas Viotti forma parte del equipo de Reina Prisma como asistente de producción y drum doctor. Desde su rol, acompaña la organización y el desarrollo de cada proyecto, colaborando tanto en la coordinación de las distintas etapas de producción como en el trabajo específico sobre baterías y percusión.',
+                      'Su mirada combina precisión técnica, sensibilidad musical y una atención especial al sonido, la interpretación y los detalles que hacen que cada canción encuentre su pulso y su identidad.'],
+                links: { instagram: 'https://www.instagram.com/lukitasviotti' }
+            }
+        ];
+
+        /* ============ RENDER ============ */
+        function initials(name) {
+            var parts = name.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ ]/g, '').trim().split(/\s+/);
+            var a = parts[0] ? parts[0][0] : '';
+            var b = parts[1] ? parts[1][0] : (parts[0] && parts[0][1] ? parts[0][1] : '');
+            return (a + b).toUpperCase();
+        }
+        function cardLinks(links) {
+            var order = ['spotify', 'youtube', 'instagram', 'web'];
+            var html = '';
+            for (var i = 0; i < order.length; i++) {
+                var k = order[i];
+                if (links[k]) {
+                    html += '<a href="' + links[k] + '" target="_blank" rel="noopener" data-stop aria-label="' + LINK_LABEL[k] + '" title="' + LINK_LABEL[k] + '">' + ICONS[k] + '</a>';
+                }
+            }
+            return html;
+        }
+        function photoInner(item, num) {
+            var numHtml = num ? '<span class="num">' + num + '</span>' : '';
+            if (item.photo) {
+                return '<img src="' + item.photo + '" alt="' + item.name + '" loading="lazy">' + numHtml;
+            }
+            return '<span class="initials">' + initials(item.name) + '</span>' + numHtml;
+        }
+        function cardHTML(item, num) {
+            var sub = item.genre || item.role || '';
+            var emptyCls = item.photo ? '' : ' is-empty';
+            return '' +
+                '<article class="card">' +
+                    '<div class="card-photo' + emptyCls + '" data-id="' + item.id + '" role="button" tabindex="0" aria-label="Ver ' + item.name + '">' +
+                        photoInner(item, num) +
+                        '<div class="card-overlay">' +
+                            '<h3>' + item.name + '</h3>' +
+                            '<div class="card-reveal">' +
+                                '<p class="genre">' + sub + '</p>' +
+                                (item.tagline ? '<p class="card-tagline">' + item.tagline + '</p>' : '') +
+                                (Object.keys(item.links).length ? '<div class="card-links">' + cardLinks(item.links) + '</div>' : '') +
+                                '<span class="card-cta">Ver perfil <span class="arrow">→</span></span>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</article>';
+        }
+
+        var BY_ID = {};
+        (function () {
+            var roster = document.getElementById('roster-grid');
+            var team = document.getElementById('team-grid');
+            var rosterHTML = '', teamHTML = '';
+            ARTISTS.forEach(function (a) {
+                BY_ID[a.id] = a;
+                rosterHTML += cardHTML(a, '');
+            });
+            TEAM.forEach(function (p) {
+                BY_ID[p.id] = p;
+                teamHTML += cardHTML(p, '');
+            });
+            roster.innerHTML = rosterHTML;
+            team.innerHTML = teamHTML;
+        })();
+
+        /* ============ MODAL ============ */
+        (function () {
+            var modal = document.getElementById('modal');
+            var mMedia = document.getElementById('modal-media');
+            var mKicker = document.getElementById('modal-kicker');
+            var mName = document.getElementById('modal-name');
+            var mRole = document.getElementById('modal-role');
+            var mBio = document.getElementById('modal-bio');
+            var mLinks = document.getElementById('modal-links');
+            var lastFocus = null;
+
+            function modalLinks(links) {
+                var order = ['spotify', 'youtube', 'instagram', 'web'];
+                var html = '';
+                for (var i = 0; i < order.length; i++) {
+                    var k = order[i];
+                    if (links[k]) {
+                        html += '<a href="' + links[k] + '" target="_blank" rel="noopener">' + ICONS[k] + '<span>' + LINK_LABEL[k] + '</span></a>';
+                    }
+                }
+                return html;
+            }
+
+            function open(id) {
+                var item = BY_ID[id];
+                if (!item) return;
+                lastFocus = document.activeElement;
+
+                if (item.photo) {
+                    mMedia.className = 'modal-media';
+                    mMedia.innerHTML = '<img src="' + item.photo + '" alt="' + item.name + '">';
+                } else {
+                    mMedia.className = 'modal-media is-empty';
+                    mMedia.innerHTML = '<span class="initials">' + initials(item.name) + '</span>';
+                }
+                mKicker.textContent = item.genre ? item.genre : (item.role ? 'Equipo · Reina Prisma' : '');
+                mName.textContent = item.name;
+                if (item.role) { mRole.textContent = item.role; mRole.style.display = ''; }
+                else { mRole.textContent = ''; mRole.style.display = 'none'; }
+                mBio.innerHTML = item.bio.map(function (p) { return '<p>' + p + '</p>'; }).join('');
+                var lk = modalLinks(item.links);
+                mLinks.innerHTML = lk;
+                mLinks.style.display = lk ? '' : 'none';
+
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('no-scroll');
+                var closeBtn = modal.querySelector('.modal-close');
+                if (closeBtn) closeBtn.focus();
+            }
+
+            function close() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('no-scroll');
+                if (lastFocus && lastFocus.focus) lastFocus.focus();
+            }
+
+            // open on card click / keyboard
+            document.addEventListener('click', function (e) {
+                if (e.target.closest('[data-stop]')) return; // let links work
+                if (e.target.closest('[data-close]')) { close(); return; }
+                var card = e.target.closest('.card-photo');
+                if (card) { open(card.getAttribute('data-id')); }
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.classList.contains('is-open')) { close(); return; }
+                if ((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.classList && document.activeElement.classList.contains('card-photo')) {
+                    e.preventDefault();
+                    open(document.activeElement.getAttribute('data-id'));
+                }
+            });
+        })();
+
+        /* ============ HERO parallax ============ */
         (function () {
             var hero = document.getElementById('top');
             var layers = Array.prototype.slice.call(document.querySelectorAll('[data-px]'));
@@ -698,7 +975,6 @@
                 }
             }
 
-            // Respect users who prefer reduced motion
             if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                 window.addEventListener('scroll', onScroll, { passive: true });
                 window.addEventListener('resize', update);
@@ -706,7 +982,7 @@
             }
         })();
 
-        // Hero — background slideshow + word rotation, one synced loop (0.8s)
+        /* ============ HERO slideshow + word rotation ============ */
         (function () {
             var TICK = 800;
             var slides = document.querySelectorAll('.hero-bg .slide');
@@ -715,23 +991,23 @@
             var WORDS = ['Música', 'Producción', 'Identidad', 'Desarrollo', 'Dirección', 'Imagen', 'Estrategia', 'Management', 'Comunicación', 'Lanzamiento', 'Crecimiento', 'Comunidad'];
             var rws = document.querySelectorAll('.hero-content .word-rotator .rw');
             var curSlot = 0, lastWord = 0;
-            // start with a single word visible
             for (var s = 0; s < rws.length; s++) rws[s].textContent = (s === 0 ? WORDS[0] : '');
 
             if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+            var WORD_EVERY = 2;
+            var tickN = 0;
             setInterval(function () {
-                // advance background
                 if (slides.length > 1) {
                     slides[bgI].classList.remove('is-active');
                     bgI = (bgI + 1) % slides.length;
                     slides[bgI].classList.add('is-active');
                 }
+                tickN++;
+                if (tickN % WORD_EVERY !== 0) return;
                 if (!rws.length) return;
-                // fade out the word currently showing
                 var prev = rws[curSlot];
                 prev.style.opacity = '0';
-                // pick a new position and a new word
                 var slot = curSlot, w = lastWord, guard = 0;
                 if (rws.length > 1) { do { slot = Math.floor(Math.random() * rws.length); } while (slot === curSlot && guard++ < 20); }
                 guard = 0;
