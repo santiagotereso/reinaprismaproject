@@ -32,6 +32,7 @@
             font-weight: 300;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
         body.no-scroll { overflow: hidden; }
 
@@ -345,6 +346,85 @@
         }
         .card-cta .arrow { transition: transform 0.25s ease; }
         .card-photo:hover .card-cta .arrow { transform: translateX(4px); }
+
+        /* ---------- v2: ARTISTAS full-bleed (2 por fila, a los márgenes) ---------- */
+        #roster-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+            border: none;
+            background: var(--ink);
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            margin-top: 8px;
+        }
+        #roster-grid .card-photo {
+            aspect-ratio: 16 / 10;
+        }
+        #roster-grid .card-photo img {
+            image-rendering: auto;
+        }
+        #roster-grid .card-overlay {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 28px;
+            background: linear-gradient(to top, rgba(12,6,5,0.5) 0%, rgba(12,6,5,0.12) 45%, rgba(12,6,5,0.32) 100%);
+            transition: background 0.35s ease;
+        }
+        #roster-grid .card-photo:hover .card-overlay,
+        #roster-grid .card-photo:focus-within .card-overlay { background: rgba(12,6,5,0.62); }
+        #roster-grid .card-overlay h3 {
+            font-size: clamp(26px, 3vw, 52px);
+            text-shadow: 0 2px 26px rgba(0,0,0,0.6);
+            transform-origin: center;
+            transition: transform 0.5s cubic-bezier(.34,1.45,.5,1), letter-spacing 0.5s cubic-bezier(.34,1.45,.5,1);
+            will-change: transform;
+        }
+        #roster-grid .card-photo:hover .card-overlay h3,
+        #roster-grid .card-photo:focus-within .card-overlay h3 {
+            transform: translateY(-12px) scale(1.4);
+            letter-spacing: 0.08em;
+        }
+        #roster-grid .card-reveal {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #roster-grid .card-reveal .genre {
+            font-size: clamp(14px, 1.35vw, 18px);
+            letter-spacing: 0.16em;
+            margin-top: 0;
+        }
+        #roster-grid .card-reveal .card-tagline {
+            font-size: clamp(14px, 1.25vw, 18px);
+            color: var(--text);
+            margin-top: 12px;
+        }
+        #roster-grid .card-cta {
+            margin-top: 20px;
+            font-size: 13px;
+            letter-spacing: 0.2em;
+            padding: 12px 26px;
+            border-radius: 999px;
+            border: 1px solid var(--paper);
+            background: var(--paper);
+            color: var(--ink);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        #roster-grid .card-photo:hover .card-cta,
+        #roster-grid .card-photo:focus-within .card-cta {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+        }
+        #roster-grid .card-links { justify-content: center; }
+        #roster-grid .card-photo:hover .card-reveal,
+        #roster-grid .card-photo:focus-within .card-reveal,
+        #roster-grid .card-photo:focus-visible .card-reveal { max-height: 230px; margin-top: 24px; }
+        #roster-grid .card-photo[data-id="ju"] img { object-position: center 22%; }
+        @media (max-width: 700px) {
+            #roster-grid { grid-template-columns: 1fr; }
+            #roster-grid .card-photo { aspect-ratio: 4 / 3; }
+        }
 
         /* ---------- NOSOTROS (red block) ---------- */
         #nosotros {
@@ -818,17 +898,6 @@
             var b = parts[1] ? parts[1][0] : (parts[0] && parts[0][1] ? parts[0][1] : '');
             return (a + b).toUpperCase();
         }
-        function cardLinks(links) {
-            var order = ['spotify', 'youtube', 'instagram', 'web'];
-            var html = '';
-            for (var i = 0; i < order.length; i++) {
-                var k = order[i];
-                if (links[k]) {
-                    html += '<a href="' + links[k] + '" target="_blank" rel="noopener" data-stop aria-label="' + LINK_LABEL[k] + '" title="' + LINK_LABEL[k] + '">' + ICONS[k] + '</a>';
-                }
-            }
-            return html;
-        }
         function photoInner(item, num) {
             var numHtml = num ? '<span class="num">' + num + '</span>' : '';
             if (item.photo) {
@@ -848,7 +917,6 @@
                             '<div class="card-reveal">' +
                                 '<p class="genre">' + sub + '</p>' +
                                 (item.tagline ? '<p class="card-tagline">' + item.tagline + '</p>' : '') +
-                                (Object.keys(item.links).length ? '<div class="card-links">' + cardLinks(item.links) + '</div>' : '') +
                                 '<span class="card-cta">Ver perfil <span class="arrow">→</span></span>' +
                             '</div>' +
                         '</div>' +
