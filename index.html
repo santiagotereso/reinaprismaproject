@@ -425,6 +425,7 @@
         #roster-grid .card-photo:focus-within .card-reveal,
         #roster-grid .card-photo:focus-visible .card-reveal { opacity: 1; transform: translateY(0); }
         #roster-grid .card-photo[data-id="ju"] img { object-position: center 22%; }
+        #roster-grid .card-photo[data-id="ayanday"] img { object-fit: contain; padding: 8px 0; background: var(--ink); }
         @media (max-width: 700px) {
             #roster-grid { grid-template-columns: 1fr; }
             #roster-grid .card-photo { aspect-ratio: 4 / 3; }
@@ -683,8 +684,9 @@
             color: var(--accent);
         }
         .bs-form { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+        .bs-field { position: relative; }
         .bs-form input {
-            width: 100%; padding: 15px 18px;
+            width: 100%; padding: 15px 46px;
             background: rgba(243,231,221,0.04);
             border: 1px solid var(--line); border-radius: 8px;
             color: var(--text); font-family: 'JetBrains Mono', monospace;
@@ -692,6 +694,16 @@
         }
         .bs-form input::placeholder { color: var(--text-muted); letter-spacing: 0.14em; }
         .bs-form input:focus { outline: none; border-color: var(--accent); background: rgba(243,231,221,0.06); }
+        .bs-eye {
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            width: 34px; height: 34px;
+            display: flex; align-items: center; justify-content: center;
+            background: none; border: none; cursor: pointer;
+            color: var(--text-muted); transition: color 0.2s ease;
+        }
+        .bs-eye:hover { color: var(--paper); }
+        .bs-eye.is-on { color: var(--accent); }
+        .bs-eye svg { width: 20px; height: 20px; fill: currentColor; }
         .bs-form button { align-self: center; }
         .bs-error {
             color: var(--red); font-family: 'JetBrains Mono', monospace;
@@ -848,8 +860,8 @@
 
     <nav class="nav">
         <div class="nav-links">
-            <a href="#artistas" data-text="Artistas">Artistas</a>
-            <a href="#nosotros" data-text="Nosotros">Nosotros</a>
+            <a href="#artistas" data-text="Roster">Roster</a>
+            <a href="#nosotros" data-text="Reina">Reina</a>
             <a href="#contacto" data-text="Contacto">Contacto</a>
             <a href="#" class="bs-navlink" data-backstage-open>Backstage</a>
         </div>
@@ -858,13 +870,21 @@
     <header class="hero" id="top">
         <div class="hero-bg" data-px="0.45">
             <div class="slide is-active" style="background-image: url('assets/fondo.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/hero-011.jpg')"></div>
             <div class="slide" style="background-image: url('assets/main2.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/hero-012.jpg')"></div>
             <div class="slide" style="background-image: url('assets/main3.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/hero-013.jpg')"></div>
             <div class="slide" style="background-image: url('assets/main4.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/hero-014.jpg')"></div>
             <div class="slide" style="background-image: url('assets/main5.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/hero-015.jpg')"></div>
             <div class="slide" style="background-image: url('assets/main6.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/hero-016.jpg')"></div>
             <div class="slide" style="background-image: url('assets/main7.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/hero-017.jpg')"></div>
             <div class="slide" style="background-image: url('assets/main8.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/hero-018.jpg')"></div>
         </div>
         <div class="hero-logo" data-px="-0.18" data-fade="1">
             <img src="assets/logo-light.png" alt="Reina Prisma Estudio">
@@ -964,7 +984,12 @@
                 <div class="bs-gate" id="bs-gate">
                     <div class="bs-gate-label">Backstage</div>
                     <form class="bs-form" id="bs-form" autocomplete="off">
-                        <input type="password" id="bs-pass" placeholder="Clave de acceso" aria-label="Clave de acceso" />
+                        <div class="bs-field">
+                            <input type="password" id="bs-pass" placeholder="Clave de acceso" aria-label="Clave de acceso" />
+                            <button type="button" class="bs-eye" id="bs-eye" aria-label="Mostrar clave" aria-pressed="false">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c-5 0-9 4.5-10 7 1 2.5 5 7 10 7s9-4.5 10-7c-1-2.5-5-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>
+                            </button>
+                        </div>
                         <div class="bs-error" id="bs-error">Clave incorrecta.</div>
                         <button class="bs-enter" type="submit">Entrar</button>
                     </form>
@@ -1010,6 +1035,17 @@
                 links: { spotify: 'https://open.spotify.com/intl-es/artist/2g61pWJbmY6GoliS4UiVy9', youtube: 'https://www.youtube.com/@cocolerococolero', instagram: 'https://www.instagram.com/cocolero__' }
             },
             {
+                id: 'lanzo', name: 'Lanzo', genre: 'Autor · Productor', photo: 'assets/ivan-lanzo.jpg',
+                tagline: 'La música como destino.',
+                bio: ['La música como destino. El buen gusto como forma de viajar.',
+                      'Lanzo es el proyecto artístico de Iván Lanzo: un universo donde la música, el diseño y los objetos dialogan para construir una experiencia que trasciende la escucha. Cada lanzamiento nace de una búsqueda artesanal, con canciones concebidas con el mismo cuidado con el que se diseña un objeto destinado a permanecer.',
+                      'La música no aparece como un producto de consumo inmediato, sino como un espacio para detenerse, disfrutar, observar y volver a escuchar. No como un ejercicio de nostalgia, sino como una manera de devolverle profundidad a la experiencia.',
+                      'Su primer álbum, Landing Flight, inaugura ese universo a través de Lanzo’s Flight: una aerolínea imaginaria donde cada obra representa un nuevo destino y cada edición física funciona como el recuerdo tangible de un viaje y una sensibilidad profundamente melómana.',
+                      'No persigue el lujo como símbolo de estatus, sino la sofisticación que nace del criterio: la belleza de las cosas bien hechas, la selección cuidadosa antes que el exceso, la emoción antes que el ruido. Porque el verdadero privilegio no es viajar más lejos, es aprender a viajar mejor.',
+                      'Bienvenidos a bordo.'],
+                links: { spotify: 'https://open.spotify.com/intl-es/artist/2hEbHEKUghuVjyYtaQjxul', youtube: 'https://www.youtube.com/@lanzoivan', instagram: 'https://www.instagram.com/lanzoivan' }
+            },
+            {
                 id: 'daefuq', name: 'DAEFUQ', genre: 'Fusión R&B · Jazz · Funk', photo: 'assets/daefuq.jpg',
                 tagline: 'Fusión R&B, groove y jazz experimental.',
                 bio: ['Daefuq es un proyecto de fusión R&B. Con composiciones originales, improvisación y mucho groove, construyen un sonido enérgico, sofisticado y profundamente bailable.',
@@ -1017,7 +1053,7 @@
                 links: { spotify: 'https://open.spotify.com/intl-es/artist/2g61pWJbmY6GoliS4UiVy9', youtube: 'https://www.youtube.com/@daefuq', instagram: 'https://www.instagram.com/daefuq_' }
             },
             {
-                id: 'ayanday', name: 'Ayanday', genre: 'Reggae · Tributo a Bob Marley', photo: 'assets/ayanday.png',
+                id: 'ayanday', name: 'Ayanday', genre: 'Reggae · Tributo a Bob Marley', photo: 'assets/ayanday.jpg',
                 tagline: 'El legado de Bob Marley con alma latinoamericana.',
                 bio: ['Ayanday rinde homenaje al legado de Bob Marley, llevando su música hacia nuevos paisajes sonoros. Sin perder la esencia del reggae ni la fuerza de su mensaje, incorporan ritmos latinoamericanos que expanden cada canción con nuevos colores, texturas y energía.',
                       'El resultado es un espectáculo vibrante, donde el espíritu de Marley se encuentra con la identidad musical de Latinoamérica, invitando al público a cantar, bailar y celebrar la música como un lenguaje universal.'],
@@ -1037,17 +1073,6 @@
                 bio: ['JU es una cantante de R&B de voz íntima, susurrada y profundamente envolvente.',
                       'Canta como si revelara un secreto al oído: entre melodías suaves, silencios que respiran y una sensibilidad capaz de volver enorme lo más pequeño.'],
                 links: {}
-            },
-            {
-                id: 'lanzo', name: 'Lanzo', genre: 'Autor · Productor', photo: 'assets/ivan-lanzo.jpg',
-                tagline: 'La música como destino.',
-                bio: ['La música como destino. El buen gusto como forma de viajar.',
-                      'Lanzo es el proyecto artístico de Iván Lanzo: un universo donde la música, el diseño y los objetos dialogan para construir una experiencia que trasciende la escucha. Cada lanzamiento nace de una búsqueda artesanal, con canciones concebidas con el mismo cuidado con el que se diseña un objeto destinado a permanecer.',
-                      'La música no aparece como un producto de consumo inmediato, sino como un espacio para detenerse, disfrutar, observar y volver a escuchar. No como un ejercicio de nostalgia, sino como una manera de devolverle profundidad a la experiencia.',
-                      'Su primer álbum, Landing Flight, inaugura ese universo a través de Lanzo’s Flight: una aerolínea imaginaria donde cada obra representa un nuevo destino y cada edición física funciona como el recuerdo tangible de un viaje y una sensibilidad profundamente melómana.',
-                      'No persigue el lujo como símbolo de estatus, sino la sofisticación que nace del criterio: la belleza de las cosas bien hechas, la selección cuidadosa antes que el exceso, la emoción antes que el ruido. Porque el verdadero privilegio no es viajar más lejos, es aprender a viajar mejor.',
-                      'Bienvenidos a bordo.'],
-                links: { spotify: 'https://open.spotify.com/intl-es/artist/2hEbHEKUghuVjyYtaQjxul', youtube: 'https://www.youtube.com/@lanzoivan', instagram: 'https://www.instagram.com/lanzoivan' }
             },
             {
                 id: 'ladyboys', name: 'LadyBoys', genre: 'Jazz Fusión · Funk · Rock', photo: 'assets/lady.png',
@@ -1247,7 +1272,21 @@
             var errorEl = document.getElementById('bs-error');
             var grid = document.getElementById('bs-grid');
             var signout = document.getElementById('bs-signout');
+            var eye = document.getElementById('bs-eye');
             var lastFocus = null;
+
+            var EYE_OPEN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c-5 0-9 4.5-10 7 1 2.5 5 7 10 7s9-4.5 10-7c-1-2.5-5-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>';
+            var EYE_OFF = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.3 3.3 1 4.6l3 3C2.3 8.9 1.1 10.5.5 12c1 2.5 5 7 10 7 1.7 0 3.3-.5 4.7-1.2l3.7 3.7 1.3-1.3L2.3 3.3zM12 17c-4 0-6.9-3.2-7.8-4.5.5-.8 1.4-1.9 2.7-2.8l1.7 1.7A3 3 0 0 0 12 15c.3 0 .5 0 .8-.1l1.4 1.4c-.7.4-1.4.7-2.2.7zm0-10c4 0 6.9 3.2 7.8 4.5-.4.6-1 1.4-1.9 2.1l1.4 1.4c1.2-1 2.1-2.2 2.7-3.5-1-2.5-5-7-10-7-1.1 0-2.2.2-3.2.6l1.5 1.5c.5-.1 1.1-.1 1.7-.1z"/></svg>';
+
+            eye.addEventListener('click', function () {
+                var showing = passInput.type === 'text';
+                passInput.type = showing ? 'password' : 'text';
+                eye.classList.toggle('is-on', !showing);
+                eye.setAttribute('aria-pressed', String(!showing));
+                eye.setAttribute('aria-label', showing ? 'Mostrar clave' : 'Ocultar clave');
+                eye.innerHTML = showing ? EYE_OPEN : EYE_OFF;
+                passInput.focus();
+            });
             var STORE_KEY = 'rp_backstage_ok';
 
             // render de las secciones
@@ -1270,16 +1309,19 @@
             function relock() {
                 overlay.classList.remove('is-unlocked');
                 try { sessionStorage.removeItem(STORE_KEY); } catch (e) {}
-                passInput.value = '';
+                passInput.value = BACKSTAGE_PASS; // demo: clave pre-cargada
                 errorEl.classList.remove('show');
             }
+
+            // demo: dejar la clave ya escrita en el campo
+            passInput.value = BACKSTAGE_PASS;
 
             function openOverlay() {
                 lastFocus = document.activeElement;
                 var ok = false;
                 try { ok = sessionStorage.getItem(STORE_KEY) === '1'; } catch (e) {}
                 if (ok) { overlay.classList.add('is-unlocked'); }
-                else { overlay.classList.remove('is-unlocked'); }
+                else { overlay.classList.remove('is-unlocked'); passInput.value = BACKSTAGE_PASS; }
                 overlay.classList.add('is-open');
                 overlay.setAttribute('aria-hidden', 'false');
                 document.body.classList.add('no-scroll');
