@@ -439,6 +439,68 @@
         #nosotros .lede { color: rgba(243, 231, 221, 0.9); }
         #nosotros .card-grid { border-color: rgba(12,6,5,0.28); background: rgba(12,6,5,0.28); }
 
+        /* ---------- SERVICIOS ---------- */
+        #servicios { background: var(--bg); }
+        .svc-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--line);
+            border: 1px solid var(--line);
+            margin-top: 48px;
+        }
+        .svc {
+            background: var(--bg);
+            padding: 36px 32px 42px;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            transition: background 0.25s ease;
+        }
+        .svc .svc-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            margin-bottom: 22px;
+        }
+        .svc h3 {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 800;
+            font-size: clamp(20px, 2vw, 27px);
+            line-height: 1.04;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: 13px;
+        }
+        .svc p {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .svc-cta {
+            background: var(--accent);
+            justify-content: center;
+        }
+        .svc-cta .svc-num, .svc-cta h3, .svc-cta p { color: var(--ink); }
+        .svc-cta p { opacity: 0.82; }
+        .svc-cta:hover { background: var(--accent-deep); }
+        .svc-cta:hover p { opacity: 1; }
+        @media (max-width: 900px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .svc-grid { grid-template-columns: 1fr; } }
+
+        /* ---------- ESCUCHÁ (Spotify) ---------- */
+        #escucha { background: var(--ink); }
+        .spotify-embed {
+            margin-top: 48px;
+            max-width: 920px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+        }
+        .spotify-embed iframe { display: block; width: 100%; border: 0; }
+
         /* ---------- MODAL ---------- */
         .modal {
             position: fixed;
@@ -862,6 +924,8 @@
         <div class="nav-links">
             <a href="#artistas" data-text="Roster">Roster</a>
             <a href="#nosotros" data-text="Reina">Reina</a>
+            <a href="#servicios" data-text="Servicios">Servicios</a>
+            <a href="#escucha" data-text="Escuchá">Escuchá</a>
             <a href="#contacto" data-text="Contacto">Contacto</a>
             <a href="#" class="bs-navlink" data-backstage-open>Backstage</a>
         </div>
@@ -914,9 +978,36 @@
         </div>
     </section>
 
+    <section id="servicios">
+        <div class="section-inner">
+            <div class="section-head"><span class="idx">03</span><span class="bar"></span><span>Productora integral · Booking · Management</span></div>
+            <h2 class="section-title">Qué hacemos</h2>
+            <p class="lede">Acompañamos a cada artista de principio a fin: de la primera idea en el estudio hasta el escenario y el crecimiento de su carrera.</p>
+            <div class="svc-grid">
+                <div class="svc"><span class="svc-num">01</span><h3>Producción</h3><p>Componemos, grabamos, mezclamos y masterizamos en nuestro estudio. De la idea a un master listo para el mundo.</p></div>
+                <div class="svc"><span class="svc-num">02</span><h3>Registro y derechos</h3><p>Registramos tus obras en SADAIC y gestionamos tus derechos y regalías. Tu autoría protegida y en regla.</p></div>
+                <div class="svc"><span class="svc-num">03</span><h3>Distribución y lanzamiento</h3><p>Subimos tu música a todas las plataformas con una estrategia de release, arte y contenido que la haga llegar lejos.</p></div>
+                <div class="svc"><span class="svc-num">04</span><h3>Booking &amp; En vivo</h3><p>Conseguimos y coordinamos fechas, giras y festivales. Llevamos tu música al escenario.</p></div>
+                <div class="svc"><span class="svc-num">05</span><h3>Management &amp; Carrera</h3><p>Pensamos tu carrera a largo plazo: estrategia, redes, prensa y las decisiones que te hacen crecer.</p></div>
+                <a class="svc svc-cta" href="#contacto"><span class="svc-num">→</span><h3>Trabajemos juntos</h3><p>¿Sos artista y querés desarrollar tu carrera? Hablemos.</p></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="escucha">
+        <div class="section-inner">
+            <div class="section-head"><span class="idx">04</span><span class="bar"></span><span>En Spotify</span></div>
+            <h2 class="section-title">Escuchá</h2>
+            <p class="lede">El sonido de la casa. Dale play a la playlist de Reina Prisma y descubrí a nuestros artistas.</p>
+            <div class="spotify-embed">
+                <iframe src="https://open.spotify.com/embed/playlist/6BV6DlalFUzXOTPQQYncts?utm_source=generator&amp;theme=0" height="520" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Playlist Reina Prisma en Spotify"></iframe>
+            </div>
+        </div>
+    </section>
+
     <section id="contacto">
         <div class="section-inner">
-            <div class="section-head"><span class="idx">03</span><span class="bar"></span><span>Hablemos</span></div>
+            <div class="section-head"><span class="idx">05</span><span class="bar"></span><span>Hablemos</span></div>
             <h2 class="section-title">Contacto</h2>
             <p class="lede">¿Tenés un proyecto o querés sumarte al roster? Escribinos por WhatsApp.</p>
             <a class="wa" href="https://wa.me/5491126517698" target="_blank" rel="noopener">
