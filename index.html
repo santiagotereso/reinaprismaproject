@@ -47,6 +47,15 @@
             padding: 22px 40px;
             background: linear-gradient(to bottom, rgba(20,10,9,0.85), rgba(20,10,9,0));
             backdrop-filter: blur(2px);
+            transition: background 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+        }
+        /* fuera del hero: barra sólida, para que el nav no se lave sobre secciones claras */
+        .nav.is-stuck {
+            padding-top: 14px;
+            padding-bottom: 14px;
+            background: rgba(20,10,9,0.94);
+            backdrop-filter: blur(12px) saturate(1.1);
+            box-shadow: 0 1px 0 rgba(243,231,221,0.10), 0 10px 34px rgba(0,0,0,0.38);
         }
 
         .nav-brand {
@@ -358,7 +367,7 @@
             margin-top: 8px;
         }
         #roster-grid .card-photo {
-            aspect-ratio: 16 / 10;
+            aspect-ratio: 16 / 9;
         }
         #roster-grid .card-photo img {
             image-rendering: auto;
@@ -384,42 +393,53 @@
         #roster-grid .card-photo:focus-within .card-overlay h3 {
             transform: scale(1.14);
         }
-        /* info anclada abajo: no empuja ni mueve el nombre */
+        /* lockup centrado: nombre + género + cta viajan como un bloque.
+           el espacio queda reservado siempre, así el nombre no salta en hover */
         #roster-grid .card-reveal {
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: absolute;
-            left: 0; right: 0; bottom: 26px;
-            margin-top: 0;
+            position: static;
+            margin-top: 18px;
             max-height: none;
             overflow: visible;
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(8px);
             transition: opacity 0.4s ease, transform 0.5s cubic-bezier(.22,.61,.36,1);
         }
         #roster-grid .card-reveal .genre {
-            font-size: clamp(11px, 1.05vw, 13px);
-            letter-spacing: 0.18em;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700;
+            font-size: clamp(10.5px, 0.85vw, 12.5px);
+            letter-spacing: 0.26em;
+            text-indent: 0.26em; /* compensa el tracking del último caracter al centrar */
+            color: rgba(243,231,221,0.72);
             margin-top: 0;
         }
         #roster-grid .card-reveal .card-tagline { display: none; }
         #roster-grid .card-cta {
-            margin-top: 14px;
+            position: relative;
+            margin-top: 18px;
+            padding: 0 0 7px;
+            border: none;
+            border-radius: 0;
+            background: none;
+            color: var(--paper);
             font-size: 11px;
-            letter-spacing: 0.18em;
-            padding: 9px 20px;
-            border-radius: 999px;
-            border: 1px solid var(--paper);
-            background: var(--paper);
-            color: var(--ink);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            letter-spacing: 0.22em;
         }
-        #roster-grid .card-photo:hover .card-cta,
-        #roster-grid .card-photo:focus-within .card-cta {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+        /* subrayado naranja que se dibuja desde el centro */
+        #roster-grid .card-cta::after {
+            content: '';
+            position: absolute;
+            left: 50%; bottom: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transform: translateX(-50%);
+            transition: width 0.45s cubic-bezier(.22,.61,.36,1);
         }
+        #roster-grid .card-photo:hover .card-cta::after,
+        #roster-grid .card-photo:focus-within .card-cta::after { width: 100%; }
         #roster-grid .card-links { justify-content: center; }
         #roster-grid .card-photo:hover .card-reveal,
         #roster-grid .card-photo:focus-within .card-reveal,
@@ -428,7 +448,7 @@
         #roster-grid .card-photo[data-id="ayanday"] img { object-fit: contain; padding: 8px 0; background: var(--ink); }
         @media (max-width: 700px) {
             #roster-grid { grid-template-columns: 1fr; }
-            #roster-grid .card-photo { aspect-ratio: 4 / 3; }
+            #roster-grid .card-photo { aspect-ratio: 16 / 10; }
         }
 
         /* ---------- NOSOTROS (red block) ---------- */
@@ -440,11 +460,14 @@
         #nosotros .card-grid { border-color: rgba(12,6,5,0.28); background: rgba(12,6,5,0.28); }
         .nos-sub {
             font-family: 'Bagel Fat One', cursive;
-            font-size: clamp(26px, 3.4vw, 50px);
+            font-size: clamp(15px, 2.5vw, 34px);
             line-height: 1.08;
             color: var(--paper);
-            max-width: 18ch;
+            white-space: nowrap;
             margin-top: 10px;
+        }
+        @media (max-width: 560px) {
+            .nos-sub { white-space: normal; font-size: 20px; }
         }
 
         /* ---------- SERVICIOS (título a la derecha) ---------- */
@@ -455,7 +478,7 @@
         }
         .svc-inner {
             display: grid;
-            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
             gap: clamp(32px, 5vw, 72px);
             align-items: center;
             max-width: 1200px;
@@ -485,14 +508,25 @@
             color: var(--text);
             margin-bottom: 10px;
         }
-        .svc p {
-            font-size: 14.5px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 46ch;
+        .svc-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            list-style: none;
         }
-        .svc-head { text-align: right; }
-        .svc-head .section-head { justify-content: flex-end; }
+        .svc-tags li {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            letter-spacing: 0.1em;
+            line-height: 1;
+            color: var(--text-muted);
+            padding: 8px 13px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            transition: color 0.25s ease, border-color 0.25s ease;
+        }
+        .svc:hover .svc-tags li { color: var(--text); border-color: rgba(224,103,59,0.55); }
+        .svc-head { text-align: left; }
         .svc-title {
             font-family: 'Bagel Fat One', cursive;
             font-size: clamp(60px, 7vw, 108px);
@@ -500,13 +534,6 @@
             color: var(--accent);
             margin: 18px 0 20px;
             text-shadow: 0 10px 44px rgba(224,103,59,0.26);
-        }
-        .svc-lede {
-            font-size: clamp(16px, 1.5vw, 19px);
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 42ch;
-            margin-left: auto;
         }
         .svc-cta-btn {
             display: inline-flex;
@@ -526,9 +553,6 @@
         .svc-cta-btn:hover { background: var(--accent-deep); transform: translateY(-2px); }
         @media (max-width: 820px) {
             .svc-inner { grid-template-columns: 1fr; gap: 30px; }
-            .svc-head { text-align: left; order: -1; }
-            .svc-head .section-head { justify-content: flex-start; }
-            .svc-lede { margin-left: 0; }
             .svc-title { font-size: clamp(54px, 15vw, 90px); }
         }
 
@@ -555,10 +579,11 @@
             text-shadow: 0 10px 44px rgba(224,103,59,0.28);
         }
         .esc-lede {
-            font-size: clamp(16px, 1.5vw, 19px);
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 42ch;
+            font-family: 'Bagel Fat One', cursive;
+            font-size: clamp(20px, 2.2vw, 32px);
+            color: var(--text);
+            line-height: 1.15;
+            white-space: nowrap;
         }
         .esc-play {
             display: inline-flex; align-items: center; gap: 9px;
@@ -917,33 +942,6 @@
         }
         #contacto .lede { color: rgba(243, 231, 221, 0.9); }
 
-        .wa {
-            display: inline-flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 44px;
-            padding: 20px 32px;
-            background: var(--paper);
-            color: var(--ink);
-            text-decoration: none;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .wa:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 40px rgba(0,0,0,0.3);
-        }
-        .wa-icon {
-            width: 26px;
-            height: 26px;
-            fill: var(--ink);
-        }
-        .wa span {
-            font-family: 'Archivo', sans-serif;
-            font-weight: 700;
-            font-size: clamp(18px, 2.5vw, 26px);
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
         /* dos vías de contacto */
         .wa-paths {
             display: grid;
@@ -953,34 +951,85 @@
             max-width: 920px;
         }
         .wa-card {
-            background: rgba(12,6,5,0.18);
-            border: 1px solid rgba(243,231,221,0.22);
-            padding: 30px 28px 28px;
+            position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-        }
-        .wa-card-q {
-            font-family: 'Archivo', sans-serif;
-            font-weight: 700;
-            font-size: clamp(18px, 1.8vw, 23px);
-            line-height: 1.18;
-            margin-bottom: 24px;
+            padding: 30px 32px 26px;
+            background: rgba(12,6,5,0.20);
+            border: 1px solid rgba(243,231,221,0.24);
             color: var(--paper);
+            text-decoration: none;
+            transition: background 0.28s ease, border-color 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease;
         }
-        .wa-card .wa {
-            margin-top: auto;
-            padding: 14px 24px;
-            gap: 12px;
+        .wa-card:hover,
+        .wa-card:focus-visible {
+            background: var(--paper);
+            border-color: var(--paper);
+            color: var(--ink);
+            transform: translateY(-4px);
+            box-shadow: 0 18px 44px rgba(0,0,0,0.32);
+            outline: none;
         }
-        .wa-card .wa span { font-size: clamp(15px, 1.4vw, 18px); }
-        .wa-num {
-            margin-top: 14px;
+        /* marca de agua: el ícono gigante que se asoma en la esquina */
+        .wa-mark {
+            position: absolute;
+            right: -26px; bottom: -30px;
+            width: 168px; height: 168px;
+            fill: rgba(243,231,221,0.10);
+            pointer-events: none;
+            transition: fill 0.28s ease, transform 0.5s cubic-bezier(.22,.61,.36,1);
+        }
+        .wa-card:hover .wa-mark,
+        .wa-card:focus-visible .wa-mark {
+            fill: rgba(12,6,5,0.09);
+            transform: scale(1.12) rotate(-6deg);
+        }
+        .wa-kicker {
+            position: relative;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px; letter-spacing: 0.04em;
-            color: rgba(243,231,221,0.75);
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            opacity: 0.72;
         }
-        @media (max-width: 720px) { .wa-paths { grid-template-columns: 1fr; } }
+        .wa-title {
+            position: relative;
+            font-family: 'Bagel Fat One', cursive;
+            font-size: clamp(32px, 3.9vw, 56px);
+            line-height: 1.02;
+            margin: 14px 0 32px;
+            max-width: 11ch;
+        }
+        .wa-go {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: auto;
+            padding-top: 16px;
+            width: 100%;
+            border-top: 1px solid currentColor;
+        }
+        .wa-go svg { width: 19px; height: 19px; fill: currentColor; flex: none; }
+        .wa-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            letter-spacing: 0.04em;
+        }
+        .wa-arrow {
+            margin-left: auto;
+            font-size: 19px;
+            line-height: 1;
+            transition: transform 0.28s cubic-bezier(.22,.61,.36,1);
+        }
+        .wa-card:hover .wa-arrow,
+        .wa-card:focus-visible .wa-arrow { transform: translateX(6px); }
+        @media (max-width: 720px) {
+            .wa-paths { grid-template-columns: 1fr; }
+            .wa-title { max-width: none; }
+        }
         .contact-extra {
             display: flex;
             flex-wrap: wrap;
@@ -1094,16 +1143,14 @@
 
     <section id="servicios">
         <div class="svc-inner">
-            <div class="svc-list">
-                <div class="svc"><span class="svc-num">01</span><h3>Producción</h3><p>Componemos, grabamos, mezclamos y masterizamos en nuestro estudio. De la idea a un master listo para el mundo.</p></div>
-                <div class="svc"><span class="svc-num">02</span><h3>Distribución y lanzamiento</h3><p>Subimos tu música a todas las plataformas con una estrategia de release, arte y contenido que la haga llegar lejos.</p></div>
-                <div class="svc"><span class="svc-num">03</span><h3>Management &amp; Carrera</h3><p>Pensamos tu carrera a largo plazo: estrategia, redes, prensa y las decisiones que te hacen crecer.</p></div>
-            </div>
             <div class="svc-head">
                 <div class="section-head"><span class="idx">03</span><span class="bar"></span><span>Productora integral de música</span></div>
                 <h2 class="svc-title">Qué hacemos</h2>
-                <p class="svc-lede">Acompañamos a cada artista de principio a fin: de la primera idea en el estudio hasta el crecimiento de su carrera.</p>
                 <a class="svc-cta-btn" href="#contacto">Trabajemos juntos →</a>
+            </div>
+            <div class="svc-list">
+                <div class="svc"><span class="svc-num">01</span><h3>Producción</h3><ul class="svc-tags"><li>composición</li><li>grabación</li><li>mezcla</li><li>magia</li></ul></div>
+                <div class="svc"><span class="svc-num">02</span><h3>Lanzamiento</h3><ul class="svc-tags"><li>distribución</li><li>arte</li><li>video</li><li>estrategia</li></ul></div>
             </div>
         </div>
     </section>
@@ -1113,7 +1160,7 @@
             <div class="esc-head">
                 <div class="section-head"><span class="idx">04</span><span class="bar"></span><span>En Spotify</span></div>
                 <h2 class="esc-title">Escuchá</h2>
-                <p class="esc-lede">El sonido de la casa. Dale play y descubrí a nuestros artistas.</p>
+                <p class="esc-lede">Subí el volumen.</p>
                 <span class="esc-play">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                     Dale play
@@ -1129,28 +1176,35 @@
         <div class="section-inner">
             <div class="section-head"><span class="idx">05</span><span class="bar"></span><span>Hablemos</span></div>
             <h2 class="section-title">Contacto</h2>
-            <p class="lede">Estás a un mensaje de distancia. Elegí por dónde va tu consulta.</p>
             <div class="wa-paths">
-                <div class="wa-card">
-                    <div class="wa-card-q">¿Tenés un proyecto? ¿Querés sumarte al roster?</div>
-                    <a class="wa" href="https://wa.me/5491126517698?text=%C2%A1Hola%20Reina%20Prisma!%20Tengo%20un%20proyecto%20y%20quiero%20sumarme%20al%20roster." target="_blank" rel="noopener">
-                        <svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <a class="wa-card" href="https://wa.me/5491126517698?text=%C2%A1Hola%20Reina%20Prisma!%20Tengo%20un%20proyecto%20y%20quiero%20sumarme%20al%20roster." target="_blank" rel="noopener">
+                    <svg class="wa-mark" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.54-3.7 8.24-8.25 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24zm-2.84 4.43c-.13 0-.35.05-.53.25-.18.2-.7.69-.7 1.67 0 .99.72 1.94.82 2.07.1.13 1.4 2.14 3.4 3 .47.21.84.33 1.13.42.47.15.9.13 1.24.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.12-.94-.05-.08-.18-.13-.38-.23-.2-.1-1.17-.58-1.35-.64-.18-.07-.32-.1-.45.1-.13.2-.51.64-.63.77-.12.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.53-.99-1.18-1.11-1.38-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.34.07-.13.03-.25-.02-.35-.05-.1-.44-1.08-.62-1.48-.16-.39-.32-.33-.44-.34l-.38-.01z"/>
+                    </svg>
+                    <span class="wa-kicker">Artistas</span>
+                    <span class="wa-title">Sumate al roster</span>
+                    <span class="wa-go">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.54-3.7 8.24-8.25 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24zm-2.84 4.43c-.13 0-.35.05-.53.25-.18.2-.7.69-.7 1.67 0 .99.72 1.94.82 2.07.1.13 1.4 2.14 3.4 3 .47.21.84.33 1.13.42.47.15.9.13 1.24.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.12-.94-.05-.08-.18-.13-.38-.23-.2-.1-1.17-.58-1.35-.64-.18-.07-.32-.1-.45.1-.13.2-.51.64-.63.77-.12.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.53-.99-1.18-1.11-1.38-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.34.07-.13.03-.25-.02-.35-.05-.1-.44-1.08-.62-1.48-.16-.39-.32-.33-.44-.34l-.38-.01z"/>
                         </svg>
-                        <span>Sumate al roster</span>
-                    </a>
-                    <span class="wa-num">+54 9 11 2651-7698</span>
-                </div>
-                <div class="wa-card">
-                    <div class="wa-card-q">¿Querés contratar a uno de nuestros artistas?</div>
-                    <a class="wa" href="https://wa.me/5491130243285?text=%C2%A1Hola%20Reina%20Prisma!%20Quiero%20contratar%20a%20un%20artista%20para%20tocar." target="_blank" rel="noopener">
-                        <svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <span class="wa-num">+54 9 11 2651-7698</span>
+                        <span class="wa-arrow">→</span>
+                    </span>
+                </a>
+                <a class="wa-card" href="https://wa.me/5491130243285?text=%C2%A1Hola%20Reina%20Prisma!%20Quiero%20contratar%20a%20un%20artista%20para%20tocar." target="_blank" rel="noopener">
+                    <svg class="wa-mark" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.54-3.7 8.24-8.25 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24zm-2.84 4.43c-.13 0-.35.05-.53.25-.18.2-.7.69-.7 1.67 0 .99.72 1.94.82 2.07.1.13 1.4 2.14 3.4 3 .47.21.84.33 1.13.42.47.15.9.13 1.24.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.12-.94-.05-.08-.18-.13-.38-.23-.2-.1-1.17-.58-1.35-.64-.18-.07-.32-.1-.45.1-.13.2-.51.64-.63.77-.12.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.53-.99-1.18-1.11-1.38-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.34.07-.13.03-.25-.02-.35-.05-.1-.44-1.08-.62-1.48-.16-.39-.32-.33-.44-.34l-.38-.01z"/>
+                    </svg>
+                    <span class="wa-kicker">Booking</span>
+                    <span class="wa-title">Contratá un artista</span>
+                    <span class="wa-go">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.54-3.7 8.24-8.25 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24zm-2.84 4.43c-.13 0-.35.05-.53.25-.18.2-.7.69-.7 1.67 0 .99.72 1.94.82 2.07.1.13 1.4 2.14 3.4 3 .47.21.84.33 1.13.42.47.15.9.13 1.24.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.12-.94-.05-.08-.18-.13-.38-.23-.2-.1-1.17-.58-1.35-.64-.18-.07-.32-.1-.45.1-.13.2-.51.64-.63.77-.12.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.53-.99-1.18-1.11-1.38-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.34.07-.13.03-.25-.02-.35-.05-.1-.44-1.08-.62-1.48-.16-.39-.32-.33-.44-.34l-.38-.01z"/>
                         </svg>
-                        <span>Consultar booking</span>
-                    </a>
-                    <span class="wa-num">+54 9 11 3024-3285</span>
-                </div>
+                        <span class="wa-num">+54 9 11 3024-3285</span>
+                        <span class="wa-arrow">→</span>
+                    </span>
+                </a>
             </div>
             <div class="contact-extra">
                 <a href="mailto:reinaprismaestudio@gmail.com">
@@ -1586,6 +1640,24 @@
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && overlay.classList.contains('is-open')) { closeOverlay(); }
             });
+        })();
+
+        /* ============ NAV sólido fuera del hero ============ */
+        (function () {
+            var nav = document.querySelector('.nav');
+            if (!nav) return;
+            var ticking = false;
+
+            function update() {
+                var y = window.pageYOffset || document.documentElement.scrollTop;
+                nav.classList.toggle('is-stuck', y > 80);
+                ticking = false;
+            }
+            function onScroll() {
+                if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            update();
         })();
 
         /* ============ HERO parallax ============ */
