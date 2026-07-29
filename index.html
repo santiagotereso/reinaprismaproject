@@ -476,6 +476,8 @@
                 radial-gradient(120% 130% at 88% 20%, rgba(224,103,59,0.12), rgba(20,10,9,0) 55%),
                 var(--bg);
         }
+        /* menos contenido que el resto de las secciones: el padding de 120px sobraba */
+        #servicios { padding-top: 88px; padding-bottom: 88px; }
         .svc-inner {
             display: grid;
             grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
@@ -1347,15 +1349,17 @@
             {
                 id: 'ju', name: 'JU', genre: 'R&B', photo: 'assets/ju.jpg',
                 tagline: 'Canta como si revelara un secreto al oído.',
-                bio: ['JU es una cantante de R&B de voz íntima, susurrada y profundamente envolvente.',
-                      'Canta como si revelara un secreto al oído: entre melodías suaves, silencios que respiran y una sensibilidad capaz de volver enorme lo más pequeño.'],
+                bio: ['JU es una cantante de R&B de voz íntima, susurrada y profundamente envolvente. Su manera de cantar no busca imponerse, sino acercarse: cada frase parece dicha a pocos centímetros, con la calidez y la fragilidad de una confesión nocturna.',
+                      'Canta como si revelara un secreto al oído, dejando que las palabras se deslicen entre melodías suaves, armonías delicadas y silencios que también forman parte de la música. En su voz conviven la sensualidad, la vulnerabilidad y una calma hipnótica que invita a escuchar con atención.',
+                      'Su interpretación habita los pequeños gestos: una respiración, una nota apenas sostenida, una frase que se rompe suavemente antes de desaparecer. Con una sensibilidad capaz de volver enorme lo más pequeño, JU transforma emociones cotidianas en paisajes íntimos y profundos.',
+                      'Su universo combina la elegancia del R&B contemporáneo con una atmósfera cálida, minimalista y nocturna. No necesita levantar la voz para dejar una marca: alcanza con una melodía cercana, un ritmo sutil y esa forma tan personal de cantar como si cada canción estuviera destinada a una sola persona.'],
                 links: {}
             },
             {
                 id: 'ladyboys', name: 'LadyBoys', genre: 'Jazz Fusión · Funk · Rock', photo: 'assets/lady.png',
                 tagline: 'Métricas torcidas para gente retorcida.',
-                bio: ['Ecosistema de métricas torcidas para gente retorcida: siete cuartos, cinco cuartos, siete octavos y algún sospechoso once novenos.',
-                      'Entre el jazz fusión, el funk, el rock y algunos géneros todavía no identificados, la banda crea ritmos que tropiezan, se estiran y vuelven a caer parados, como una criatura con demasiadas piernas.',
+                bio: ['Ecosistema de métricas torcidas para gente retorcida: siete cuartos, cinco cuartos, siete octavos y algún sospechoso once novenos que nadie recuerda haber invitado. La banda se mueve en un territorio donde contar hasta cuatro es apenas una sugerencia y cada compás parece diseñado para correr el piso unos centímetros justo antes de que apoyes el pie.',
+                      'Entre el jazz fusión, el funk, el rock y algunos géneros que todavía no fueron correctamente identificados por la ciencia, construyen una música inquieta, elástica y deliberadamente incómoda. Sus ritmos tropiezan, se desarman, cambian de dirección y vuelven a caer parados, como una criatura con demasiadas piernas que, contra todo pronóstico, aprendió a bailar.',
                       'Porque si la vida ya es bastante regular, la música no tiene por qué serlo.'],
                 links: {}
             }
@@ -1364,7 +1368,7 @@
         var TEAM = [
             {
                 id: 'p-lanzo', name: 'Iván Lanzo', role: 'Socio · Músico · Productor · Mezcla & Mastering', photo: 'assets/ivan-lanzo.jpg',
-                tagline: 'La música como destino.',
+                tagline: 'El buen gusto como forma de viajar.',
                 bio: ['La música como destino. El buen gusto como forma de viajar.',
                       'Lanzo es el proyecto artístico de Iván Lanzo: un universo donde la música, el diseño y los objetos dialogan para construir una experiencia que trasciende la escucha. Cada lanzamiento nace de una búsqueda artesanal, con canciones concebidas con el mismo cuidado con el que se diseña un objeto destinado a permanecer.',
                       'Entiende la música como parte de una cultura más amplia, donde el sonido convive con la imagen, los objetos, los espacios y los rituales cotidianos. No persigue el lujo como símbolo de estatus, sino la sofisticación que nace del criterio.',
@@ -1389,7 +1393,7 @@
             },
             {
                 id: 'p-lukitas', name: 'Lukitas Viotti', role: 'Asistente de Producción · Drum Doctor', photo: 'assets/lukitas.jpg',
-                tagline: 'Asistente de producción y drum doctor.',
+                tagline: 'Le busca el pulso a cada canción.',
                 bio: ['Lukitas Viotti forma parte del equipo de Reina Prisma como asistente de producción y drum doctor. Desde su rol, acompaña la organización y el desarrollo de cada proyecto, colaborando tanto en la coordinación de las distintas etapas de producción como en el trabajo específico sobre baterías y percusión.',
                       'Su mirada combina precisión técnica, sensibilidad musical y una atención especial al sonido, la interpretación y los detalles que hacen que cada canción encuentre su pulso y su identidad.'],
                 links: { instagram: 'https://www.instagram.com/lukitasviotti' }
