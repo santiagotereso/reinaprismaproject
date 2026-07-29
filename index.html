@@ -458,6 +458,9 @@
         #nosotros {
             background: var(--red);
             color: var(--paper);
+            /* la grilla del equipo es full-bleed y cierra la sección: el padding
+               de abajo dejaba una franja roja suelta debajo de las fotos */
+            padding-bottom: 0;
         }
         #nosotros .lede { color: rgba(243, 231, 221, 0.9); }
         #nosotros .card-grid { border-color: rgba(12,6,5,0.28); background: rgba(12,6,5,0.28); }
@@ -497,8 +500,9 @@
                 radial-gradient(120% 130% at 88% 20%, rgba(224,103,59,0.12), rgba(20,10,9,0) 55%),
                 var(--bg);
         }
-        /* menos contenido que el resto de las secciones: el padding de 120px sobraba */
-        #servicios { padding-top: 88px; padding-bottom: 88px; }
+        /* arriba cierra la grilla full-bleed del equipo con un corte duro: necesita
+           más aire que una sección que viene de texto. Abajo alcanza con menos. */
+        #servicios { padding-top: 160px; padding-bottom: 110px; }
         .svc-inner {
             display: grid;
             grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
@@ -1390,7 +1394,7 @@
 
         var TEAM = [
             {
-                id: 'p-lanzo', name: 'Iván Lanzo', role: 'Socio · Músico · Productor · Mezcla & Mastering', photo: 'assets/ivan-lanzo.jpg',
+                id: 'p-lanzo', name: 'Iván Lanzo', role: 'Socio · Músico · Productor · Mezcla & Mastering', photo: 'assets/ivan-lanzo-nosotros.jpg',
                 tagline: 'El buen gusto como forma de viajar.',
                 bio: ['La música como destino. El buen gusto como forma de viajar.',
                       'Lanzo es el proyecto artístico de Iván Lanzo: un universo donde la música, el diseño y los objetos dialogan para construir una experiencia que trasciende la escucha. Cada lanzamiento nace de una búsqueda artesanal, con canciones concebidas con el mismo cuidado con el que se diseña un objeto destinado a permanecer.',
