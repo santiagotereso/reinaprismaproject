@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- no indexable: es un documento interno con link para compartir, no una pagina publica del sitio -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="description" content="Documento interno de estrategia. Reina Prisma.">
@@ -236,8 +235,13 @@ td.num{font-variant-numeric:tabular-nums}
 a{color:var(--accent)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
 @media (prefers-reduced-motion: reduce){*{transition:none !important; animation:none !important}}
-</style>
 
+/* ---------- para más adelante ---------- */
+.later{list-style:none; margin:26px 0 0; padding:0; display:grid; gap:12px; max-width:var(--measure)}
+.later li{padding-left:20px; position:relative; font-size:15.5px; line-height:1.55; color:var(--muted)}
+.later li::before{content:""; position:absolute; left:0; top:.62em; width:9px; height:1px; background:var(--accent)}
+.later li strong{color:var(--text); font-weight:600}
+</style>
 <div class="page">
 <div class="wrap">
 <header class="cover">
@@ -247,7 +251,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
   <div class="meta">
     <span>Para Iván, Gonzalo y Santiago</span>
     <span>Agosto 2026</span>
-    <span>33 reglas · 6 pilares</span>
+    <span>25 reglas · 5 frentes</span>
   </div>
 </header>
 
@@ -258,11 +262,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
       <li><a href="#leer"><span class="rail-n">00</span>Cómo leer esto</a></li>
       <li><a href="#diagnostico"><span class="rail-n">01</span>Diagnóstico</a></li>
       <li><a href="#decision"><span class="rail-n">02</span>La decisión de fondo</a></li>
-      <li><a href="#pilares"><span class="rail-n">03</span>Los pilares</a></li>
+      <li><a href="#pilares"><span class="rail-n">03</span>Los frentes</a></li>
       <li><a href="#reglas"><span class="rail-n">04</span>Las reglas</a></li>
-      <li><a href="#plan"><span class="rail-n">05</span>Primeros 90 días</a></li>
-      <li><a href="#metricas"><span class="rail-n">06</span>Qué medir</a></li>
-      <li><a href="#riesgos"><span class="rail-n">07</span>Riesgos abiertos</a></li>
+      <li><a href="#riesgos"><span class="rail-n">05</span>Riesgos abiertos</a></li>
+      <li><a href="#futuro"><span class="rail-n">06</span>Para más adelante</a></li>
     </ol>
   </nav>
 
@@ -271,13 +274,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
   <section id="leer">
     <div class="s-head">
       <div class="eyebrow">00 · Cómo leer esto</div>
-      <h2>Una propuesta para discutir, no un plan para ejecutar</h2>
+      <h2>Una propuesta para discutir</h2>
     </div>
     <div class="prose">
-      <p>Esto no es un plan aprobado. Es una lista de cosas que, si Reina Prisma quiere funcionar como sello y no como estudio con clientes recurrentes, tendrían que estar pasando y hoy no pasan.</p>
-      <p>Las reglas están numeradas a propósito. La idea no es aceptarlas en bloque: es poder decir <span class="mono">“R-14 no, R-15 sí”</span> sin tener que reescribir nada. Varias van a estar mal para el caso de ustedes — las escribí desde afuera, mirando el sitio, el roster y lo que se ve públicamente. Las que sobrevivan a la discusión valen más que las 33 juntas.</p>
-      <p>Cada regla se explica sola. Si vas a contar esto en voz alta, no hace falta que nadie recuerde qué número era cuál.</p>
-      <p>Lo que sí me parece que no se puede esquivar es la sección 02. Todo lo demás depende de esa respuesta.</p>
+      <p>No es un plan aprobado. Es una lista de cosas que, si Reina Prisma quiere funcionar como sello y no como estudio con clientes recurrentes, tendrían que estar pasando y hoy no pasan.</p>
+      <p>Están numeradas para poder aceptar unas y descartar otras sin reescribir nada. Las escribí desde afuera, mirando el sitio y lo que se ve públicamente, así que varias van a estar mal.</p>
+      <p>Arrancan por lo que se puede hacer esta semana sin plata y sin permiso de nadie.</p>
     </div>
   </section>
 
@@ -286,17 +288,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
       <div class="eyebrow">01 · Diagnóstico</div>
       <h2>Lo que es cierto hoy</h2>
     </div>
-    <p class="lead">Sin adjetivos: lo que se puede verificar mirando desde afuera.</p>
     <ul class="facts">
-      <li><span class="tick ok">Existe</span><p>Hay estudio propio, un equipo de cuatro personas con roles distintos y ocho proyectos en el roster. Eso ya es un sello, aunque todavía no se comporte como uno.</p></li>
+      <li><span class="tick ok">Existe</span><p>Estudio propio, un equipo de cuatro personas con roles distintos y ocho proyectos en el roster. Eso ya es un sello, aunque todavía no se comporte como uno.</p></li>
       <li><span class="tick ok">Existe</span><p>La playlist en Spotify es el único artefacto que funciona como “sonido de la casa”. Es el activo más valioso que ya está andando.</p></li>
-      <li><span class="tick ok">Existe</span><p>El sitio quedó limpio y específico. Se sacó casi todo el relleno genérico. Eso fija un estándar: el resto de la operación todavía no está a esa altura.</p></li>
+      <li><span class="tick ok">Existe</span><p>El sitio quedó limpio y específico. Eso fija un estándar: el resto de la operación todavía no está a esa altura.</p></li>
       <li><span class="tick gap">Falta</span><p>El nombre “Reina Prisma” no aparece en ningún lado fuera del sitio propio. Ni en las bios de los artistas, ni en los créditos, ni en el campo de sello de las plataformas. Un sello invisible en el catálogo de sus propios artistas no acumula nada.</p></li>
-      <li><span class="tick gap">Falta</span><p>Dos de los ocho proyectos (JU y LadyBoys) no tienen ni un link cargado en el sitio. O quedaron a medio incorporar o no están del todo adentro. En cualquiera de los dos casos, conviene resolverlo antes de sumar un noveno.</p></li>
-      <li><span class="tick gap">Falta</span><p>La playlist no tiene todo el catálogo del roster. Si el sello tiene una sola playlist, esa playlist debería ser el catálogo completo y nada más: es lo que la vuelve una definición y no una selección de gustos.</p></li>
-      <li><span class="tick gap">Falta</span><p>No hay calendario. Sin calendario, dos lanzamientos pueden caer la misma semana y competir por la misma atención y el mismo esfuerzo de prensa.</p></li>
-      <li><span class="tick mid">Tensión</span><p>El roster va de reggae tributo a jazz fusión en métricas impares, pasando por R&amp;B, folk, punk y house. Nadie puede seguir eso por género. O el hilo es otro y hay que nombrarlo, o el roster es demasiado ancho.</p></li>
-      <li><span class="tick mid">Tensión</span><p>El estudio es fotogénico —la alfombra, el Moog, el tape, la caja de Abbey Road— y está completamente desaprovechado como contenido. Es el activo más barato que tienen sin explotar.</p></li>
+      <li><span class="tick gap">Falta</span><p>La playlist no tiene todo el catálogo del roster. Si el sello tiene una sola playlist, esa playlist debería ser el catálogo completo y nada más.</p></li>
+      <li><span class="tick gap">Falta</span><p>Dos de los ocho proyectos (JU y LadyBoys) no tienen ni un link cargado en el sitio. Conviene resolverlo antes de sumar un noveno.</p></li>
+      <li><span class="tick mid">Tensión</span><p>El estudio es fotogénico —la alfombra, el Moog, el tape, la caja de Abbey Road— y está desaprovechado como contenido. Es el activo más barato que tienen sin explotar.</p></li>
       <li><span class="tick mid">Tensión</span><p>Iván aparece dos veces: como socio del sello y como artista del roster. No está mal, pero no está resuelto ni escrito.</p></li>
     </ul>
   </section>
@@ -307,16 +306,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
       <h2>¿Estudio de servicios o sello?</h2>
     </div>
     <div class="prose">
-      <p>Hoy el sitio dice “productora integral de música”, que abarca las dos cosas. Está bien como frase y es un problema como estrategia, porque los dos negocios se financian distinto, se venden distinto y se miden distinto.</p>
+      <p>Hoy el sitio dice “productora integral de música”, que abarca las dos cosas. Está bien como frase y es un problema como estrategia: los dos negocios se financian distinto, se venden distinto y se miden distinto.</p>
     </div>
     <div class="two">
       <div class="opt">
         <h4>Estudio de servicios</h4>
         <ul>
           <li>Cobrás por trabajo hecho: grabación, mezcla, master, producción.</li>
-          <li>Plata predecible, entra rápido, no escala: se acaba cuando se acaban las horas.</li>
-          <li>El cliente se va con su master y no vuelve a dejar nada.</li>
-          <li>Marketing = mostrar oficio y sala.</li>
+          <li>Plata predecible y rápida, pero no escala: se acaba cuando se acaban las horas.</li>
+          <li>El cliente se va con su master y no deja nada.</li>
         </ul>
       </div>
       <div class="opt pick">
@@ -325,51 +323,45 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
           <li>Cobrás servicios <em>y</em> te quedás con una parte de lo que generan los proyectos que desarrollás.</li>
           <li>Tarda más en pagar, pero acumula: cada master queda en el catálogo.</li>
           <li>El roster es al mismo tiempo la prueba de que el estudio sabe hacerlo.</li>
-          <li>Marketing = mostrar artistas creciendo.</li>
         </ul>
       </div>
     </div>
     <div class="verdict">
-      <p style="margin:0"><strong>Mi recomendación:</strong> sello, con los servicios financiando el desarrollo. Es lo que ya están haciendo de hecho — la diferencia es dejar de hacerlo por accidente. En la práctica significa tres cosas incómodas: que haya acuerdos escritos con los artistas, que el sello aparezca en cada release, y que el estudio tenga un precio para terceros que subsidie el tiempo que se le dedica al roster.</p>
+      <p style="margin:0"><strong>Mi recomendación:</strong> sello, con los servicios financiando el desarrollo. Es lo que ya están haciendo de hecho — la diferencia es dejar de hacerlo por accidente. En la práctica significa tres cosas incómodas: acuerdos escritos con los artistas, que el sello aparezca en cada release, y que el estudio tenga un precio para terceros que subsidie el tiempo que se le dedica al roster.</p>
     </div>
   </section>
 
   <section id="pilares">
     <div class="s-head">
-      <div class="eyebrow">03 · Los pilares</div>
-      <h2>Seis frentes</h2>
+      <div class="eyebrow">03 · Los frentes</div>
+      <h2>Cinco frentes</h2>
     </div>
-    <p class="lead">Están ordenados por lo que rinde más rápido con lo que ya tienen. Los dos primeros son casi gratis y son los que más cambian.</p>
+    <p class="lead">Ordenados por lo que rinde más rápido con lo que ya tienen.</p>
     <div class="pillars">
       <div class="pillar">
         <p class="pname">Que el sello se vea</p>
-        <p>Reina Prisma tiene ocho vidrieras que hoy no dicen su nombre. Cada artista es una superficie de marca que ya existe, con audiencia propia, y no cuesta un peso activarla. Es el pilar más barato y el que tiene el efecto más grande: hace que ocho proyectos sueltos empiecen a leerse como un catálogo.</p>
-        <p class="refs">R-01 a R-08</p>
+        <p>Ocho vidrieras que hoy no dicen su nombre. Es el frente más barato —no cuesta un peso— y el que más cambia: hace que ocho proyectos sueltos empiecen a leerse como un catálogo.</p>
+        <p class="refs">R-01 a R-09</p>
       </div>
       <div class="pillar">
-        <p class="pname">Ritmo</p>
-        <p>Un sello sin calendario es un grupo de gente que a veces saca música. La cadencia importa más que el volumen: es preferible algo cada dos meses de forma confiable que cinco cosas juntas y después seis meses de silencio. Además destraba el pitch a editoriales, que tiene plazos fijos.</p>
-        <p class="refs">R-09 a R-13</p>
+        <p class="pname">Contenido</p>
+        <p>La sala es un personaje y no está contada. No hay que producir contenido aparte: hay que registrar lo que ya pasa.</p>
+        <p class="refs">R-10 a R-13</p>
       </div>
       <div class="pillar">
-        <p class="pname">El estudio como medio</p>
-        <p>La sala es un personaje y hoy no está contada. No hace falta producir contenido aparte: hay que registrar lo que ya sucede. Una sesión filmada por mes alimenta un mes entero de posteos y, de paso, es el mejor argumento de venta para el brazo de servicios.</p>
-        <p class="refs">R-14 a R-19</p>
-      </div>
-      <div class="pillar">
-        <p class="pname">Cruces internos</p>
-        <p>Ocho proyectos que no se tocan entre sí son ocho proyectos. Ocho que colaboran son una escena. Los features, los remixes y los créditos compartidos hacen que la audiencia de uno se derrame en la del otro sin gastar en publicidad.</p>
-        <p class="refs">R-20 a R-23</p>
+        <p class="pname">Cruces</p>
+        <p>Ocho proyectos que no se tocan entre sí son ocho proyectos. Ocho que colaboran son una escena.</p>
+        <p class="refs">R-14 a R-17</p>
       </div>
       <div class="pillar">
         <p class="pname">En vivo</p>
-        <p>Es donde el sello deja de ser un logo y se vuelve algo a lo que la gente siente que pertenece. El estudio no sirve para eso —es hermoso pero no está hecho para público—, así que hay que salir a una sala, con una frecuencia que no coma la agenda de producción.</p>
-        <p class="refs">R-24 a R-26</p>
+        <p>Donde el sello deja de ser un logo y se vuelve algo a lo que la gente pertenece. El estudio no sirve para eso, así que la fecha va afuera.</p>
+        <p class="refs">R-18</p>
       </div>
       <div class="pillar">
         <p class="pname">Plata</p>
-        <p>Cinco maneras distintas de que entre plata y hoy casi todo entra por una sola. La más desaprovechada es licenciar música para publicidad y audiovisual: Gonzalo ya lo hace, pero cada vez que aparece un trabajo, no como algo que se sale a buscar.</p>
-        <p class="refs">R-27 a R-33</p>
+        <p>Cinco maneras de que entre plata y hoy casi todo entra por una sola. La más desaprovechada es licenciar música para publicidad y audiovisual.</p>
+        <p class="refs">R-19 a R-25</p>
       </div>
     </div>
   </section>
@@ -377,26 +369,26 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
   <section id="reglas">
     <div class="s-head">
       <div class="eyebrow">04 · Las reglas</div>
-      <h2>Treinta y tres cosas concretas</h2>
+      <h2>Veinticinco cosas concretas</h2>
     </div>
-    <p class="lead">Cada una es una acción, no un tema. Si no se puede saber quién la hace y cuándo está hecha, no entró a la lista.</p>
 
     <div class="group">
-      <div class="group-head"><span class="gname">Marca</span><span class="grange">R-01 — R-08</span></div>
+      <div class="group-head"><span class="gname">Que el sello se vea</span><span class="grange">R-01 — R-09</span></div>
       <ul class="rules">
-        <li class="rule"><span class="rid">R-01</span><div><p class="what">Todos los artistas mencionan Reina Prisma en su bio de Instagram, Spotify y YouTube, con link.</p><p class="why">Es el disparador de todo este documento. Hoy el sello es invisible fuera de su propio sitio: alguien que llega por JJJULIAN no tiene forma de enterarse de que existe Cocolero.</p></div></li>
-        <li class="rule"><span class="rid">R-02</span><div><p class="what">El campo “sello” de la distribuidora dice Reina Prisma en cada release.</p><p class="why">Es el único lugar donde Spotify, Apple y Deezer registran a qué sello pertenece un tema. Si va vacío o con el nombre del artista, el catálogo no se agrupa nunca y se pierde la única métrica agregada que existe.</p></div></li>
-        <li class="rule"><span class="rid">R-03</span><div><p class="what">Bloque de créditos estándar en toda descripción de YouTube, Bandcamp y nota de prensa.</p><p class="why">Mismo orden siempre: composición, producción, grabación, mezcla, master, arte. Es lo que convierte el trabajo en reputación acumulable en lugar de trabajo suelto.</p></div></li>
-        <li class="rule"><span class="rid">R-04</span><div><p class="what">Un solo nombre por artista, idéntico en todas las plataformas.</p><p class="why">Hoy JJJULIAN aparece con y sin tilde según dónde se mire. Parece un detalle y parte las búsquedas, las estadísticas y los créditos en dos entidades distintas.</p></div></li>
-        <li class="rule"><span class="rid">R-05</span><div><p class="what">Felipe — o el artista a cargo del arte de cada disco — trabaja sobre una constante visual que aparezca en todas las tapas del roster.</p><p class="why">No el logo pegado en una esquina: una constante — una posición, una familia tipográfica, un tratamiento de imagen — que se reconozca en la grilla de Spotify sin leer el nombre. Puede definirla Felipe y que cada artista la aplique, o puede salir de una charla entre los dos; lo que no puede pasar es que cada tapa se resuelva de cero. Es lo que hace que un catálogo se vea como un catálogo.</p></div></li>
-        <li class="rule"><span class="rid">R-06</span><div><p class="what">Regla de dos vías: el artista etiqueta al sello en cada posteo de lanzamiento, y el sello repostea siempre.</p><p class="why">La reciprocidad explícita evita la conversación incómoda de “por qué a él lo subiste y a mí no”. Si no etiqueta, no hay amplificación, y no hay nada que discutir.</p></div></li>
-        <li class="rule"><span class="rid">R-07</span><div><p class="what">Todo el roster linkea la playlist del sello en stories el día de cada lanzamiento.</p><p class="why">Ocho cuentas empujando a un mismo lugar una vez por lanzamiento. Es el uso más eficiente de la audiencia que ya tienen.</p></div></li>
-        <li class="rule"><span class="rid">R-08</span><div><p class="what">Un one-liner acordado por cada proyecto del roster, que se usa igual en prensa, en el sitio y en las bios.</p><p class="why">Varios ya existen y son buenos —“canta como si revelara un secreto al oído”, “métricas torcidas para gente retorcida”—. Otros todavía repiten el género en vez de decir algo: “fusión R&amp;B, groove y jazz experimental” no es una frase, es una etiqueta. Abajo hay propuestas para los cuatro que faltan. Lo importante no es cuál se elige: es que después sea el mismo en todos lados. Esto aplica solo al roster: el equipo no necesita slogan, con el rol alcanza.</p></div></li>
+        <li class="rule"><span class="rid">R-01</span><div><p class="what">Todos los artistas mencionan Reina Prisma en su bio de Instagram, Spotify y YouTube, con link.</p><p class="why">Hoy el sello es invisible fuera de su propio sitio: alguien que llega por JJJULIAN no tiene forma de enterarse de que existe Cocolero.</p></div></li>
+        <li class="rule"><span class="rid">R-02</span><div><p class="what">El campo “sello” de la distribuidora dice Reina Prisma en cada release.</p><p class="why">Es el único lugar donde Spotify, Apple y Deezer registran a qué sello pertenece un tema. Si va vacío o con el nombre del artista, el catálogo no se agrupa nunca.</p></div></li>
+        <li class="rule"><span class="rid">R-03</span><div><p class="what">La playlist del sello es el catálogo completo del roster. Todo lo que sacan ellos, y nada más.</p><p class="why">Deja de ser una selección de gustos y pasa a ser una definición: “esto es Reina Prisma”. Ahí seguirla equivale a seguir al sello.</p></div></li>
+        <li class="rule"><span class="rid">R-04</span><div><p class="what">Toda pieza de contenido lleva a la playlist o al sitio.</p><p class="why">Un video que anda bien y no lleva a ningún lado deja alcance, no deja público. El link correcto en la bio y en cada descripción, apuntando siempre al mismo lugar.</p></div></li>
+        <li class="rule"><span class="rid">R-05</span><div><p class="what">Todo el roster linkea la playlist en stories el día de cada lanzamiento.</p><p class="why">Ocho cuentas empujando a un mismo lugar. Es el uso más eficiente de la audiencia que ya tienen.</p></div></li>
+        <li class="rule"><span class="rid">R-06</span><div><p class="what">Regla de dos vías: el artista etiqueta al sello en cada posteo de lanzamiento, y el sello repostea siempre.</p><p class="why">La reciprocidad explícita evita la conversación incómoda de “por qué a él lo subiste y a mí no”. Si no etiqueta, no hay amplificación.</p></div></li>
+        <li class="rule"><span class="rid">R-07</span><div><p class="what">Bloque de créditos estándar en toda descripción de YouTube, Bandcamp y nota de prensa.</p><p class="why">Mismo orden siempre: composición, producción, grabación, mezcla, master, arte. Es lo que convierte el trabajo en reputación acumulable.</p></div></li>
+        <li class="rule"><span class="rid">R-08</span><div><p class="what">Un one-liner acordado por cada proyecto del roster, igual en prensa, en el sitio y en las bios.</p><p class="why">Varios ya existen y son buenos. Otros repiten el género en vez de decir algo: “fusión R&amp;B, groove y jazz experimental” no es una frase, es una etiqueta. Abajo hay propuestas para los cuatro que faltan.</p></div></li>
+        <li class="rule"><span class="rid">R-09</span><div><p class="what">Una constante visual en todas las tapas del roster.</p><p class="why">No el logo en una esquina: algo que se repita —una posición, una tipografía, un tratamiento de imagen— y se reconozca en la grilla de Spotify sin leer el nombre. La define Felipe o el artista a cargo del arte de cada disco.</p></div></li>
       </ul>
     </div>
 
     <h3 style="margin-top:34px">Los one-liners que faltan</h3>
-    <p class="prose" style="margin:0 0 4px">Los cuatro de abajo hoy repiten el género en vez de decir algo. Son propuestas para discutir, no definiciones: la idea es salir de acá con uno elegido para cada uno. Solo va el roster — el equipo no necesita.</p>
+    <p class="prose" style="margin:0 0 4px">Propuestas para discutir, no definiciones. Solo va el roster — el equipo no necesita.</p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>Quién</th><th>Dice hoy</th><th>Propuesta</th></tr></thead>
@@ -410,177 +402,69 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
     </div>
 
     <div class="group">
-      <div class="group-head"><span class="gname">Ritmo</span><span class="grange">R-09 — R-13</span></div>
+      <div class="group-head"><span class="gname">Contenido</span><span class="grange">R-10 — R-13</span></div>
       <ul class="rules">
-        <li class="rule"><span class="rid">R-09</span><div><p class="what">Calendario único de lanzamientos, visible para todo el roster.</p><p class="why">Un solo lugar donde figure qué sale y cuándo. Sin esto, las cuatro reglas que siguen no se pueden cumplir, porque todas dependen de saber con anticipación qué se viene.</p></div></li>
-        <li class="rule"><span class="rid">R-10</span><div><p class="what">Nunca dos lanzamientos del roster en la misma semana.</p><p class="why">Compiten por la misma audiencia, por el mismo esfuerzo de prensa y por las mismas stories. Separarlos no cuesta nada y duplica el efecto de cada uno.</p></div></li>
-        <li class="rule"><span class="rid">R-11</span><div><p class="what">Cadencia mínima por artista: algo publicado cada dos o tres meses.</p><p class="why">No tiene que ser una canción, y para la mayoría del roster no va a serlo. Un video, una sesión filmada, un remix o un vivo cuentan igual. Lo que importa es que el proyecto no desaparezca de la vista durante medio año entre disco y disco.</p></div></li>
-        <li class="rule"><span class="rid">R-12</span><div><p class="what">Pitch a las editoriales de Spotify, cuatro semanas antes de cada lanzamiento.</p>
-          <p class="why">Las playlists editoriales las arma gente que trabaja en Spotify, y solo se entra cargando el tema en Spotify for Artists <em>antes</em> de que salga. Es gratis, lleva quince minutos y una vez publicado el tema el formulario desaparece.</p>
-          <p class="why" style="margin-top:9px">Lo que casi nadie sabe: aunque la editorial diga que no —y va a decir que no casi siempre—, pitchear hace que Spotify le muestre el tema a los seguidores del artista en su Release Radar. Sin pitch, ese empujón del primer día no existe.</p>
-          <p class="why" style="margin-top:9px">No se pierde por falta de tiempo, se pierde porque nadie se acordó. Por eso depende del calendario.</p>
-          <div class="panel">
-            <p class="panel-t">A qué apuntar en cada caso</p>
-            <div class="pairs">
-              <div><span>JJJULIAN · JU</span><span class="muted">R&amp;B y soul en español</span></div>
-              <div><span>Cocolero</span><span class="muted">rock argentino, pop alternativo</span></div>
-              <div><span>DAEFUQ · LadyBoys</span><span class="muted">jazz fusión, groove</span></div>
-              <div><span>Chicos Crema</span><span class="muted">house, disco, electrónica</span></div>
-              <div><span>Ayanday</span><span class="muted">reggae latino</span></div>
-              <div><span>Todos</span><span class="muted">Novedades Viernes Argentina</span></div>
-            </div>
-            <p class="panel-n">Los nombres exactos cambian seguido: el listado real de editoriales disponibles aparece en el propio formulario de Spotify for Artists al momento de pitchear. Esto es el tipo de lista al que apunta cada proyecto, para no mandar todo a cualquier lado.</p>
-          </div></div></li>
-        <li class="rule"><span class="rid">R-13</span><div><p class="what">La playlist del sello es el catálogo completo del roster. Todo lo que sacan ellos, y nada más.</p>
-          <p class="why">Deja de ser una selección de gustos y pasa a ser una definición: “esto es Reina Prisma”. Ahí seguirla equivale a seguir al sello. No se actualiza en fecha fija sino cuando sale algo, que es un ritmo sostenible.</p></div></li>
-      </ul>
-    </div>
-
-    <div class="group">
-      <div class="group-head"><span class="gname">Contenido</span><span class="grange">R-14 — R-19</span></div>
-      <ul class="rules">
-        <li class="rule"><span class="rid">R-14</span><div><p class="what">Toda pieza de contenido lleva a la playlist o al sitio.</p>
-          <p class="why">Va primera porque sin esto lo demás no sirve de nada: un video que anda bien y no lleva a ningún lado deja alcance, no deja público. El link correcto en la bio y en cada descripción, apuntando siempre al mismo lugar.</p></div></li>
-        <li class="rule"><span class="rid">R-15</span><div><p class="what">“Reina Prisma Sessions”: sesiones filmadas en el estudio, con formato fijo.</p>
+        <li class="rule"><span class="rid">R-10</span><div><p class="what">“Reina Prisma Sessions”: sesiones filmadas en el estudio, con formato fijo.</p>
           <p class="why">Un tema, una toma, cámara quieta. El formato fijo es lo que la hace sostenible.</p>
-          <p class="why" style="margin-top:9px"><strong>Cada cuánto:</strong> una por mes suena bien pero con ocho proyectos significa que cada artista aparece cada ocho meses. Mejor grabar de a tandas —tres o cuatro en un mismo día, se arma cámara y luces una sola vez— y publicarlas de a una. Dos jornadas al año cubren ocho publicaciones. Y arrancar solo con los proyectos que están sacando música.</p></div></li>
-        <li class="rule"><span class="rid">R-16</span><div><p class="what">De cada sesión salen un video largo y cinco verticales.</p><p class="why">El costo de recortar es casi cero y alimenta un mes entero de redes. Grabar sin planificar los recortes es el error más común y el más caro.</p></div></li>
-        <li class="rule"><span class="rid">R-17</span><div><p class="what">Nadie graba sin que alguien registre.</p><p class="why">El registro es parte de la sesión, no un extra que se hace si sobra tiempo. En seis meses de trabajo normal se junta más material del que se puede publicar.</p></div></li>
-        <li class="rule"><span class="rid">R-18</span><div><p class="what">Contenido de sala y equipo: el Moog, el tape, la caja de Abbey Road, la alfombra.</p><p class="why">La audiencia de gearheads es enorme, muy activa y de las más baratas de alcanzar. Además es el contenido que directamente vende horas de estudio.</p></div></li>
-        <li class="rule"><span class="rid">R-19</span><div><p class="what">Serie del Drum Doctor con Lukitas.</p>
+          <p class="why" style="margin-top:9px">Conviene grabar de a tandas —tres o cuatro en un mismo día, se arma cámara y luces una sola vez— y publicarlas de a una. Dos jornadas al año cubren ocho publicaciones. Arrancar solo con los proyectos que están sacando música.</p></div></li>
+        <li class="rule"><span class="rid">R-11</span><div><p class="what">Registrar lo que ya pasa en el estudio.</p>
+          <p class="why">De cada sesión salen un video largo y cinco verticales: recortar cuesta casi nada y alimenta un mes de redes. Nadie graba sin que alguien filme — el registro es parte de la sesión, no un extra. Y la sala misma es contenido: el Moog, el tape, la caja de Abbey Road. La audiencia de gearheads es enorme y de las más baratas de alcanzar.</p></div></li>
+        <li class="rule"><span class="rid">R-12</span><div><p class="what">Serie del Drum Doctor con Lukitas.</p>
           <p class="why">Un drum doctor afina y prepara baterías para que graben bien. Es un oficio invisible, muy visual y nadie lo está contando en castellano.</p>
-          <p class="why" style="margin-top:9px">Capítulos de dos a cuatro minutos, siempre con la misma estructura — el problema, la intervención, el antes y después en audio. Da para muchos: por qué un tom suena a caja de cartón, qué cambia según el parche, cómo se prepara un bombo para grabar contra para tocar en vivo.</p>
-          <p class="why" style="margin-top:9px">Funciona porque la diferencia se escucha en diez segundos, sin explicar nada. Es el video que los bateristas se mandan entre ellos, y trae justo al público que después alquila el estudio.</p></div></li>
+          <p class="why" style="margin-top:9px">Capítulos de dos a cuatro minutos, siempre con la misma estructura — el problema, la intervención, el antes y después en audio. Funciona porque la diferencia se escucha en diez segundos, sin explicar nada. Es el video que los bateristas se mandan entre ellos, y trae justo al público que después alquila el estudio.</p></div></li>
+        <li class="rule"><span class="rid">R-13</span><div><p class="what">Algo publicado cada dos o tres meses por artista.</p><p class="why">No tiene que ser una canción, y para la mayoría del roster no va a serlo. Un video, una sesión, un remix o un vivo cuentan igual. Lo que importa es que el proyecto no desaparezca durante medio año entre disco y disco.</p></div></li>
       </ul>
     </div>
 
     <div class="group">
-      <div class="group-head"><span class="gname">Cruces</span><span class="grange">R-20 — R-23</span></div>
+      <div class="group-head"><span class="gname">Cruces</span><span class="grange">R-14 — R-17</span></div>
       <ul class="rules">
-        <li class="rule"><span class="rid">R-20</span><div><p class="what">Cada artista participa en al menos un track de otro del roster por año.</p><p class="why">Es la forma más barata que existe de mezclar audiencias. Además, con un roster tan disperso en géneros, los cruces son lo que vuelve creíble que estén todos en el mismo lugar.</p></div></li>
-        <li class="rule"><span class="rid">R-21</span><div><p class="what">Chicos Crema remixan temas del roster y los tocan en sus sets.</p><p class="why">Convierte cada fecha de DJ en promoción del catálogo, sin que parezca promoción. Es el activo más subutilizado que tienen: un dúo que ya toca para gente que no conoce al resto del roster.</p></div></li>
-        <li class="rule"><span class="rid">R-22</span><div><p class="what">Iván y Gonzalo acreditados siempre igual, en todas las plataformas.</p><p class="why">Los créditos de producción y mezcla son lo que construye reputación de productor, que es lo que después trae clientes al brazo de servicios. Hoy se están perdiendo por inconsistencia.</p></div></li>
-        <li class="rule"><span class="rid">R-23</span><div><p class="what">Los proyectos del roster se abren fechas entre ellos antes de buscar terceros.</p><p class="why">Cada show se convierte en presentación cruzada. Y es una razón concreta para que un artista quiera estar en el sello y no afuera.</p></div></li>
+        <li class="rule"><span class="rid">R-14</span><div><p class="what">Cada artista participa en al menos un track de otro del roster por año.</p><p class="why">Es la forma más barata de mezclar audiencias. Y con un roster tan disperso en géneros, los cruces son lo que vuelve creíble que estén todos en el mismo lugar.</p></div></li>
+        <li class="rule"><span class="rid">R-15</span><div><p class="what">Chicos Crema remixan temas del roster y los tocan en sus sets.</p><p class="why">Convierte cada fecha de DJ en promoción del catálogo, sin que parezca promoción. Es el activo más subutilizado que tienen.</p></div></li>
+        <li class="rule"><span class="rid">R-16</span><div><p class="what">Iván y Gonzalo acreditados siempre igual, en todas las plataformas.</p><p class="why">Los créditos de producción y mezcla son lo que construye reputación de productor, que es lo que después trae clientes al brazo de servicios.</p></div></li>
+        <li class="rule"><span class="rid">R-17</span><div><p class="what">Los proyectos del roster se abren fechas entre ellos antes de buscar terceros.</p><p class="why">Cada show se convierte en presentación cruzada. Y es una razón concreta para querer estar en el sello y no afuera.</p></div></li>
       </ul>
     </div>
 
     <div class="group">
-      <div class="group-head"><span class="gname">En vivo</span><span class="grange">R-24 — R-26</span></div>
+      <div class="group-head"><span class="gname">En vivo</span><span class="grange">R-18</span></div>
       <ul class="rules">
-        <li class="rule"><span class="rid">R-24</span><div><p class="what">Una noche Reina Prisma cada tres meses, en una sala pensada para shows.</p>
+        <li class="rule"><span class="rid">R-18</span><div><p class="what">Una noche Reina Prisma cada tres meses, en una sala pensada para shows.</p>
           <p class="why">El estudio es hermoso pero no está hecho para recibir público, así que la fecha va afuera. Cada tres meses se sostiene sin comerse la agenda de producción: cuatro por año ya es una temporada.</p>
           <p class="why" style="margin-top:9px">Formato fijo: tres proyectos del roster y Chicos Crema cerrando. Lo que la convierte en una cita es que sea siempre la misma frecuencia y el mismo formato.</p></div></li>
-        <li class="rule"><span class="rid">R-25</span><div><p class="what">Una persona a cargo de conseguir y sostener las fechas.</p>
-          <p class="why">Esto es lo que hace que el pilar de vivo exista o no. Buscar salas, negociar condiciones, coordinar fechas y hacer seguimiento es un trabajo en sí mismo, y si queda repartido entre los cuatro no lo hace nadie: es lo primero que se cae cuando hay una entrega encima.</p>
-          <p class="why" style="margin-top:9px">Puede ser alguien del equipo con esa función asignada explícitamente, o alguien de afuera que cobre por fecha o un porcentaje. Lo que no funciona es que sea de todos. Si nadie puede tomarlo, conviene bajar a dos fechas al año y no fingir que van a ser cuatro.</p></div></li>
-        <li class="rule"><span class="rid">R-26</span><div><p class="what">Relación estable con dos o tres salas, en vez de tocar en una distinta cada vez.</p><p class="why">Mejores condiciones, mejores fechas y un lugar que el público empieza a asociar al sello. Rotar de sala todo el tiempo hace que cada show arranque de cero.</p></div></li>
       </ul>
     </div>
 
     <div class="group">
-      <div class="group-head"><span class="gname">Plata</span><span class="grange">R-27 — R-33</span></div>
+      <div class="group-head"><span class="gname">Plata</span><span class="grange">R-19 — R-25</span></div>
       <ul class="rules">
-        <li class="rule"><span class="rid">R-27</span><div><p class="what">Saber de dónde salió cada peso del último año.</p>
-          <p class="why">Una tarde repartiendo los movimientos de doce meses en cinco columnas: producción para terceros, temas propios, derechos de autor, fechas y licencias. Con el orden de magnitud alcanza para ver qué está sosteniendo al sello.</p></div></li>
-        <li class="rule"><span class="rid">R-28</span><div><p class="what">Salir a licenciar la música que ya existe para publicidad, series y cine.</p>
-          <p class="why">Licenciar es cobrar porque una marca o una serie use un tema <em>ya grabado</em>. No se compone nada nuevo, y por eso es la línea con mejor margen. Gonzalo ya lo hace, pero cuando el trabajo aparece, no como algo que se sale a buscar. Hacen falta tres cosas: una selección de temas listos, un precio de referencia, y mandársela a productoras y agencias.</p></div></li>
-        <li class="rule"><span class="rid">R-29</span><div><p class="what">Registrar los temas para poder cobrar lo que generan.</p>
-          <p class="why">Cada vez que un tema suena en radio, en un bar o en una plataforma genera plata para quien lo compuso — pero solo se cobra si la obra está registrada. Si no lo está, esa plata se genera igual y se la queda otro. Es trámite puro y no vence.</p></div></li>
-        <li class="rule"><span class="rid">R-30</span><div><p class="what">Definir quién se lleva qué antes de grabar, no después.</p>
-          <p class="why">El “split” es el porcentaje de la canción que le toca a cada uno: música, letra, a veces producción. Antes de entrar al estudio es una charla de cinco minutos; después de que el tema funcionó es la charla que rompe bandas. Alcanza con una hoja firmada.</p></div></li>
-        <li class="rule"><span class="rid">R-31</span><div><p class="what">Un contrato modelo para los artistas que se suman.</p>
-          <p class="why">Dos páginas: qué pone el sello, qué pone el artista, de quién son las grabaciones, cómo se reparte lo que entra y qué pasa si alguno se va. Hoy cada incorporación depende de cómo se dio la charla, y en dos años cada uno se va a acordar de algo distinto, de buena fe.</p></div></li>
-        <li class="rule"><span class="rid">R-32</span><div><p class="what">Un precio del estudio para gente de afuera.</p>
-          <p class="why">El estudio le regala tiempo al roster y eso lo paga alguien: los clientes que sí pagan. Un precio escrito filtra las consultas que no van a ningún lado y le pone valor a las horas que hoy figuran como cero.</p></div></li>
-        <li class="rule"><span class="rid">R-33</span><div><p class="what">Poner por escrito cómo se reparte entre ustedes.</p>
-          <p class="why">Hoy no hay un acuerdo concreto sobre qué le toca a cada socio según cómo salgan las cosas. Los aportes no son iguales y no tienen por qué serlo: el estudio es de Iván y eso es capital puesto, Gonzalo pone una cantidad de horas y de energía que también vale, Felipe define la identidad visual de todo lo que sale. Cada uno de esos aportes se cuenta distinto.</p>
-          <p class="why" style="margin-top:9px">Lo que no conviene es que la conversación llegue recién cuando haya algo grande para repartir. Ahí deja de ser una charla entre socios y pasa a ser una negociación, con todo lo que ya se puso de por medio. Ahora el costo de acordar es bajo justamente porque todavía no hay tanto en juego.</p></div></li>
+        <li class="rule"><span class="rid">R-19</span><div><p class="what">Saber de dónde salió cada peso del último año.</p><p class="why">Una tarde repartiendo los movimientos de doce meses en cinco columnas: producción para terceros, temas propios, derechos de autor, fechas y licencias. Con el orden de magnitud alcanza para ver qué está sosteniendo al sello.</p></div></li>
+        <li class="rule"><span class="rid">R-20</span><div><p class="what">Salir a licenciar la música que ya existe para publicidad, series y cine.</p><p class="why">Licenciar es cobrar porque una marca o una serie use un tema <em>ya grabado</em>. No se compone nada nuevo, y por eso es la línea con mejor margen. Gonzalo ya lo hace, pero cuando el trabajo aparece, no como algo que se sale a buscar. Hacen falta tres cosas: una selección de temas listos, un precio de referencia, y mandársela a productoras y agencias.</p></div></li>
+        <li class="rule"><span class="rid">R-21</span><div><p class="what">Registrar los temas para poder cobrar lo que generan.</p><p class="why">Cada vez que un tema suena en radio, en un bar o en una plataforma genera plata para quien lo compuso — pero solo se cobra si la obra está registrada. Si no lo está, esa plata se genera igual y se la queda otro. Es trámite puro y no vence.</p></div></li>
+        <li class="rule"><span class="rid">R-22</span><div><p class="what">Definir quién se lleva qué antes de grabar, no después.</p><p class="why">El “split” es el porcentaje de la canción que le toca a cada uno: música, letra, a veces producción. Antes de entrar al estudio es una charla de cinco minutos; después de que el tema funcionó es la charla que rompe bandas. Alcanza con una hoja firmada.</p></div></li>
+        <li class="rule"><span class="rid">R-23</span><div><p class="what">Un contrato modelo para los artistas que se suman.</p><p class="why">Dos páginas: qué pone el sello, qué pone el artista, de quién son las grabaciones, cómo se reparte lo que entra y qué pasa si alguno se va. Hoy cada incorporación depende de cómo se dio la charla, y en dos años cada uno se va a acordar de algo distinto, de buena fe.</p></div></li>
+        <li class="rule"><span class="rid">R-24</span><div><p class="what">Un precio del estudio para gente de afuera.</p><p class="why">El estudio le regala tiempo al roster y eso lo paga alguien: los clientes que sí pagan. Un precio escrito filtra las consultas que no van a ningún lado y le pone valor a las horas que hoy figuran como cero.</p></div></li>
+        <li class="rule"><span class="rid">R-25</span><div><p class="what">Poner por escrito cómo se reparte entre ustedes.</p>
+          <p class="why">Hoy no hay un acuerdo concreto sobre qué le toca a cada socio según cómo salgan las cosas. Los aportes no son iguales y no tienen por qué serlo: el estudio es de Iván y eso es capital puesto, Gonzalo pone una cantidad de horas y de energía que también vale, Felipe define la identidad visual de todo lo que sale.</p>
+          <p class="why" style="margin-top:9px">Lo que no conviene es que la conversación llegue recién cuando haya algo grande para repartir. Ahí deja de ser una charla entre socios y pasa a ser una negociación. Ahora el costo de acordar es bajo justamente porque todavía no hay tanto en juego.</p></div></li>
       </ul>
-    </div>
-  </section>
-
-  <section id="plan">
-    <div class="s-head">
-      <div class="eyebrow">05 · Primeros 90 días</div>
-      <h2>Por dónde empezar</h2>
-    </div>
-    <p class="lead">Ordenado para que lo gratis y rápido vaya primero, y lo que necesita decisiones de fondo vaya después. Nada de esto requiere plata nueva.</p>
-    <div class="phases">
-      <div class="phase">
-        <span class="pn">Días 1 a 30</span>
-        <h4>Ordenar lo que ya existe</h4>
-        <ul>
-          <li><strong>Corregir las bios de los ocho.</strong> La bio es el textito de presentación de cada cuenta: el de Instagram, el de Spotify, el de YouTube. En los tres tiene que estar el mismo nombre, la mención a Reina Prisma con link, y el one-liner elegido. Una tarde para los ocho proyectos.</li>
-          <li><strong>Playlist completa.</strong> Sumar todo el catálogo del roster que hoy falta, y sacar lo que no sea del roster.</li>
-          <li><strong>Poner “Reina Prisma” donde va el sello.</strong> Cuando se sube un tema por la distribuidora hay un campo que dice <em>sello</em> o <em>label</em>. Ahí es donde Spotify y Apple leen a quién pertenece el tema. Hay que corregirlo en todo lo ya publicado, no solo en lo que viene.</li>
-          <li><strong>Mirar de dónde salió la plata del último año.</strong> Agarrar los ingresos de los últimos doce meses y separarlos en cinco montones: lo que entró por producir para gente de afuera, lo que generaron los temas propios, derechos de autor, fechas, y trabajos para publicidad o audiovisual. Sirve para saber qué está sosteniendo al sello hoy.</li>
-          <li><strong>Calendario.</strong> Abrirlo y cargar lo que haya. Sin fechas comprometidas todavía sirve de poco, pero conviene que exista antes de que empiece a haberlas.</li>
-        </ul>
-      </div>
-      <div class="phase">
-        <span class="pn">Días 31 a 60</span>
-        <h4>Poner a andar el ritmo</h4>
-        <ul>
-          <li><strong>Primera tanda de sesiones.</strong> Tres filmadas en un mismo día, con los recortes verticales planificados de antemano.</li>
-          <li><strong>Constante visual de tapas.</strong> Definirla y aplicarla a los próximos dos lanzamientos, para ver si funciona antes de comprometerla.</li>
-          <li><strong>Primer pitch a editoriales.</strong> Con la próxima salida, cuatro semanas antes. Que lo haga una persona y quede claro que es siempre la misma.</li>
-          <li><strong>Primeros dos capítulos del Drum Doctor.</strong> Suficiente para saber si el formato engancha o no.</li>
-        </ul>
-      </div>
-      <div class="phase">
-        <span class="pn">Días 61 a 90</span>
-        <h4>Lo que necesita decisión</h4>
-        <ul>
-          <li><strong>Sello o servicios.</strong> Definirlo por escrito entre los socios. Es la sección 02 y condiciona todo lo demás.</li>
-          <li><strong>Contrato modelo y splits.</strong> Escribirlos y estrenarlos con el próximo caso nuevo, no con los que ya están.</li>
-          <li><strong>Primera fecha.</strong> Elegir sala y día de la primera noche Reina Prisma.</li>
-          <li><strong>Licencias.</strong> Una productora que hace una publicidad, una serie o un documental necesita música, y muchas veces le sale más barato y más rápido pagar por usar un tema que ya existe que encargar uno nuevo. Eso es licenciar: cobrás porque usen una grabación que ya tenés hecha. Lo concreto de esta etapa es elegir diez o quince temas del catálogo que funcionen para imagen, ponerles un precio de referencia, armar un link con eso, y mandárselo a productoras y agencias. No hay que grabar nada nuevo.</li>
-          <li><strong>Dos cruces del año.</strong> Definir qué artistas colaboran entre sí y con qué fecha.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="metricas">
-    <div class="s-head">
-      <div class="eyebrow">06 · Qué medir</div>
-      <h2>Seis números</h2>
-    </div>
-    <p class="lead">Pocos y revisados siempre el mismo día. Un tablero que nadie mira es peor que no tener tablero.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Número</th><th>Por qué importa</th><th>Cada cuánto</th></tr></thead>
-        <tbody>
-          <tr><td>Oyentes mensuales del catálogo</td><td>Es el único número que mide al sello entero en vez de a un artista suelto. Solo aparece si el campo “sello” está bien cargado en todos los lanzamientos: si no, no existe la manera de verlo.</td><td class="num">Mensual</td></tr>
-          <tr><td>Lanzamientos publicados</td><td>Dice si la cadencia de algo cada dos o tres meses por artista se está cumpliendo, o si quedó en intención. Cuenta cualquier cosa publicada, no solo canciones.</td><td class="num">Mensual</td></tr>
-          <tr><td>Seguidores de la playlist</td><td>Si la playlist pasa a ser el catálogo completo del roster, sus seguidores son gente que quiere escuchar lo que hace Reina Prisma y no lo que hace un artista en particular. Es lo más parecido a “seguidores del sello” que existe.</td><td class="num">Mensual</td></tr>
-          <tr><td>Artistas que mencionan al sello en su bio</td><td>Sobre ocho. Es la manera de saber si la primera regla de este documento se cumplió de verdad o si se cumplió durante dos semanas. Debería llegar a ocho y quedarse ahí.</td><td class="num">Mensual</td></tr>
-          <tr><td>Consultas entrantes, separadas en roster y booking</td><td>Es justo la división que el sitio ya hace con los dos WhatsApp. Dice qué contenido está trayendo trabajo y cuál solo trae aplausos.</td><td class="num">Mensual</td></tr>
-          <tr><td>De dónde entró la plata</td><td>Repartida en las cinco columnas: producción para terceros, temas propios, derechos de autor, comisiones por fechas y licencias. Es lo que muestra dónde conviene poner las horas del trimestre siguiente.</td><td class="num">Trimestral</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="ignore">
-      <p style="margin:0 0 12px"><strong>Por qué casi todo sale de Spotify:</strong> no porque sea la única plataforma, sino porque es la única que te da los números del catálogo agrupados y gratis, en Spotify for Artists. Apple y Deezer tienen paneles más pobres y, en proporción, mucho menos volumen acá.</p>
-      <p style="margin:0 0 12px">YouTube es la excepción y hay que mirarlo aparte: es donde van a vivir las sesiones y el Drum Doctor, y tiene sus propios números. Pero sirve para medir <em>contenido</em>, no catálogo. Son dos tableros distintos y conviene no mezclarlos.</p>
-      <p style="margin:0"><strong>Qué ignorar:</strong> el conteo de seguidores de Instagram, las reproducciones sueltas de un tema que anduvo bien y los likes. Suben y bajan por razones que no controlan y llevan a tomar decisiones para complacer a una plataforma en vez de a un público.</p>
     </div>
   </section>
 
   <section id="riesgos">
     <div class="s-head">
-      <div class="eyebrow">07 · Riesgos abiertos</div>
+      <div class="eyebrow">05 · Riesgos abiertos</div>
       <h2>Lo que no voy a decidir yo</h2>
     </div>
-    <p class="lead">Cinco cosas que son decisiones de ustedes y que este documento deliberadamente no cierra. Todas tienen costo si se dejan sin responder.</p>
+    <p class="lead">Decisiones de ustedes que este documento deliberadamente no cierra. Todas tienen costo si se dejan sin responder.</p>
     <ul class="risks">
       <li class="risk-item">
         <h4>El roster es más ancho que cualquier audiencia</h4>
-        <p>De reggae tributo a jazz fusión en once novenos. Nadie sigue eso por género, así que el hilo tiene que ser otro —el criterio, la sala, la manera de trabajar— y hay que poder decirlo en una frase. Si no aparece esa frase, la respuesta honesta es que el roster es demasiado ancho.</p>
+        <p>De reggae tributo a jazz fusión. Nadie sigue eso por género, así que el hilo tiene que ser otro —el criterio, la sala, la manera de trabajar— y hay que poder decirlo en una frase. Si no aparece esa frase, la respuesta honesta es que el roster es demasiado ancho.</p>
       </li>
       <li class="risk-item">
         <h4>Ayanday es un tributo, y eso es otro negocio</h4>
-        <p>Un tributo a Bob Marley factura distinto, se contrata distinto y no genera catálogo propio. Puede ser una excelente pata comercial, pero mezclado con artistas de obra original confunde qué es Reina Prisma.</p>
+        <p>Factura distinto, se contrata distinto y no genera catálogo propio. Puede ser una excelente pata comercial, pero mezclado con artistas de obra original confunde qué es Reina Prisma.</p>
       </li>
       <li class="risk-item">
         <h4>Iván es socio y artista al mismo tiempo</h4>
@@ -588,8 +472,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
       </li>
       <li class="risk-item">
         <h4>Son cuatro personas para ocho proyectos</h4>
-        <p>Este documento pide bastante más trabajo del que parece leerlo. Si intentan aplicar las treinta y tres reglas al mismo tiempo, lo más probable es que en dos meses no quede ninguna en pie y la conclusión sea “esto no funcionó” — cuando en realidad nunca llegó a probarse.</p>
-        <p style="margin-top:8px">Conviene elegir diez y cumplirlas. Las otras veintitrés que queden afuera porque lo decidieron, anotadas con una fecha para volver a mirarlas, y no porque se cansaron a mitad de camino. Diez reglas cumplidas cambian el año; treinta y tres empezadas no cambian nada.</p>
+        <p>Este documento pide más trabajo del que parece leerlo. Si intentan aplicar las veinticinco reglas al mismo tiempo, lo más probable es que en dos meses no quede ninguna en pie y la conclusión sea “esto no funcionó”, cuando en realidad nunca llegó a probarse. Conviene elegir diez y cumplirlas.</p>
       </li>
       <li class="risk-item">
         <h4>¿De quién es la relación con el artista?</h4>
@@ -598,10 +481,28 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-of
     </ul>
   </section>
 
+  <section id="futuro">
+    <div class="s-head">
+      <div class="eyebrow">06 · Para más adelante</div>
+      <h2>No ahora, pero sí</h2>
+    </div>
+    <p class="lead">Quedaron afuera de la lista de arriba por no ser inmediatas. Ninguna es descartable.</p>
+    <ul class="later">
+      <li><strong>Un solo nombre por artista en todas las plataformas.</strong> Hoy JJJULIAN aparece con y sin tilde según dónde se mire.</li>
+      <li><strong>Calendario único de lanzamientos.</strong> Cuando haya fechas que ordenar.</li>
+      <li><strong>No cruzar dos lanzamientos del roster en la misma semana.</strong> Depende del calendario.</li>
+      <li><strong>Pitch a las editoriales de Spotify, cuatro semanas antes de cada salida.</strong> Es gratis y además activa el Release Radar de los seguidores del artista. Se pierde por desorden, no por falta de tiempo.</li>
+      <li><strong>Alguien a cargo de conseguir y sostener fechas.</strong> Si no es de nadie, no lo hace nadie.</li>
+      <li><strong>Relación estable con dos o tres salas</strong> en vez de tocar en una distinta cada vez.</li>
+      <li><strong>Un plan de primeros noventa días</strong> con las reglas elegidas y quién hace cada una.</li>
+      <li><strong>Qué números mirar cada mes.</strong> Oyentes del catálogo, seguidores de la playlist, consultas entrantes y de dónde entró la plata.</li>
+    </ul>
+  </section>
+
   <div class="close">
     <div class="box">
       <h3>Qué hacer con esto</h3>
-      <p style="margin:0 0 1em">Leerlo los tres, tachar lo que no va, y quedarse con una lista corta. Si de las 33 sobreviven diez y se cumplen, en seis meses Reina Prisma es un sello. Si sobreviven las 33 y se cumplen tres, sigue siendo un estudio muy bueno con clientes que vuelven.</p>
+      <p style="margin:0 0 1em">Leerlo los tres, tachar lo que no va, y quedarse con una lista corta. Si de las 25 sobreviven diez y se cumplen, en seis meses Reina Prisma es un sello. Si sobreviven las 25 y se cumplen tres, sigue siendo un estudio muy bueno con clientes que vuelven.</p>
       <p style="margin:0" class="muted">La sección 02 primero. Todo lo demás sale de ahí.</p>
     </div>
   </div>
