@@ -261,6 +261,29 @@
         }
         .card-photo:hover img,
         .card-photo:focus-visible img { transform: scale(1.05); filter: grayscale(0); }
+        /* Video de hover. Se apila sobre la foto (z-index 1) y debajo del overlay (z-index 2).
+           Solo existe donde hay hover real: en tactil la tarjeta queda con la foto, sin descargar el video. */
+        .card-video {
+            display: none;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+            filter: grayscale(1) contrast(1.05);
+            transition: transform 0.6s ease, filter 0.4s ease, opacity 0.45s ease;
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .card-video { display: block; }
+            .card-photo:hover .card-video,
+            .card-photo:focus-visible .card-video { opacity: 1; transform: scale(1.05); filter: grayscale(0) contrast(1.05); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .card-video { display: none; }
+        }
         .card-photo.is-empty {
             display: flex;
             align-items: center;
@@ -1325,14 +1348,14 @@
 
         var ARTISTS = [
             {
-                id: 'jjjulian', name: 'JJJULIAN', genre: 'R&B · Neo-Soul', photo: 'assets/jjjulian.jpg',
+                id: 'jjjulian', name: 'JJJULIAN', genre: 'R&B · Neo-Soul', photo: 'assets/jjjulian.jpg', video: 'assets/jjjulian-hover',
                 tagline: 'La voz más sensual de todo el conurbano.',
                 bio: ['JJJULIÁN es un cantante y compositor de San Miguel, Buenos Aires, que disfruta sumergirse en el sonido del R&B y del neo-soul, haciéndolos parte de su sonido actual.',
                       'Desde 2021 empezó a lanzar canciones como solista, y siempre acompañó su música con videos que refuerzan la estética que él propone.'],
                 links: { spotify: 'https://open.spotify.com/intl-es/artist/1QQyeUqjjqvo9CNTIkzTAE', youtube: 'https://www.youtube.com/@__jjjulian__', instagram: 'https://www.instagram.com/__jjjulian__' }
             },
             {
-                id: 'cocolero', name: 'COCOLERO', genre: 'Rock · Pop · Folk · Punk', photo: 'assets/cocolero.jpg',
+                id: 'cocolero', name: 'COCOLERO', genre: 'Rock · Pop · Folk · Punk', photo: 'assets/cocolero.jpg', video: 'assets/cocolero-hover',
                 tagline: 'Un sonido camaleónico.',
                 bio: ['Cocolero es el proyecto musical de Matías Oyhamburu. Nace de una certeza: una canción no tiene por qué habitar un único lugar.',
                       'Cada composición encuentra el sonido que necesita. A veces respira desde el rock y el pop; otras, acelera con la urgencia del punk o se despoja hasta quedar sostenida apenas por la intimidad del folk. No hay un género que gobierne al proyecto: lo que permanece es la canción.',
@@ -1437,7 +1460,11 @@
         function photoInner(item, num) {
             var numHtml = num ? '<span class="num">' + num + '</span>' : '';
             if (item.photo) {
-                return '<img src="' + item.photo + '" alt="' + item.name + '" loading="lazy">' + numHtml;
+                var videoHtml = item.video
+                    ? '<video class="card-video" muted loop playsinline preload="none" aria-hidden="true"' +
+                      ' data-webm="' + item.video + '.webm" data-mp4="' + item.video + '.mp4"></video>'
+                    : '';
+                return '<img src="' + item.photo + '" alt="' + item.name + '" loading="lazy">' + videoHtml + numHtml;
             }
             return '<span class="initials">' + initials(item.name) + '</span>' + numHtml;
         }
@@ -1475,6 +1502,46 @@
             });
             roster.innerHTML = rosterHTML;
             team.innerHTML = teamHTML;
+        })();
+
+        /* ============ VIDEO EN HOVER ============ */
+        (function () {
+            if (!window.matchMedia) return;
+            if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            Array.prototype.forEach.call(document.querySelectorAll('.card-video'), function (v) {
+                var card = v.closest('.card-photo');
+                if (!card) return;
+                var primed = false;
+
+                /* Las fuentes se agregan recien en el primer hover: hasta entonces la grilla no baja un byte de video. */
+                function prime() {
+                    if (primed) return;
+                    primed = true;
+                    [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(function (f) {
+                        var s = document.createElement('source');
+                        s.src = v.getAttribute('data-' + f[0]);
+                        s.type = f[1];
+                        v.appendChild(s);
+                    });
+                    v.load();
+                }
+                function start() {
+                    prime();
+                    var p = v.play();
+                    if (p && p.catch) p.catch(function () {});
+                }
+                function stop() {
+                    v.pause();
+                    v.currentTime = 0;
+                }
+
+                card.addEventListener('mouseenter', start);
+                card.addEventListener('mouseleave', stop);
+                card.addEventListener('focus', start);
+                card.addEventListener('blur', stop);
+            });
         })();
 
         /* ============ MODAL ============ */
