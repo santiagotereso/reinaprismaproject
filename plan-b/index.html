@@ -269,21 +269,59 @@
         .wa span { max-width: 260px; opacity: 1; }
     }
 
-    /* ---------- contenido de muestra, solo para ver el scroll ---------- */
-    .demo { padding: 90px 6vw 120px; background: var(--bg); border-top: 1px solid rgba(243,231,221,0.12); }
-    .demo + .demo { border-top: 1px solid rgba(243,231,221,0.12); }
-    .demo .kicker {
+    /* ---------- secciones ---------- */
+    .seccion { padding: 110px 6vw 130px; background: var(--bg); border-top: 1px solid var(--line); }
+    .seccion-inner { max-width: 1180px; margin: 0 auto; }
+
+    .cabeza {
+        display: flex; align-items: center; gap: 14px;
         font-family: 'JetBrains Mono', monospace;
         font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-        color: var(--accent); margin-bottom: 14px;
+        color: var(--text-muted); margin-bottom: 18px;
     }
-    .demo h3 { font-size: clamp(30px, 5vw, 62px); font-weight: 900; letter-spacing: -0.03em; text-transform: uppercase; }
-    .demo ul { margin: 26px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; max-width: 62ch; }
-    .demo li {
-        padding: 16px 18px;
-        border: 1px solid rgba(243,231,221,0.14);
-        color: var(--text-muted);
-        font-size: 15px;
+    .cabeza .idx { color: var(--accent); }
+    .cabeza .bar { width: 46px; height: 1px; background: var(--line); }
+
+    .seccion h2 {
+        font-size: clamp(38px, 7vw, 92px);
+        font-weight: 900; letter-spacing: -0.035em; line-height: 0.92;
+        text-transform: uppercase; margin-bottom: 22px;
+    }
+    .entrada { max-width: 60ch; color: var(--text-muted); font-size: clamp(15px, 1.5vw, 18px); line-height: 1.65; }
+    .entrada strong { color: var(--text); font-weight: 600; }
+
+    /* --- servicios: cada persona, contada por lo que hace por tu disco --- */
+    .capacidades { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1px; margin-top: 54px; background: var(--line); border: 1px solid var(--line); }
+    .cap { background: var(--bg); padding: 0 0 24px; }
+    .cap-foto { aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg-soft, #1d100e); }
+    .cap-foto img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); transition: filter 0.45s ease, transform 0.7s ease; }
+    .cap:hover .cap-foto img { filter: grayscale(0); transform: scale(1.04); }
+    .cap-txt { padding: 20px 22px 0; }
+    .cap h4 { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
+    .cap .rol { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-top: 7px; }
+    .cap .hace { margin-top: 13px; font-size: 14.5px; line-height: 1.6; color: var(--text-muted); }
+
+    .paquetes { margin-top: 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+    .paq { border: 1px solid var(--line); padding: 22px; }
+    .paq .n { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: var(--accent); }
+    .paq h5 { margin-top: 10px; font-size: 17px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; }
+    .paq p { margin-top: 9px; font-size: 14px; line-height: 1.6; color: var(--text-muted); }
+
+    /* --- sello: el roster, presentado en forma --- */
+    .roster { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1px; margin-top: 54px; background: var(--line); border: 1px solid var(--line); }
+    .art { position: relative; display: block; background: var(--bg); text-decoration: none; color: inherit; }
+    .art-foto { aspect-ratio: 1 / 1; overflow: hidden; }
+    .art-foto img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); transition: filter 0.45s ease, transform 0.7s ease; }
+    .art:hover .art-foto img { filter: grayscale(0); transform: scale(1.05); }
+    .art-txt { padding: 16px 18px 22px; }
+    .art h4 { font-size: 17px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; }
+    .art .gen { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-muted); margin-top: 7px; }
+
+    .para-que { margin-top: 52px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .para-que span {
+        border: 1px solid var(--line); padding: 9px 15px;
+        font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+        letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);
     }
 </style>
 </head>
@@ -316,27 +354,86 @@
 
 </main>
 
-<!-- Contenido de muestra: solo esta para que se vea que el boton de WhatsApp
-     acompaña el scroll. El contenido real va despues. -->
-<section class="demo" id="servicios">
-    <div class="kicker">01 — Servicios</div>
-    <h3>Quiénes somos</h3>
-    <ul>
-        <li>El estudio: el lugar, las salas, el equipamiento.</li>
-        <li>El equipo: quién hace qué y con qué experiencia.</li>
-        <li>Cómo trabajamos: el proceso de grabación de punta a punta.</li>
-        <li>Paquetes: grabación, filmación, mezcla y máster.</li>
-    </ul>
+<section class="seccion" id="servicios" data-wa="servicios">
+    <div class="seccion-inner">
+        <div class="cabeza"><span class="idx">01</span><span class="bar"></span><span>Quiénes somos</span></div>
+        <h2>Servicios</h2>
+        <p class="entrada">
+            Somos cuatro personas y un estudio. Cada uno resuelve una parte distinta de un disco,
+            y podés contratarnos por lo que necesites: <strong>venir a grabar entero</strong>, o
+            sumar a alguno para que te resuelva lo que a vos te falta.
+        </p>
+
+        <div class="capacidades">
+            <div class="cap">
+                <div class="cap-foto"><img src="../assets/ivan-lanzo-nosotros.jpg" alt="Iván Lanzo" loading="lazy"></div>
+                <div class="cap-txt">
+                    <h4>Iván Lanzo</h4>
+                    <div class="rol">Socio · Grabación · Mezcla &amp; Máster</div>
+                    <p class="hace">Te graba. Y cuando el disco está tocado, lo mezcla y lo deja masterizado, listo para subir a plataformas.</p>
+                </div>
+            </div>
+            <div class="cap">
+                <div class="cap-foto"><img src="../assets/gonzalo-palomeque.png" alt="Gonzalo Palomeque" loading="lazy"></div>
+                <div class="cap-txt">
+                    <h4>Gonzalo Palomeque</h4>
+                    <div class="rol">Socio · Instrumentos · Producción</div>
+                    <p class="hace">Si te falta un instrumento, lo toca. Guitarras, arreglos, producción y edición, con 25 años de oficio y sin casarse con ningún género.</p>
+                </div>
+            </div>
+            <div class="cap">
+                <div class="cap-foto"><img src="../assets/lukitas.jpg" alt="Lukitas Viotti" loading="lazy"></div>
+                <div class="cap-txt">
+                    <h4>Lukitas Viotti</h4>
+                    <div class="rol">Drum Doctor · Asistente de Producción</div>
+                    <p class="hace">Te hace la batería. Le busca el pulso a la canción y ordena las etapas para que la grabación no se empantane.</p>
+                </div>
+            </div>
+            <div class="cap">
+                <div class="cap-foto"><img src="../assets/felipe.jpg" alt="Felipe González" loading="lazy"></div>
+                <div class="cap-txt">
+                    <h4>Felipe González</h4>
+                    <div class="rol">Arte de Tapa · Dirección de Arte</div>
+                    <p class="hace">Te hace la tapa. Y el sistema completo del lanzamiento: etiqueta, funda, booklet y material para redes.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="paquetes">
+            <div class="paq"><div class="n">01</div><h5>Grabación</h5><p>Sesiones en el estudio, con los músicos que necesites de nuestro lado.</p></div>
+            <div class="paq"><div class="n">02</div><h5>Mezcla y máster</h5><p>Traés lo grabado, te lo dejamos listo para plataformas.</p></div>
+            <div class="paq"><div class="n">03</div><h5>Filmación</h5><p>Registro audiovisual de las sesiones, para que el disco tenga con qué mostrarse.</p></div>
+            <div class="paq"><div class="n">04</div><h5>Disco completo</h5><p>De la primera maqueta a la tapa terminada, todo bajo el mismo techo.</p></div>
+        </div>
+    </div>
 </section>
 
-<section class="demo" id="sello">
-    <div class="kicker">02 — Sello</div>
-    <h3>El roster</h3>
-    <ul>
-        <li>Los artistas, con su video en hover como ya lo tenemos.</li>
-        <li>Para qué sirve cada uno: festivales, ciclos, casamientos, eventos.</li>
-        <li>Escuchá: links a Spotify y YouTube de cada proyecto.</li>
-    </ul>
+<section class="seccion" id="sello" data-wa="sello">
+    <div class="seccion-inner">
+        <div class="cabeza"><span class="idx">02</span><span class="bar"></span><span>El plantel</span></div>
+        <h2>Sello</h2>
+        <p class="entrada">
+            Los artistas que están adentro de Reina Prisma. Podés escucharlos, y también
+            <strong>contratarlos para tocar</strong>: cada proyecto funciona en un tipo de
+            escenario distinto y te ayudamos a elegir cuál va con tu evento.
+        </p>
+
+        <div class="roster">
+            <a class="art" href="#"><div class="art-foto"><img src="../assets/jjjulian.jpg" alt="JJJULIAN" loading="lazy"></div><div class="art-txt"><h4>JJJULIAN</h4><div class="gen">R&amp;B · Neo-Soul</div></div></a>
+            <a class="art" href="#"><div class="art-foto"><img src="../assets/cocolero.jpg" alt="COCOLERO" loading="lazy"></div><div class="art-txt"><h4>COCOLERO</h4><div class="gen">Rock · Pop · Folk · Punk</div></div></a>
+            <a class="art" href="#"><div class="art-foto"><img src="../assets/ivan-lanzo.jpg" alt="Lanzo" loading="lazy"></div><div class="art-txt"><h4>Lanzo</h4><div class="gen">Autor · Productor</div></div></a>
+            <a class="art" href="#"><div class="art-foto"><img src="../assets/ju.jpg" alt="JU" loading="lazy"></div><div class="art-txt"><h4>JU</h4><div class="gen">R&amp;B</div></div></a>
+            <a class="art" href="#"><div class="art-foto"><img src="../assets/daefuq.jpg" alt="DAEFUQ" loading="lazy"></div><div class="art-txt"><h4>DAEFUQ</h4><div class="gen">Fusión R&amp;B · Jazz · Funk</div></div></a>
+            <a class="art" href="#"><div class="art-foto"><img src="../assets/ayanday.jpg" alt="Ayanday" loading="lazy"></div><div class="art-txt"><h4>Ayanday</h4><div class="gen">Reggae · Tributo a Bob Marley</div></div></a>
+            <a class="art" href="#"><div class="art-foto"><img src="../assets/chicos-crema.jpg" alt="Chicos Crema" loading="lazy"></div><div class="art-txt"><h4>Chicos Crema</h4><div class="gen">DJ Set · Groove · Disco · House</div></div></a>
+            <a class="art" href="#"><div class="art-foto"><img src="../assets/lady.png" alt="LadyBoys" loading="lazy"></div><div class="art-txt"><h4>LadyBoys</h4><div class="gen">Jazz Fusión · Funk · Rock</div></div></a>
+        </div>
+
+        <div class="para-que">
+            <span>Festivales</span><span>Ciclos</span><span>Casamientos</span>
+            <span>Fiestas privadas</span><span>Eventos de marca</span><span>Bares y clubes</span>
+        </div>
+    </div>
 </section>
 
 <a class="wa" id="wa" href="https://wa.me/5491130243285" target="_blank" rel="noopener">
@@ -373,12 +470,34 @@
             }
         };
 
-        function marcar(lado) {
-            if (lado) { split.setAttribute('data-hover', lado); }
-            else { split.removeAttribute('data-hover'); }
-            var d = DESTINOS[lado || 'neutro'];
+        var ladoHover = null;   /* el que estas señalando en la portada */
+        var ladoScroll = null;  /* el de la seccion que estas leyendo */
+
+        function aplicarWa() {
+            var d = DESTINOS[ladoHover || ladoScroll || 'neutro'];
             wa.setAttribute('href', d.url);
             waTexto.textContent = d.texto;
+        }
+
+        function marcar(lado) {
+            ladoHover = lado;
+            if (lado) { split.setAttribute('data-hover', lado); }
+            else { split.removeAttribute('data-hover'); }
+            aplicarWa();
+        }
+
+        /* Al bajar, el boton adopta el lado de la seccion que ocupa la pantalla.
+           El hover de la portada tiene prioridad mientras exista. */
+        if ('IntersectionObserver' in window) {
+            var obs = new IntersectionObserver(function (entradas) {
+                entradas.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        ladoScroll = e.target.getAttribute('data-wa');
+                        aplicarWa();
+                    }
+                });
+            }, { rootMargin: '-45% 0px -45% 0px' });
+            Array.prototype.forEach.call(document.querySelectorAll('[data-wa]'), function (s) { obs.observe(s); });
         }
 
         Array.prototype.forEach.call(mitades, function (m) {
