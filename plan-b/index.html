@@ -84,6 +84,25 @@
         filter: grayscale(1) brightness(0.26) contrast(1.05);
     }
 
+    /* El video vive DENTRO de .half-bg a proposito: asi hereda el filtro de
+       gris a color y queda debajo de la viñeta, igual que la foto. */
+    .half-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.8s ease;
+    }
+    .split[data-hover="servicios"] .half-servicios .half-video,
+    .split[data-hover="sello"] .half-sello .half-video { opacity: 1; }
+
+    @media (hover: none), (prefers-reduced-motion: reduce) {
+        .half-video { display: none; }
+    }
+
     /* viñeta para que el texto siempre se lea */
     .half-bg::after {
         content: '';
@@ -136,19 +155,49 @@
         transform: translateY(14px);
         transition: opacity 0.45s ease 0.06s, transform 0.55s cubic-bezier(.22,.61,.36,1) 0.06s;
     }
+    /* El llamado a la accion es lo que se tiene que clickear: va como boton
+       solido, no como texto chico en versalitas. */
     .half-label .entrar {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: clamp(11px, 1.05vw, 13px);
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--accent);
-        text-shadow: 0 2px 14px rgba(12,6,5,0.9);
-        margin-top: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin-top: 20px;
+        padding: 14px 26px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: var(--ink);
+        font-family: 'Archivo', sans-serif;
+        font-size: clamp(13px, 1.15vw, 15px);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+        box-shadow: 0 12px 34px rgba(12,6,5,0.55);
         opacity: 0;
         transform: translateY(14px);
-        transition: opacity 0.45s ease 0.12s, transform 0.55s cubic-bezier(.22,.61,.36,1) 0.12s;
+        transition: opacity 0.45s ease 0.12s, transform 0.55s cubic-bezier(.22,.61,.36,1) 0.12s, background 0.25s ease;
     }
+    .half:hover .half-label .entrar { background: #f07a4d; }
+    .half-label .entrar .flecha { transition: transform 0.35s ease; }
+    .half:hover .half-label .entrar .flecha { transform: translateX(4px); }
+
     .half-label h2 { text-shadow: 0 4px 30px rgba(12,6,5,0.8); }
+
+    /* Sombra propia detras del bloque de texto: la viñeta general no alcanza
+       cuando la foto tiene zonas claras justo ahi. */
+    .half-label::before {
+        content: '';
+        position: absolute;
+        left: 50%; top: 50%;
+        width: 150%; height: 90%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(60% 50% at 50% 50%, rgba(12,6,5,0.72) 0%, rgba(12,6,5,0) 72%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+        z-index: -1;
+    }
+    .split[data-hover="servicios"] .half-servicios .half-label::before,
+    .split[data-hover="sello"] .half-sello .half-label::before { opacity: 1; }
 
     .split[data-hover="servicios"] .half-servicios .half-label h2,
     .split[data-hover="sello"] .half-sello .half-label h2 {
@@ -404,20 +453,26 @@
 <main class="split" id="split">
 
     <a class="half half-servicios" href="#servicios" data-lado="servicios" aria-label="Servicios de estudio">
-        <div class="half-bg"></div>
+        <div class="half-bg">
+            <video class="half-video" muted loop playsinline preload="none" aria-hidden="true"
+                   data-webm="../assets/portada-servicios.webm" data-mp4="../assets/portada-servicios.mp4"></video>
+        </div>
         <div class="half-label">
             <h2>Servicios</h2>
             <p>Grabá tu disco en el estudio. Producción, filmación, mezcla y máster.</p>
-            <span class="entrar">Ver paquetes →</span>
+            <span class="entrar">Ver paquetes <span class="flecha">→</span></span>
         </div>
     </a>
 
     <a class="half half-sello" href="#sello" data-lado="sello" aria-label="El sello y su roster">
-        <div class="half-bg"></div>
+        <div class="half-bg">
+            <video class="half-video" muted loop playsinline preload="none" aria-hidden="true"
+                   data-webm="../assets/portada-sello.webm" data-mp4="../assets/portada-sello.mp4"></video>
+        </div>
         <div class="half-label">
             <h2>Sello</h2>
             <p>Nuestros artistas en vivo. Festivales, ciclos, casamientos y eventos.</p>
-            <span class="entrar">Ver el roster →</span>
+            <span class="entrar">Ver el roster <span class="flecha">→</span></span>
         </div>
     </a>
 
@@ -571,10 +626,37 @@
             waTexto.textContent = d.texto;
         }
 
+        /* Los videos de la portada: fuentes recien en el primer hover, igual
+           que en el roster, para no descargar 2 MB de entrada. */
+        function prepararVideo(v) {
+            if (v.dataset.listo) return;
+            v.dataset.listo = '1';
+            [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(function (f) {
+                var s = document.createElement('source');
+                s.src = v.getAttribute('data-' + f[0]);
+                s.type = f[1];
+                v.appendChild(s);
+            });
+            v.load();
+        }
+
         function marcar(lado) {
             ladoHover = lado;
             if (lado) { split.setAttribute('data-hover', lado); }
             else { split.removeAttribute('data-hover'); }
+
+            Array.prototype.forEach.call(split.querySelectorAll('.half'), function (m) {
+                var v = m.querySelector('.half-video');
+                if (!v) return;
+                if (m.getAttribute('data-lado') === lado) {
+                    prepararVideo(v);
+                    var p = v.play();
+                    if (p && p.catch) p.catch(function () {});
+                } else {
+                    v.pause();
+                }
+            });
+
             aplicarWa();
         }
 
