@@ -242,7 +242,7 @@
         z-index: 4;
         pointer-events: none;
     }
-    .marca img { display: block; height: 46px; width: auto; opacity: 0.95; }
+    .marca img { display: block; height: 62px; width: auto; opacity: 0.95; }
 
     .pie {
         position: absolute;
@@ -289,43 +289,6 @@
         .half, .half-bg, .divider, .half-label h2, .half-label p, .half-label .entrar { transition: none; }
     }
 
-    /* ---------- WhatsApp flotante: fijo, siempre a la vista ---------- */
-    .wa {
-        position: fixed;
-        right: 22px;
-        bottom: 22px;
-        z-index: 50;
-        display: inline-flex;
-        align-items: center;
-        gap: 0;
-        height: 56px;
-        padding: 0 16px;
-        border-radius: 999px;
-        background: #1f9d5a;
-        color: #fff;
-        text-decoration: none;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.45);
-        overflow: hidden;
-        transition: gap 0.4s cubic-bezier(.22,.61,.36,1), padding 0.4s cubic-bezier(.22,.61,.36,1), background 0.3s ease;
-    }
-    .wa:hover, .wa:focus-visible { background: #23b869; gap: 10px; padding-right: 22px; }
-    .wa svg { width: 26px; height: 26px; fill: #fff; flex: none; }
-    .wa span {
-        font-family: 'Archivo', sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        white-space: nowrap;
-        max-width: 0;
-        opacity: 0;
-        transition: max-width 0.45s cubic-bezier(.22,.61,.36,1), opacity 0.3s ease;
-    }
-    .wa:hover span, .wa:focus-visible span { max-width: 260px; opacity: 1; }
-
-    /* en tactil no hay hover: el texto va siempre visible */
-    @media (hover: none) {
-        .wa { gap: 10px; padding-right: 22px; }
-        .wa span { max-width: 260px; opacity: 1; }
-    }
 
     /* ---------- secciones ---------- */
     .seccion { padding: 110px 6vw 130px; background: var(--bg); border-top: 1px solid var(--line); }
@@ -386,7 +349,7 @@
     /* --- servicios: cada persona, contada por lo que hace por tu disco --- */
     .capacidades { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 1px; margin-top: 54px; background: var(--line); border: 1px solid var(--line); }
     .cap { background: var(--bg); padding: 0 0 24px; }
-    .cap-foto { aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg-soft, #1d100e); }
+    .cap-foto { aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-soft, #1d100e); }
     .cap-foto img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); transition: filter 0.45s ease, transform 0.7s ease; }
     .cap:hover .cap-foto img { filter: grayscale(0); transform: scale(1.04); }
     .cap-txt { padding: 20px 22px 0; }
@@ -394,11 +357,6 @@
     .cap .rol { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-top: 7px; }
     .cap .hace { margin-top: 13px; font-size: 14.5px; line-height: 1.6; color: var(--text-muted); }
 
-    .paquetes { margin-top: 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
-    .paq { border: 1px solid var(--line); padding: 22px; }
-    .paq .n { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: var(--accent); }
-    .paq h5 { margin-top: 10px; font-size: 17px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; }
-    .paq p { margin-top: 9px; font-size: 14px; line-height: 1.6; color: var(--text-muted); }
 
     /* --- sello: el roster, presentado en forma --- */
     .roster { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 54px; background: var(--line); border: 1px solid var(--line); }
@@ -474,7 +432,10 @@
     }
     .modal.abierto .modal-caja { transform: translateY(0); opacity: 1; }
 
-    .modal-media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--ink); }
+    .modal-media { position: relative; aspect-ratio: 21 / 9; overflow: hidden; background: var(--ink); }
+    /* Los que son logotipo y no foto se muestran enteros: recortarlos a
+       apaisado les come el dibujo. */
+    .modal-media.entera img { object-fit: contain; padding: 22px; }
     .modal-media img, .modal-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
     .modal-media video { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s ease; }
     .modal-media video.visible { opacity: 1; }
@@ -501,13 +462,72 @@
     .modal-cerrar:hover { background: rgba(12,6,5,0.9); }
 
     @media (max-width: 560px) { .modal { padding: 0; } .modal-caja { max-height: 100vh; } .modal-cuerpo { padding: 24px 22px 32px; } }
+
+    /* ---------- WhatsApp: dos caminos, uno por negocio ---------- */
+    .wa { position: fixed; right: 22px; bottom: 22px; z-index: 60; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+    .wa-btn {
+        width: 58px; height: 58px; border-radius: 999px; border: 0;
+        background: #1f9d5a; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+        transition: background 0.25s ease, transform 0.3s cubic-bezier(.22,.61,.36,1);
+    }
+    .wa-btn svg { width: 28px; height: 28px; fill: #fff; }
+    .wa:hover .wa-btn, .wa.abierto .wa-btn { background: #23b869; transform: scale(1.05); }
+
+    .wa-ops { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .wa-op {
+        display: block;
+        padding: 12px 18px;
+        border-radius: 999px;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        color: var(--text);
+        font-family: 'Archivo', sans-serif;
+        font-size: 13.5px; font-weight: 600;
+        text-decoration: none; white-space: nowrap;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        opacity: 0; transform: translateY(10px) scale(0.96);
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.35s cubic-bezier(.22,.61,.36,1), border-color 0.25s ease, background 0.25s ease;
+    }
+    .wa-op:nth-child(2) { transition-delay: 0.05s; }
+    .wa:hover .wa-op, .wa:focus-within .wa-op, .wa.abierto .wa-op {
+        opacity: 1; transform: translateY(0) scale(1); pointer-events: auto;
+    }
+    .wa-op:hover { background: #1f9d5a; border-color: #1f9d5a; color: #fff; }
+    /* el camino que corresponde a la seccion que se esta leyendo queda marcado */
+    .wa-op.activo { border-color: var(--accent); }
+
+    @media (max-width: 560px) {
+        .wa { right: 14px; bottom: 14px; }
+        .wa-op { font-size: 12.5px; padding: 10px 15px; }
+    }
+
+    /* ---------- paquetes ---------- */
+    .paquetes { margin-top: 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: 14px; }
+    .paq { border: 1px solid var(--line); padding: 26px 24px 28px; display: flex; flex-direction: column; }
+    .paq .n { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: var(--accent); }
+    .paq h5 { margin-top: 12px; font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.015em; }
+    .paq .qué { margin-top: 10px; font-size: 14px; line-height: 1.6; color: var(--text-muted); }
+    .paq ul { margin-top: 18px; padding: 0; list-style: none; display: grid; gap: 8px; }
+    .paq li {
+        font-size: 13.5px; line-height: 1.5; color: var(--text-muted);
+        padding-left: 16px; position: relative;
+    }
+    .paq li::before { content: ''; position: absolute; left: 0; top: 8px; width: 6px; height: 1px; background: var(--accent); }
+    .paq .precio {
+        margin-top: auto; padding-top: 20px;
+        font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+        letter-spacing: 0.14em; text-transform: uppercase; color: rgba(243,231,221,0.4);
+    }
 </style>
 </head>
 <body>
 
 <main class="split" id="split">
 
-    <a class="half half-servicios" href="#servicios" data-lado="servicios" aria-label="Servicios de estudio">
+    <a class="half half-servicios" href="#paquetes" data-lado="servicios" aria-label="Servicios de estudio">
         <div class="half-bg">
             <video class="half-video" muted loop playsinline preload="none" aria-hidden="true"
                    data-webm="../assets/portada-servicios.webm" data-mp4="../assets/portada-servicios.mp4"></video>
@@ -526,7 +546,7 @@
         </div>
         <div class="half-label">
             <h2>Sello</h2>
-            <p>Nuestros artistas en vivo. Festivales, ciclos, casamientos y eventos.</p>
+            <p>Nuestros artistas en vivo. Festivales, ciclos y eventos.</p>
             <span class="entrar">Ver el roster <span class="flecha">→</span></span>
         </div>
     </a>
@@ -565,11 +585,61 @@
 
         <div class="capacidades" id="equipo"></div>
 
+        <div class="sub-cabeza" id="paquetes">Paquetes</div>
+        <p class="entrada" style="margin-top:20px">
+            Cuatro formas de trabajar con nosotros. Se combinan: podés traer el disco
+            grabado y usar solo mezcla, o hacer todo el camino de punta a punta.
+        </p>
+
         <div class="paquetes">
-            <div class="paq"><div class="n">01</div><h5>Grabación</h5><p>Sesiones en el estudio, con los músicos que necesites de nuestro lado.</p></div>
-            <div class="paq"><div class="n">02</div><h5>Mezcla y máster</h5><p>Traés lo grabado, te lo dejamos listo para plataformas.</p></div>
-            <div class="paq"><div class="n">03</div><h5>Filmación</h5><p>Registro audiovisual de las sesiones, para que el disco tenga con qué mostrarse.</p></div>
-            <div class="paq"><div class="n">04</div><h5>Disco completo</h5><p>De la primera maqueta a la tapa terminada, todo bajo el mismo techo.</p></div>
+            <div class="paq">
+                <div class="n">01</div>
+                <h5>Grabación</h5>
+                <p class="qué">Sesiones en el estudio, con los músicos que necesites de nuestro lado.</p>
+                <ul>
+                    <li>Sala y equipamiento</li>
+                    <li>Técnico de grabación</li>
+                    <li>Músicos de sesión a pedido</li>
+                    <li>Edición y comping</li>
+                </ul>
+                <div class="precio">Consultar por día o por canción</div>
+            </div>
+            <div class="paq">
+                <div class="n">02</div>
+                <h5>Mezcla y máster</h5>
+                <p class="qué">Traés lo grabado y te lo dejamos listo para plataformas.</p>
+                <ul>
+                    <li>Mezcla con revisiones</li>
+                    <li>Mastering para streaming</li>
+                    <li>Versión instrumental y a capela</li>
+                    <li>Entrega en los formatos que pidan las plataformas</li>
+                </ul>
+                <div class="precio">Consultar por canción</div>
+            </div>
+            <div class="paq">
+                <div class="n">03</div>
+                <h5>Filmación</h5>
+                <p class="qué">Registro audiovisual de las sesiones, para que el disco tenga con qué mostrarse.</p>
+                <ul>
+                    <li>Registro de la sesión en varias cámaras</li>
+                    <li>Video por canción</li>
+                    <li>Cortes verticales para redes</li>
+                    <li>Fotos del proceso</li>
+                </ul>
+                <div class="precio">Consultar por jornada</div>
+            </div>
+            <div class="paq">
+                <div class="n">04</div>
+                <h5>Disco completo</h5>
+                <p class="qué">De la primera maqueta a la tapa terminada, todo bajo el mismo techo.</p>
+                <ul>
+                    <li>Preproducción y arreglos</li>
+                    <li>Grabación, mezcla y máster</li>
+                    <li>Arte de tapa y sistema gráfico</li>
+                    <li>Material audiovisual del proceso</li>
+                </ul>
+                <div class="precio">Presupuesto a medida</div>
+            </div>
         </div>
     </div>
 </section>
@@ -605,12 +675,23 @@
     </div>
 </section>
 
-<a class="wa" id="wa" href="https://wa.me/5491130243285" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.54-3.7 8.24-8.25 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24zm-2.84 4.43c-.13 0-.35.05-.53.25-.18.2-.7.69-.7 1.67 0 .99.72 1.94.82 2.07.1.13 1.4 2.14 3.4 3 .47.21.84.33 1.13.42.47.15.9.13 1.24.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.12-.94-.05-.08-.18-.13-.38-.23-.2-.1-1.17-.58-1.35-.64-.18-.07-.32-.1-.45.1-.13.2-.51.64-.63.77-.12.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.53-.99-1.18-1.11-1.38-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.34.07-.13.03-.25-.02-.35-.05-.1-.44-1.08-.62-1.48-.16-.39-.32-.33-.44-.34l-.38-.01z"/>
-    </svg>
-    <span id="wa-texto">Contactame por WhatsApp</span>
-</a>
+<div class="wa" id="wa">
+    <div class="wa-ops">
+        <a class="wa-op" data-lado="servicios" target="_blank" rel="noopener"
+           href="https://wa.me/5491126517698?text=%C2%A1Hola%20Reina%20Prisma!%20Quiero%20grabar%20en%20el%20estudio.">
+            Quiero grabar en el estudio
+        </a>
+        <a class="wa-op" data-lado="sello" target="_blank" rel="noopener"
+           href="https://wa.me/5491130243285?text=%C2%A1Hola%20Reina%20Prisma!%20Quiero%20contratar%20a%20un%20artista%20para%20tocar.">
+            Quiero contratar un artista
+        </a>
+    </div>
+    <button class="wa-btn" type="button" aria-label="Contacto por WhatsApp" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.54-3.7 8.24-8.25 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24zm-2.84 4.43c-.13 0-.35.05-.53.25-.18.2-.7.69-.7 1.67 0 .99.72 1.94.82 2.07.1.13 1.4 2.14 3.4 3 .47.21.84.33 1.13.42.47.15.9.13 1.24.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.12-.94-.05-.08-.18-.13-.38-.23-.2-.1-1.17-.58-1.35-.64-.18-.07-.32-.1-.45.1-.13.2-.51.64-.63.77-.12.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.53-.99-1.18-1.11-1.38-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.34.07-.13.03-.25-.02-.35-.05-.1-.44-1.08-.62-1.48-.16-.39-.32-.33-.44-.34l-.38-.01z"/>
+        </svg>
+    </button>
+</div>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true">
     <div class="modal-fondo" data-cerrar></div>
@@ -634,33 +715,18 @@
         var split = document.getElementById('split');
         var mitades = split.querySelectorAll('.half');
 
-        /* El boton de WhatsApp cambia segun el lado que se este mirando.
-           OJO: el numero de "servicios" es provisorio -- hoy el sitio solo
-           tiene numeros para el sello, falta definir el del estudio. */
-        var wa = document.getElementById('wa');
-        var waTexto = document.getElementById('wa-texto');
-        var DESTINOS = {
-            servicios: {
-                url: 'https://wa.me/5491126517698?text=' + encodeURIComponent('¡Hola Reina Prisma! Quiero grabar en el estudio.'),
-                texto: 'Quiero grabar en el estudio'
-            },
-            sello: {
-                url: 'https://wa.me/5491130243285?text=' + encodeURIComponent('¡Hola Reina Prisma! Quiero contratar a un artista para tocar.'),
-                texto: 'Quiero contratar un artista'
-            },
-            neutro: {
-                url: 'https://wa.me/5491130243285',
-                texto: 'Contactame por WhatsApp'
-            }
-        };
+        /* Los dos caminos estan siempre a la vista. Lo unico que cambia es
+           cual queda marcado segun lo que se este mirando. */
+        var waOps = document.querySelectorAll('.wa-op');
 
         var ladoHover = null;   /* el que estas señalando en la portada */
         var ladoScroll = null;  /* el de la seccion que estas leyendo */
 
         function aplicarWa() {
-            var d = DESTINOS[ladoHover || ladoScroll || 'neutro'];
-            wa.setAttribute('href', d.url);
-            waTexto.textContent = d.texto;
+            var actual = ladoHover || ladoScroll;
+            Array.prototype.forEach.call(waOps, function (o) {
+                o.classList.toggle('activo', !!actual && o.getAttribute('data-lado') === actual);
+            });
         }
 
         /* Los videos de la portada: fuentes recien en el primer hover, igual
@@ -741,6 +807,21 @@
         'p-jxan':    'Te resuelve el vivo. Playback, afinacion vocal y sistemas de show, ademas de mezcla y mastering.'
     };
 
+    /* Donde cae la cara en cada foto. Sin esto, el recorte apaisado del
+       pop-up muestra ropa en vez de cara en varios casos. */
+    var ENCUADRE = {
+        'p-lanzo': '50% 34%', 'p-gonzalo': '50% 22%', 'p-felipe': '50% 24%',
+        'p-lukitas': '50% 30%', 'p-jxan': '50% 30%',
+        'jjjulian': '50% 26%', 'cocolero': '50% 28%', 'lanzo': '50% 34%',
+        'ju': '50% 26%', 'chicoscrema': '50% 32%'
+    };
+    /* Estos no son fotos sino logotipos: se muestran enteros, sin recortar. */
+    var ENTERAS = { daefuq: 1, ayanday: 1, ladyboys: 1 };
+
+    function encuadre(id) {
+        return ENCUADRE[id] ? ' style="object-position:' + ENCUADRE[id] + '"' : '';
+    }
+
     var POR_ID = {};
 
     function linksHTML(l, clase) {
@@ -765,7 +846,7 @@
         POR_ID[a.id] = a;
         htmlR += '<div class="art" data-id="' + a.id + '" role="button" tabindex="0">' +
                     '<div class="art-foto">' +
-                        '<img src="' + RAIZ + a.photo + '" alt="' + a.name + '" loading="lazy">' +
+                        '<img src="' + RAIZ + a.photo + '" alt="' + a.name + '" loading="lazy"' + encuadre(a.id) + '>' +
                         videoHTML(a.id, 'art-video') +
                     '</div>' +
                     '<div class="art-txt"><h4>' + a.name + '</h4>' +
@@ -781,7 +862,7 @@
     TEAM.forEach(function (p) {
         POR_ID[p.id] = p;
         htmlE += '<div class="cap" data-id="' + p.id + '" role="button" tabindex="0">' +
-                    '<div class="cap-foto"><img src="' + RAIZ + p.photo + '" alt="' + p.name + '" loading="lazy"></div>' +
+                    '<div class="cap-foto"><img src="' + RAIZ + p.photo + '" alt="' + p.name + '" loading="lazy"' + encuadre(p.id) + '></div>' +
                     '<div class="cap-txt">' +
                         '<h4>' + p.name + '</h4>' +
                         '<div class="rol">' + (p.role || '') + '</div>' +
@@ -853,7 +934,8 @@
 
         /* La imagen del pop-up tambien se anima cuando el artista tiene clip. */
         var v = VIDEOS[id];
-        mMedia.innerHTML = '<img src="' + RAIZ + d.photo + '" alt="' + d.name + '">' +
+        mMedia.className = 'modal-media' + (ENTERAS[id] ? ' entera' : '');
+        mMedia.innerHTML = '<img src="' + RAIZ + d.photo + '" alt="' + d.name + '"' + encuadre(id) + '>' +
             (v ? '<video muted loop playsinline autoplay><source src="' + RAIZ + v + '.webm" type="video/webm"><source src="' + RAIZ + v + '.mp4" type="video/mp4"></video>' : '');
         var mv = mMedia.querySelector('video');
         if (mv) {
