@@ -384,7 +384,7 @@
     }
 
     /* --- servicios: cada persona, contada por lo que hace por tu disco --- */
-    .capacidades { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1px; margin-top: 54px; background: var(--line); border: 1px solid var(--line); }
+    .capacidades { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 1px; margin-top: 54px; background: var(--line); border: 1px solid var(--line); }
     .cap { background: var(--bg); padding: 0 0 24px; }
     .cap-foto { aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg-soft, #1d100e); }
     .cap-foto img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); transition: filter 0.45s ease, transform 0.7s ease; }
@@ -401,7 +401,7 @@
     .paq p { margin-top: 9px; font-size: 14px; line-height: 1.6; color: var(--text-muted); }
 
     /* --- sello: el roster, presentado en forma --- */
-    .roster { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1px; margin-top: 54px; background: var(--line); border: 1px solid var(--line); }
+    .roster { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 54px; background: var(--line); border: 1px solid var(--line); }
     .art { position: relative; display: block; background: var(--bg); text-decoration: none; color: inherit; }
     .art-foto { position: relative; aspect-ratio: 1 / 1; overflow: hidden; }
     .art-foto img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); transition: filter 0.45s ease, transform 0.7s ease; }
@@ -446,6 +446,61 @@
         font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
         letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);
     }
+
+    /* el roster va de a 4; en pantallas medianas 2 y en telefono 1 */
+    @media (max-width: 1040px) { .roster { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px)  { .roster { grid-template-columns: 1fr; } }
+
+    .art, .cap { cursor: pointer; }
+
+    /* ---------- pop-up de artista / integrante ---------- */
+    .modal {
+        position: fixed; inset: 0; z-index: 80;
+        display: none; align-items: center; justify-content: center;
+        padding: 24px;
+    }
+    .modal.abierto { display: flex; }
+    .modal-fondo { position: absolute; inset: 0; background: rgba(8,4,3,0.82); backdrop-filter: blur(6px); }
+    .modal-caja {
+        position: relative;
+        width: min(880px, 100%);
+        max-height: 88vh;
+        overflow-y: auto;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        transform: translateY(14px);
+        opacity: 0;
+        transition: transform 0.45s cubic-bezier(.22,.61,.36,1), opacity 0.35s ease;
+    }
+    .modal.abierto .modal-caja { transform: translateY(0); opacity: 1; }
+
+    .modal-media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--ink); }
+    .modal-media img, .modal-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .modal-media video { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s ease; }
+    .modal-media video.visible { opacity: 1; }
+
+    .modal-cuerpo { padding: 30px 34px 38px; }
+    .modal-cuerpo h3 { font-size: clamp(26px, 3.4vw, 40px); font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1; }
+    .modal-rol { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .modal-bio { margin-top: 20px; display: grid; gap: 13px; }
+    .modal-bio p { color: var(--text-muted); font-size: 15px; line-height: 1.7; }
+    .modal-links { margin-top: 24px; display: flex; gap: 14px; }
+    .modal-links a { display: inline-flex; opacity: 0.6; transition: opacity 0.25s ease; }
+    .modal-links a:hover { opacity: 1; }
+    .modal-links svg { width: 20px; height: 20px; fill: var(--text); }
+
+    .modal-cerrar {
+        position: absolute; top: 14px; right: 14px; z-index: 2;
+        width: 40px; height: 40px; border-radius: 999px;
+        border: 1px solid rgba(243,231,221,0.25);
+        background: rgba(12,6,5,0.6);
+        color: var(--text); font-size: 20px; line-height: 1;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .modal-cerrar:hover { background: rgba(12,6,5,0.9); }
+
+    @media (max-width: 560px) { .modal { padding: 0; } .modal-caja { max-height: 100vh; } .modal-cuerpo { padding: 24px 22px 32px; } }
 </style>
 </head>
 <body>
@@ -508,40 +563,7 @@
 
         <div class="sub-cabeza">El equipo</div>
 
-        <div class="capacidades">
-            <div class="cap">
-                <div class="cap-foto"><img src="../assets/ivan-lanzo-nosotros.jpg" alt="Iván Lanzo" loading="lazy"></div>
-                <div class="cap-txt">
-                    <h4>Iván Lanzo</h4>
-                    <div class="rol">Socio · Grabación · Mezcla &amp; Máster</div>
-                    <p class="hace">Te graba. Y cuando el disco está tocado, lo mezcla y lo deja masterizado, listo para subir a plataformas.</p>
-                </div>
-            </div>
-            <div class="cap">
-                <div class="cap-foto"><img src="../assets/gonzalo-palomeque.png" alt="Gonzalo Palomeque" loading="lazy"></div>
-                <div class="cap-txt">
-                    <h4>Gonzalo Palomeque</h4>
-                    <div class="rol">Socio · Instrumentos · Producción</div>
-                    <p class="hace">Si te falta un instrumento, lo toca. Guitarras, arreglos, producción y edición, con 25 años de oficio y sin casarse con ningún género.</p>
-                </div>
-            </div>
-            <div class="cap">
-                <div class="cap-foto"><img src="../assets/lukitas.jpg" alt="Lukitas Viotti" loading="lazy"></div>
-                <div class="cap-txt">
-                    <h4>Lukitas Viotti</h4>
-                    <div class="rol">Drum Doctor · Asistente de Producción</div>
-                    <p class="hace">Te hace la batería. Le busca el pulso a la canción y ordena las etapas para que la grabación no se empantane.</p>
-                </div>
-            </div>
-            <div class="cap">
-                <div class="cap-foto"><img src="../assets/felipe.jpg" alt="Felipe González" loading="lazy"></div>
-                <div class="cap-txt">
-                    <h4>Felipe González</h4>
-                    <div class="rol">Arte de Tapa · Dirección de Arte</div>
-                    <p class="hace">Te hace la tapa. Y el sistema completo del lanzamiento: etiqueta, funda, booklet y material para redes.</p>
-                </div>
-            </div>
-        </div>
+        <div class="capacidades" id="equipo"></div>
 
         <div class="paquetes">
             <div class="paq"><div class="n">01</div><h5>Grabación</h5><p>Sesiones en el estudio, con los músicos que necesites de nuestro lado.</p></div>
@@ -590,6 +612,21 @@
     <span id="wa-texto">Contactame por WhatsApp</span>
 </a>
 
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-fondo" data-cerrar></div>
+    <div class="modal-caja">
+        <button class="modal-cerrar" type="button" data-cerrar aria-label="Cerrar">&times;</button>
+        <div class="modal-media" id="modal-media"></div>
+        <div class="modal-cuerpo">
+            <h3 id="modal-nombre"></h3>
+            <div class="modal-rol" id="modal-rol"></div>
+            <div class="modal-bio" id="modal-bio"></div>
+            <div class="modal-links" id="modal-links"></div>
+        </div>
+    </div>
+</div>
+
+<script src="datos.js"></script>
 <script>
     /* El estado vive en el contenedor y no en cada mitad, porque las dos
        animaciones tienen que dispararse juntas: cuando una crece, la otra cede. */
@@ -683,83 +720,191 @@
         });
     })();
 
-/* ============ ROSTER ============ */
+/* ============ ROSTER, EQUIPO Y POP-UP ============ */
 (function () {
-    var A = '../assets/';
-    var ARTISTAS = [
-        { n: 'JJJULIAN',     g: 'R&B · Neo-Soul',                 f: 'jjjulian.jpg',     v: 'jjjulian-hover',
-          l: { spotify: 'https://open.spotify.com/intl-es/artist/1QQyeUqjjqvo9CNTIkzTAE', youtube: 'https://www.youtube.com/@__jjjulian__', instagram: 'https://www.instagram.com/__jjjulian__' } },
-        { n: 'COCOLERO',     g: 'Rock · Pop · Folk · Punk',       f: 'cocolero.jpg',     v: 'cocolero-hover',
-          l: { spotify: 'https://open.spotify.com/intl-es/artist/2g61pWJbmY6GoliS4UiVy9', youtube: 'https://www.youtube.com/@cocolerococolero', instagram: 'https://www.instagram.com/cocolero__' } },
-        { n: 'Lanzo',        g: 'Autor · Productor',              f: 'ivan-lanzo.jpg',   v: 'lanzo-hover',
-          l: { spotify: 'https://open.spotify.com/intl-es/artist/2hEbHEKUghuVjyYtaQjxul', youtube: 'https://www.youtube.com/@lanzoivan', instagram: 'https://www.instagram.com/lanzoivan' } },
-        { n: 'JU',           g: 'R&B',                            f: 'ju.jpg',           v: 'ju-hover', l: {} },
-        { n: 'DAEFUQ',       g: 'Fusión R&B · Jazz · Funk',       f: 'daefuq.jpg',       v: null,
-          l: { spotify: 'https://open.spotify.com/intl-es/artist/2g61pWJbmY6GoliS4UiVy9', youtube: 'https://www.youtube.com/@daefuq', instagram: 'https://www.instagram.com/daefuq_' } },
-        { n: 'Ayanday',      g: 'Reggae · Tributo a Bob Marley',  f: 'ayanday.jpg',      v: null,
-          l: { instagram: 'https://www.instagram.com/ayanay.tributo' } },
-        { n: 'Chicos Crema', g: 'DJ Set · Groove · Disco · House',f: 'chicos-crema.jpg', v: null,
-          l: { spotify: 'https://open.spotify.com/intl-es/artist/2g61pWJbmY6GoliS4UiVy9', youtube: 'https://www.youtube.com/@chicoscrema', instagram: 'https://www.instagram.com/chicoscrema' } },
-        { n: 'LadyBoys',     g: 'Jazz Fusión · Funk · Rock',      f: 'lady.png',         v: null, l: {} }
-    ];
+    var RAIZ = '../';   /* datos.js trae rutas desde la raiz del sitio */
 
     var ICONO = {
         spotify: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.43a.62.62 0 0 1-.86.21c-2.35-1.44-5.3-1.76-8.79-.96a.62.62 0 1 1-.28-1.21c3.8-.87 7.07-.5 9.71 1.11.3.18.39.57.22.85zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.56 11.24 1.34.36.22.48.7.25 1.06zm.1-2.83C14.7 8.96 9.5 8.79 6.42 9.72a.93.93 0 1 1-.54-1.79c3.54-1.07 9.28-.86 12.94 1.31a.93.93 0 1 1-.95 1.6z"/></svg>',
         youtube: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>',
-        instagram: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 4.38a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>'
+        instagram: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 4.38a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm0 1.62a3.68 3.68 0 1 0 0 7.36 3.68 3.68 0 0 0 0-7.36zm5.48-2.9a1.24 1.24 0 1 1 0 2.48 1.24 1.24 0 0 1 0-2.48z"/></svg>',
+        web: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-2.6a15 15 0 0 0-1.3-3.4A8 8 0 0 1 18.9 8zM12 4.1c.7 1 1.3 2.3 1.7 3.9h-3.4c.4-1.6 1-2.9 1.7-3.9zM4.3 14a8 8 0 0 1 0-4h3a17 17 0 0 0 0 4zm.8 2h2.6c.3 1.2.7 2.4 1.3 3.4A8 8 0 0 1 5.1 16zm2.6-8H5.1a8 8 0 0 1 3.9-3.4C8.4 5.6 8 6.8 7.7 8zM12 19.9c-.7-1-1.3-2.3-1.7-3.9h3.4c-.4 1.6-1 2.9-1.7 3.9zm2.1-5.9H9.9a15 15 0 0 1 0-4h4.2a15 15 0 0 1 0 4zm.8 5.4c.6-1 1-2.2 1.3-3.4h2.6a8 8 0 0 1-3.9 3.4zm1.7-5.4a17 17 0 0 0 0-4h3a8 8 0 0 1 0 4z"/></svg>'
     };
 
-    var cont = document.getElementById('roster');
-    var html = '';
-    ARTISTAS.forEach(function (a) {
-        var video = a.v
-            ? '<video class="art-video" muted loop playsinline preload="none" aria-hidden="true"' +
-              ' data-webm="' + A + a.v + '.webm" data-mp4="' + A + a.v + '.mp4"></video>'
-            : '';
-        var links = '';
-        Object.keys(a.l).forEach(function (k) {
-            links += '<a href="' + a.l[k] + '" target="_blank" rel="noopener" aria-label="' + a.n + ' en ' + k + '">' + ICONO[k] + '</a>';
+    /* Lo que cada integrante resuelve de tu disco. La bio larga queda para el
+       pop-up; esto es la version vendible. */
+    var HACE = {
+        'p-lanzo':   'Te graba. Y cuando el disco esta tocado, lo mezcla y lo deja masterizado, listo para subir a plataformas.',
+        'p-gonzalo': 'Si te falta un instrumento, lo toca. Guitarras, arreglos, produccion y edicion, con 25 anos de oficio y sin casarse con ningun genero.',
+        'p-lukitas': 'Te hace la bateria. Le busca el pulso a la cancion y ordena las etapas para que la grabacion no se empantane.',
+        'p-felipe':  'Te hace la tapa. Y el sistema completo del lanzamiento: etiqueta, funda, booklet y material para redes.',
+        'p-jxan':    'Te resuelve el vivo. Playback, afinacion vocal y sistemas de show, ademas de mezcla y mastering.'
+    };
+
+    var POR_ID = {};
+
+    function linksHTML(l, clase) {
+        var out = '';
+        Object.keys(l || {}).forEach(function (k) {
+            if (!ICONO[k]) return;
+            out += '<a href="' + l[k] + '" target="_blank" rel="noopener" aria-label="' + k + '">' + ICONO[k] + '</a>';
         });
-        html += '<div class="art">' +
-                    '<div class="art-foto"><img src="' + A + a.f + '" alt="' + a.n + '" loading="lazy">' + video + '</div>' +
-                    '<div class="art-txt">' +
-                        '<h4>' + a.n + '</h4>' +
-                        '<div class="gen">' + a.g + '</div>' +
-                        (links ? '<div class="art-links">' + links + '</div>' : '') +
+        return out ? '<div class="' + clase + '">' + out + '</div>' : '';
+    }
+
+    function videoHTML(id, clase) {
+        var v = VIDEOS[id];
+        if (!v) return '';
+        return '<video class="' + clase + '" muted loop playsinline preload="none" aria-hidden="true"' +
+               ' data-webm="' + RAIZ + v + '.webm" data-mp4="' + RAIZ + v + '.mp4"></video>';
+    }
+
+    /* ---------- roster ---------- */
+    var htmlR = '';
+    ARTISTS.forEach(function (a) {
+        POR_ID[a.id] = a;
+        htmlR += '<div class="art" data-id="' + a.id + '" role="button" tabindex="0">' +
+                    '<div class="art-foto">' +
+                        '<img src="' + RAIZ + a.photo + '" alt="' + a.name + '" loading="lazy">' +
+                        videoHTML(a.id, 'art-video') +
                     '</div>' +
-                '</div>';
+                    '<div class="art-txt"><h4>' + a.name + '</h4>' +
+                        '<div class="gen">' + (a.genre || '') + '</div>' +
+                        linksHTML(a.links, 'art-links') +
+                    '</div>' +
+                 '</div>';
     });
-    cont.innerHTML = html;
+    document.getElementById('roster').innerHTML = htmlR;
 
-    /* mismo criterio que en la pagina publicada: las fuentes del video se
-       agregan recien en el primer hover, para no descargar nada de entrada */
-    if (window.matchMedia &&
+    /* ---------- equipo ---------- */
+    var htmlE = '';
+    TEAM.forEach(function (p) {
+        POR_ID[p.id] = p;
+        htmlE += '<div class="cap" data-id="' + p.id + '" role="button" tabindex="0">' +
+                    '<div class="cap-foto"><img src="' + RAIZ + p.photo + '" alt="' + p.name + '" loading="lazy"></div>' +
+                    '<div class="cap-txt">' +
+                        '<h4>' + p.name + '</h4>' +
+                        '<div class="rol">' + (p.role || '') + '</div>' +
+                        '<p class="hace">' + (HACE[p.id] || p.tagline || '') + '</p>' +
+                    '</div>' +
+                 '</div>';
+    });
+    document.getElementById('equipo').innerHTML = htmlE;
+
+    /* ---------- carga diferida de los videos del roster ---------- */
+    function preparar(v) {
+        if (!v || v.dataset.listo) return;
+        v.dataset.listo = '1';
+        [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(function (f) {
+            var so = document.createElement('source');
+            so.src = v.getAttribute('data-' + f[0]);
+            so.type = f[1];
+            v.appendChild(so);
+        });
+        v.load();
+    }
+
+    var puedeHover = window.matchMedia &&
         window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-        !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        Array.prototype.forEach.call(document.querySelectorAll('.art-video'), function (v) {
-            var tarjeta = v.closest('.art');
-            var listo = false;
-            function preparar() {
-                if (listo) return;
-                listo = true;
-                [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(function (f) {
-                    var s = document.createElement('source');
-                    s.src = v.getAttribute('data-' + f[0]);
-                    s.type = f[1];
-                    v.appendChild(s);
-                });
-                v.load();
-            }
-            tarjeta.addEventListener('mouseenter', function () {
-                preparar();
+    if (puedeHover && 'IntersectionObserver' in window) {
+        /* Se cargan al entrar en pantalla y no al pasar el mouse: si esperaba
+           al hover, el primer paso no alcanzaba a mostrar nada. */
+        var obsV = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+                if (e.isIntersecting) { preparar(e.target.querySelector('.art-video')); obsV.unobserve(e.target); }
+            });
+        }, { rootMargin: '250px' });
+        Array.prototype.forEach.call(document.querySelectorAll('.art'), function (t) { obsV.observe(t); });
+    }
+
+    if (puedeHover) {
+        Array.prototype.forEach.call(document.querySelectorAll('.art'), function (t) {
+            var v = t.querySelector('.art-video');
+            if (!v) return;
+            t.addEventListener('mouseenter', function () {
+                preparar(v);
                 var p = v.play();
                 if (p && p.catch) p.catch(function () {});
             });
-            tarjeta.addEventListener('mouseleave', function () { v.pause(); v.currentTime = 0; });
+            t.addEventListener('mouseleave', function () { v.pause(); v.currentTime = 0; });
         });
     }
+
+    /* ---------- pop-up ---------- */
+    var modal = document.getElementById('modal');
+    var mMedia = document.getElementById('modal-media');
+    var mNombre = document.getElementById('modal-nombre');
+    var mRol = document.getElementById('modal-rol');
+    var mBio = document.getElementById('modal-bio');
+    var mLinks = document.getElementById('modal-links');
+    var ultimoFoco = null;
+
+    function abrir(id) {
+        var d = POR_ID[id];
+        if (!d) return;
+        ultimoFoco = document.activeElement;
+
+        mNombre.textContent = d.name;
+        mRol.textContent = d.genre || d.role || '';
+        mBio.innerHTML = (d.bio || []).map(function (p) { return '<p>' + p + '</p>'; }).join('');
+        mLinks.innerHTML = linksHTML(d.links, 'links-internos').replace('class="links-internos"', '');
+
+        /* La imagen del pop-up tambien se anima cuando el artista tiene clip. */
+        var v = VIDEOS[id];
+        mMedia.innerHTML = '<img src="' + RAIZ + d.photo + '" alt="' + d.name + '">' +
+            (v ? '<video muted loop playsinline autoplay><source src="' + RAIZ + v + '.webm" type="video/webm"><source src="' + RAIZ + v + '.mp4" type="video/mp4"></video>' : '');
+        var mv = mMedia.querySelector('video');
+        if (mv) {
+            mv.addEventListener('playing', function () { mv.classList.add('visible'); });
+            var p = mv.play();
+            if (p && p.catch) p.catch(function () {});
+        }
+
+        modal.classList.add('abierto');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrar() {
+        modal.classList.remove('abierto');
+        document.body.style.overflow = '';
+        mMedia.innerHTML = '';   /* corta la descarga del video al cerrar */
+        if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+    }
+
+    document.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('[data-cerrar]')) { cerrar(); return; }
+        if (e.target.closest && e.target.closest('.art-links a, .modal-links a')) return;  /* los links van a su destino */
+        var t = e.target.closest && e.target.closest('.art, .cap');
+        if (t) abrir(t.getAttribute('data-id'));
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('abierto')) cerrar();
+        if ((e.key === 'Enter' || e.key === ' ') && document.activeElement &&
+            document.activeElement.matches && document.activeElement.matches('.art, .cap')) {
+            e.preventDefault();
+            abrir(document.activeElement.getAttribute('data-id'));
+        }
+    });
 })();
+
+/* ============ PRECARGA DE LAS PORTADAS ============ */
+window.addEventListener('load', function () {
+    /* Son el centro de la pagina: si esperan al hover, el primer paso del
+       mouse no muestra nada mientras se descargan. */
+    Array.prototype.forEach.call(document.querySelectorAll('.half-video'), function (v) {
+        if (v.dataset.listo) return;
+        v.dataset.listo = '1';
+        [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(function (f) {
+            var s = document.createElement('source');
+            s.src = v.getAttribute('data-' + f[0]);
+            s.type = f[1];
+            v.appendChild(s);
+        });
+        v.load();
+    });
+});
 </script>
 
 </body>
