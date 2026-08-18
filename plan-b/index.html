@@ -432,27 +432,40 @@
     .art, .cap { cursor: pointer; }
 
     /* ---------- pop-up de artista / integrante ---------- */
+    /* Va de margen a margen, como en la pagina original: la foto toma la
+       izquierda y la bio la derecha, sin caja flotando en el medio. */
     .modal {
         position: fixed; inset: 0; z-index: 80;
         display: none; align-items: center; justify-content: center;
-        padding: 24px;
+        padding: 0;
     }
     .modal.abierto { display: flex; }
     .modal-fondo { position: absolute; inset: 0; background: rgba(8,4,3,0.82); backdrop-filter: blur(6px); }
     .modal-caja {
         position: relative;
-        width: min(880px, 100%);
-        max-height: 88vh;
-        overflow-y: auto;
+        width: 100%;
+        height: min(84vh, 760px);
+        max-height: 94vh;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: minmax(0, 44%) minmax(0, 56%);
         background: var(--bg);
-        border: 1px solid var(--line);
-        transform: translateY(14px);
+        border: none;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        transform: translateY(28px);
         opacity: 0;
         transition: transform 0.45s cubic-bezier(.22,.61,.36,1), opacity 0.35s ease;
+        box-shadow: 0 -30px 90px rgba(0,0,0,0.45), 0 40px 120px rgba(0,0,0,0.6);
     }
     .modal.abierto .modal-caja { transform: translateY(0); opacity: 1; }
 
-    .modal-media { position: relative; aspect-ratio: 21 / 9; overflow: hidden; background: var(--ink); }
+    .modal-media { position: relative; overflow: hidden; background: var(--ink); }
+    /* Apaga el corte donde la foto se encuentra con la bio. */
+    .modal-media::after {
+        content: ''; position: absolute; inset: 0; pointer-events: none;
+        background: linear-gradient(90deg, rgba(20,11,9,0) 76%, rgba(20,11,9,0.55) 100%);
+    }
     /* Los que son logotipo y no foto se muestran enteros: recortarlos a
        apaisado les come el dibujo. */
     .modal-media.entera img { object-fit: contain; padding: 22px; }
@@ -460,7 +473,12 @@
     .modal-media video { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s ease; }
     .modal-media video.visible { opacity: 1; }
 
-    .modal-cuerpo { padding: 30px 34px 38px; }
+    .modal-cuerpo {
+        padding: clamp(34px, 4vw, 64px);
+        overflow-y: auto;
+        display: flex; flex-direction: column; justify-content: center;
+    }
+    .modal-cuerpo > * { max-width: 640px; }
     .modal-cuerpo h3 { font-size: clamp(26px, 3.4vw, 40px); font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1; }
     .modal-rol { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
     .modal-bio { margin-top: 20px; display: grid; gap: 13px; }
@@ -481,7 +499,19 @@
     }
     .modal-cerrar:hover { background: rgba(12,6,5,0.9); }
 
-    @media (max-width: 560px) { .modal { padding: 0; } .modal-caja { max-height: 100vh; } .modal-cuerpo { padding: 24px 22px 32px; } }
+    /* Cuando no entran dos columnas, la foto pasa arriba y la bio abajo. */
+    @media (max-width: 900px) {
+        .modal-caja {
+            height: 100%; max-height: 100vh;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto minmax(0, 1fr);
+            border: none;
+        }
+        .modal-media { aspect-ratio: 16 / 11; }
+        .modal-media::after { background: linear-gradient(180deg, rgba(20,11,9,0) 66%, rgba(20,11,9,0.65) 100%); }
+        .modal-cuerpo { padding: 28px 22px 40px; justify-content: flex-start; }
+    }
+    @media (max-width: 560px) { .modal-cuerpo { padding: 24px 22px 32px; } }
 
     /* ---------- WhatsApp: dos caminos, uno por negocio ---------- */
     .wa { position: fixed; right: 22px; bottom: 22px; z-index: 60; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
